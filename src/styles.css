@@ -133,3 +133,12 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
  .sector-member .attendance-status{font-size:11px;padding:6px 8px;min-height:32px}
  .sector-member .attendance-delete{grid-column:2;width:34px;height:30px;min-width:34px}
 }
+
+/* QR scan feedback card overlays the live camera preview */
+.scanner-panel{position:relative}
+.scanner-panel .scan-result{position:absolute;z-index:8;left:50%;top:54%;transform:translate(-50%,-50%);width:min(430px,calc(100% - 34px));margin:0;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 14px 38px #061b3c66}
+.scan-member-details{display:grid;grid-template-columns:1fr;gap:7px;margin-top:8px}
+.scan-member-details span{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 9px;border-radius:9px;background:#ffffffb8}
+.scan-member-details span small{font-size:10px;font-weight:700;opacity:.78}
+.scan-member-details span strong{font-size:13px;text-align:right;overflow-wrap:anywhere}
+@media(max-width:520px){.scanner-panel .scan-result{top:55%;width:calc(100% - 24px);padding:12px;gap:9px}.scan-result-icon{width:32px;height:32px;font-size:20px}.scan-result b{font-size:12px}.scan-member-details span strong{font-size:12px}}
