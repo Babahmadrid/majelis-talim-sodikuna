@@ -48,7 +48,53 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
  function exportJamaah(){csvDownload('data-jamaah-sodikuna.csv',[['nomor_anggota','nama','sektor','status'],...jamaah.map(x=>[x.member_no,x.name,x.sector,x.status])])}
  function exportAttendance(){csvDownload('absensi-sodikuna.csv',[['tanggal','agenda_id','jamaah_id','status','catatan'],...attendance.map(x=>[x.created_at,x.agenda_id,x.jamaah_id,x.status,x.note])])}
  async function makeQR(item){const value=JSON.stringify({type:'sodikuna-attendance',agenda_id:item.id,token:item.qr_token||item.id});setQr(await QRCode.toDataURL(value,{width:280,margin:2}));}
- async function printMemberCard(person){const value='sodikuna:member:'+person.id;const code=await QRCode.toDataURL(value,{width:320,margin:1,errorCorrectionLevel:'H'});const w=window.open('','_blank','width=900,height=650');if(!w){setError('Izinkan pop-up untuk mencetak kartu.');return}w.document.write(`<!doctype html><html><head><title>Kartu Jamaah Sodikuna</title><style>@page{size:85.6mm 54mm;margin:0}*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif}.card{width:85.6mm;height:54mm;position:relative;overflow:hidden;padding:3.2mm 4mm;background:linear-gradient(115deg,#eaf7ff,#fff 58%,#dceeff);border:1px solid #1474cf;border-radius:3mm;color:#082c68}.top{display:flex;align-items:center;gap:3mm;height:17mm}.logo{width:16mm;height:16mm;object-fit:contain}.brand{font-size:4.6mm;font-weight:800;line-height:1.05}.sub{font-size:2.4mm;color:#1261b4;font-weight:700;margin-top:1mm}.ribbon{font-size:2.7mm;background:#0962bd;color:#fff;border-radius:5mm;padding:1mm 3mm;display:inline-block;margin:1mm 0 2mm 19mm}.body{display:flex;align-items:center;gap:4mm}.qr{width:20mm;height:20mm;object-fit:contain;background:#fff;padding:1mm;border:1px solid #1261b4;border-radius:2mm}.info{flex:1;font-size:3mm;line-height:1.8;color:#102e60}.info b{color:#061b43}.foot{position:absolute;bottom:0;left:0;right:0;height:3mm;background:#0754ad}</style></head><body><div class="card"><div class="top"><img class="logo" src="${location.origin}/logo-sodikuna.png"><div><div class="brand">Majelis Ta’lim Sodikuna</div><div class="sub">Yayasan Sodikuna · Sukabumi</div></div></div><div class="ribbon">KARTU ANGGOTA JAMAAH</div><div class="body"><img class="qr" src="${code}"><div class="info"><div>Nama : <b>${String(person.name).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}</b></div><div>No. Anggota : <b>${String(person.member_no)}</b></div><div>Sektor : <b>${String(person.sector||'-')}</b></div></div></div><div class="foot"></div></div><script>setTimeout(()=>window.print(),700)<\/script></body></html>`);w.document.close()}
+ async function printMemberCard(person){
+  const value='sodikuna:member:'+person.id;
+  const code=await QRCode.toDataURL(value,{width:420,margin:1,errorCorrectionLevel:'H'});
+  const safe=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const w=window.open('','_blank','width=1100,height=760');
+  if(!w){setError('Izinkan pop-up untuk mencetak kartu.');return}
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Kartu Anggota Jamaah</title><style>
+  @page{size:85.6mm 54mm;margin:0}
+  *{box-sizing:border-box}html,body{margin:0;width:85.6mm;height:54mm;font-family:Arial,Helvetica,sans-serif}
+  body{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .card{width:85.6mm;height:54mm;position:relative;overflow:hidden;border:.35mm solid #0872c8;border-radius:4.5mm;background:radial-gradient(ellipse at 52% 42%,#fff 0,#f7fcff 42%,#d7efff 100%);color:#061d58}
+  .ornament{position:absolute;inset:0 auto 0 0;width:17mm;opacity:.22;background-color:#168bd6;background-image: repeating-linear-gradient(45deg,transparent 0 2mm,#fff 2.1mm 2.35mm,transparent 2.45mm 4mm),repeating-linear-gradient(-45deg,transparent 0 2mm,#fff 2.1mm 2.35mm,transparent 2.45mm 4mm);mask-image:linear-gradient(90deg,#000,transparent)}
+  .mosque{position:absolute;right:0;top:1mm;width:23mm;height:21mm;opacity:.48}
+  .header{position:absolute;left:8mm;top:2.4mm;width:72mm;height:17mm;display:flex;align-items:center;z-index:2}
+  .logo{width:18mm;height:18mm;object-fit:contain;flex:none}
+  .divider{height:14mm;border-left:.45mm solid #092a73;margin:0 2.3mm 0 1.2mm}
+  .brand{font-size:5.1mm;line-height:1.02;font-weight:800;letter-spacing:-.25mm;color:#061b59}
+  .tag{position:absolute;z-index:3;left:29mm;top:18.3mm;width:42mm;text-align:center;padding:1.25mm 1mm;border-radius:8mm;color:white;font-size:3.1mm;font-weight:700;letter-spacing:.1mm;background:linear-gradient(180deg,#168ce7,#0050b7);box-shadow:0 .5mm 1mm #003d8b55}
+  .qr-frame{position:absolute;left:8.5mm;top:27mm;width:18.8mm;height:18.8mm;padding:1.1mm;background:white;border:.45mm solid #0757a8;border-radius:2.7mm;z-index:4}
+  .qr{width:100%;height:100%;display:block}
+  .id{position:absolute;left:11.2mm;top:45mm;z-index:5;min-width:13.5mm;text-align:center;padding:1mm 2.5mm;border-radius:8mm;color:#fff;background:linear-gradient(#168de8,#0048a8);font-size:3mm;font-weight:800;box-shadow:0 .4mm .8mm #123c8055}
+  .vline{position:absolute;left:30.1mm;top:26.3mm;height:19mm;border-left:.45mm solid #0b3e91}
+  .details{position:absolute;left:33mm;right:4mm;top:27mm;z-index:3}
+  .detail{height:8.1mm;display:grid;grid-template-columns:5.5mm 31mm 2mm 1fr;align-items:center;border-bottom:.25mm solid #9dbbd5;font-size:3.05mm;color:#09285f}
+  .detail:last-child{border-bottom:0}
+  .ico{width:4.6mm;height:4.6mm;fill:#0870c9}
+  .label{font-weight:700;white-space:nowrap}
+  .colon{font-weight:700;text-align:center}
+  .value{font-size:3.2mm;font-weight:800;color:#080d1b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .wave{position:absolute;left:-2mm;right:-2mm;bottom:-1mm;height:12mm;z-index:1}
+  .wave svg{width:100%;height:100%}
+  .bottom-blue{position:absolute;bottom:0;left:0;right:0;height:4.5mm;background:linear-gradient(180deg,#087ed3,#00449f);z-index:0}
+  @media screen{body{display:grid;place-items:center;background:#e9edf3;width:100vw;height:100vh}.card{box-shadow:0 4mm 8mm #0003}}
+  </style></head><body><div class="card">
+  <div class="ornament"></div>
+  <svg class="mosque" viewBox="0 0 240 210" aria-hidden="true"><path d="M20 190V120Q20 90 53 78Q85 65 108 100Q130 58 160 82Q191 98 191 125V190Z" fill="#8bd0fa"/><path d="M44 190V127Q44 100 76 100Q108 100 108 127V190M128 190V125Q128 94 160 94Q192 94 192 125V190" fill="#1686d5"/><path d="M76 100Q76 76 95 62Q114 76 114 100M160 94Q160 67 180 52Q200 67 200 94" fill="#1686d5"/><path d="M95 62V48M180 52V38M95 48Q84 35 95 22Q106 35 95 48" fill="#f5c83b"/><path d="M211 190V105H224V190M207 105Q217 82 228 105M216 82V68" fill="#1686d5"/><path d="M0 190H240" stroke="#fff" stroke-width="4"/></svg>
+  <div class="header"><img class="logo" src="${location.origin}/logo-sodikuna.png"><div class="divider"></div><div class="brand">Majelis Ta’lim<br>Sodikuna</div></div>
+  <div class="tag">Kartu Anggota Jamaah</div>
+  <div class="qr-frame"><img class="qr" src="${code}"></div><div class="id">ID: ${safe(person.member_no)}</div>
+  <div class="vline"></div><div class="details">
+  <div class="detail"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="7" r="5"/><path d="M2 22v-2a8 8 0 0 1 8-8h4a8 8 0 0 1 8 8v2z"/></svg><span class="label">Nama</span><span class="colon">:</span><span class="value">${safe(person.name)}</span></div>
+  <div class="detail"><svg class="ico" viewBox="0 0 24 24"><rect x="1" y="3" width="22" height="18" rx="3" fill="none" stroke="#0870c9" stroke-width="2"/><circle cx="8" cy="10" r="3"/><path d="M3 18q1-5 5-5t5 5M15 8h6M15 12h6M15 16h5" fill="none" stroke="#0870c9" stroke-width="1.8"/></svg><span class="label">No. Anggota</span><span class="colon">:</span><span class="value">${safe(person.member_no)}</span></div>
+  <div class="detail"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="6" r="4"/><circle cx="4" cy="10" r="3"/><circle cx="20" cy="10" r="3"/><path d="M4 22v-3a6 6 0 0 1 12 0v3M0 21v-2a4 4 0 0 1 5-4M24 21v-2a4 4 0 0 0-5-4" /></svg><span class="label">Sektor</span><span class="colon">:</span><span class="value">${safe(person.sector)}</span></div></div>
+  <div class="wave"><svg viewBox="0 0 856 120" preserveAspectRatio="none"><path d="M0 24Q120 55 230 79T500 80T856 8V120H0Z" fill="#f7ce35" stroke="#fff" stroke-width="4"/><path d="M0 47Q140 80 260 94T570 86T856 31V120H0Z" fill="#0879d0" stroke="#fff" stroke-width="4"/><path d="M0 76Q180 115 360 108T650 91T856 56V120H0Z" fill="#0050ae"/></svg></div><div class="bottom-blue"></div>
+  </div><script>const logo=document.querySelector('.logo');logo.onload=()=>setTimeout(()=>window.print(),500);setTimeout(()=>window.print(),1400)<\/script></body></html>`);
+  w.document.close();
+ }
  if(!db)return <SetupScreen/>;
  if(!session)return <Login onSubmit={signIn} error={error}/>;
  return <div className="app-shell">
