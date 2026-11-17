@@ -26,3 +26,11 @@
 .scan-result.duplicate{background:#fff6df;color:#805300;border-color:#f0d58b}
 .scan-result.invalid{background:#fff0ef;color:#a42c28;border-color:#efb7b3}
 @keyframes scanPop{from{opacity:0;transform:translateY(6px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* Header color aligned with Sodikuna dashboard blue */
+.topbar{background:linear-gradient(110deg,#0752b4 0%,#087fd1 58%,#12a7e8 100%)!important;color:#fff!important;border-color:#1686d1!important}
+.topbar h1,.topbar h2,.topbar p,.topbar button,.topbar .muted{color:#fff!important}
+.report-export-row{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin:12px 0}
+.report-export-row label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#52657e}
+.report-export-row select{min-width:120px;padding:11px;border:1px solid #d5e1f0;border-radius:10px;background:#fff}
+@media(max-width:520px){.report-export-row{align-items:stretch}.report-export-row label,.report-export-row button{width:100%}}
