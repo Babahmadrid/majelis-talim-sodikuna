@@ -68,15 +68,15 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   .mosque{position:absolute;top:22mm;left:0;width:54mm;height:10mm;opacity:.32}
   .title{position:absolute;top:33mm;left:2mm;right:2mm;text-align:center;font-weight:900;color:#071b59;font-size:6mm;line-height:1.02;letter-spacing:-.2mm}
   .subtitle{position:absolute;top:45.5mm;left:7mm;right:7mm;text-align:center;padding:1.5mm 1mm;border-radius:8mm;color:white;font-size:3.5mm;font-weight:800;background:linear-gradient(180deg,#168ce7,#0050b7);box-shadow:0 .5mm 1mm #003d8b55}
-  .details{position:absolute;top:53mm;left:4mm;right:4mm;z-index:3}
-  .detail{height:7.7mm;display:grid;grid-template-columns:5mm 18mm 2mm 1fr;align-items:center;border-bottom:.25mm solid #9dbbd5;font-size:2.9mm;color:#09285f}
+  .details{position:absolute;top:51mm;left:3mm;right:3mm;z-index:3}
+  .detail{height:6.1mm;display:grid;grid-template-columns:4.5mm 13mm 2mm 1fr;align-items:center;border-bottom:.25mm solid #9dbbd5;font-size:2.7mm;color:#09285f}
   .detail:last-child{border-bottom:0}
-  .ico{width:4.1mm;height:4.1mm;fill:#0870c9}
+  .ico{width:3.8mm;height:3.8mm;fill:#0870c9}
   .label{font-weight:700;white-space:nowrap}.colon{font-weight:700;text-align:center}
-  .value{font-size:3mm;font-weight:800;color:#080d1b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .qr-frame{position:absolute;left:13.2mm;top:76mm;width:27.6mm;height:27.6mm;padding:1mm;background:white;border:.5mm solid #0757a8;border-radius:2.5mm;z-index:4}
+  .value{font-size:2.8mm;font-weight:800;color:#080d1b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .qr-frame{position:absolute;left:19mm;top:69.2mm;width:16mm;height:16mm;padding:.8mm;background:white;border:.5mm solid #0757a8;border-radius:2.5mm;z-index:4}
   .qr{width:100%;height:100%;display:block}
-  .id{position:absolute;left:14mm;top:101mm;z-index:5;min-width:26mm;text-align:center;padding:1mm 2mm;border-radius:8mm;color:#fff;background:linear-gradient(#168de8,#0048a8);font-size:3.3mm;font-weight:800}
+  .id{position:absolute;left:16mm;top:82mm;z-index:5;min-width:22mm;text-align:center;padding:.7mm 2mm;border-radius:8mm;color:#fff;background:linear-gradient(#168de8,#0048a8);font-size:3mm;font-weight:800}
   .wave{position:absolute;left:-1mm;right:-1mm;bottom:-1mm;height:9mm;z-index:1}
   .wave svg{width:100%;height:100%}
   .bottom-blue{position:absolute;bottom:0;left:0;right:0;height:3mm;background:linear-gradient(180deg,#087ed3,#00449f);z-index:0}
