@@ -56,7 +56,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   const safe=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const w=window.open('','_blank','width=720,height=1100');
   if(!w){setError('Izinkan pop-up untuk mencetak kartu.');return}
-  w.document.write(\`<!doctype html><html><head><meta charset="utf-8"><title>Kartu Anggota Jamaah</title><style>
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Kartu Anggota Jamaah</title><style>
   @page{size:54mm 85.6mm;margin:0}
   *{box-sizing:border-box}html,body{margin:0;width:54mm;height:85.6mm;font-family:Arial,Helvetica,sans-serif}
   body{print-color-adjust:exact;-webkit-print-color-adjust:exact}
@@ -79,14 +79,14 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   .wave{position:absolute;left:-.5mm;right:-.5mm;bottom:-.5mm;height:11mm;z-index:2}.wave svg{width:100%;height:100%}
   @media screen{body{display:grid;place-items:center;background:#e9edf3;width:100vw;height:100vh}.card{box-shadow:0 4mm 8mm #0003}}
   </style></head><body><div class="card"><div class="islamic"></div><div class="arch"></div>
-  <div class="logo-wrap"><img class="logo" src="\${location.origin}/logo-sodikuna.png" alt="Logo Yayasan Sodikuna"></div>
+  <div class="logo-wrap"><img class="logo" src="${location.origin}/logo-sodikuna.png" alt="Logo Yayasan Sodikuna"></div>
   <svg class="mosque" viewBox="0 0 540 110" preserveAspectRatio="none"><g fill="#1686d5"><path d="M0 110V77Q36 34 72 77V110M54 110V66Q108 5 162 66V110M144 110V84Q181 43 218 84V110M322 110V84Q359 43 396 84V110M378 110V66Q432 5 486 66V110M468 110V77Q504 34 540 77V110"/></g><g fill="#0870c9"><path d="M99 64V31Q108 17 117 31V64M414 64V31Q423 17 432 31V64"/></g><path d="M0 106H540" stroke="#fff" stroke-width="5"/></svg>
   <div class="title">Majelis Ta’lim<br>Sodikuna</div><div class="subtitle">Kartu Anggota Jamaah</div>
   <div class="details">
-  <div class="detail"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="7" r="5"/><path d="M2 22v-2a8 8 0 0 1 8-8h4a8 8 0 0 1 8 8v2z"/></svg><span class="label">Nama</span><span class="colon">:</span><span class="value">\${safe(person.name)}</span></div>
-  <div class="detail"><svg class="ico" viewBox="0 0 24 24"><rect x="1" y="3" width="22" height="18" rx="3" fill="none" stroke="#0870c9" stroke-width="2"/><circle cx="8" cy="10" r="3"/><path d="M3 18q1-5 5-5t5 5M15 8h6M15 12h6M15 16h5" fill="none" stroke="#0870c9" stroke-width="1.8"/></svg><span class="label">No. Anggota</span><span class="colon">:</span><span class="value">\${safe(person.member_no)}</span></div>
-  <div class="detail"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="6" r="4"/><circle cx="4" cy="10" r="3"/><circle cx="20" cy="10" r="3"/><path d="M4 22v-3a6 6 0 0 1 12 0v3M0 21v-2a4 4 0 0 1 5-4M24 21v-2a4 4 0 0 0-5-4"/></svg><span class="label">Sektor</span><span class="colon">:</span><span class="value">\${safe(person.sector)}</span></div></div>
-  <div class="qr-frame"><img class="qr" src="\${code}"></div><div class="id">ID: \${safe(person.member_no)}</div>
+  <div class="detail"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="7" r="5"/><path d="M2 22v-2a8 8 0 0 1 8-8h4a8 8 0 0 1 8 8v2z"/></svg><span class="label">Nama</span><span class="colon">:</span><span class="value">${safe(person.name)}</span></div>
+  <div class="detail"><svg class="ico" viewBox="0 0 24 24"><rect x="1" y="3" width="22" height="18" rx="3" fill="none" stroke="#0870c9" stroke-width="2"/><circle cx="8" cy="10" r="3"/><path d="M3 18q1-5 5-5t5 5M15 8h6M15 12h6M15 16h5" fill="none" stroke="#0870c9" stroke-width="1.8"/></svg><span class="label">No. Anggota</span><span class="colon">:</span><span class="value">${safe(person.member_no)}</span></div>
+  <div class="detail"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="6" r="4"/><circle cx="4" cy="10" r="3"/><circle cx="20" cy="10" r="3"/><path d="M4 22v-3a6 6 0 0 1 12 0v3M0 21v-2a4 4 0 0 1 5-4M24 21v-2a4 4 0 0 0-5-4"/></svg><span class="label">Sektor</span><span class="colon">:</span><span class="value">${safe(person.sector)}</span></div></div>
+  <div class="qr-frame"><img class="qr" src="${code}"></div><div class="id">ID: ${safe(person.member_no)}</div>
   <div class="wave"><svg viewBox="0 0 540 110" preserveAspectRatio="none"><path d="M0 14Q120 48 245 63T540 8V110H0Z" fill="#f5d137" stroke="#fff" stroke-width="4"/><path d="M0 38Q125 75 270 79T540 29V110H0Z" fill="#0781d8" stroke="#fff" stroke-width="4"/><path d="M0 70Q180 105 360 92T540 55V110H0Z" fill="#0050ad"/></svg></div>
   </div><script>const logo=document.querySelector('.logo');logo.onload=()=>setTimeout(()=>window.print(),350);logo.onerror=()=>setTimeout(()=>window.print(),350);setTimeout(()=>window.print(),1400)<\\/script></body></html>\`);
   w.document.close();
