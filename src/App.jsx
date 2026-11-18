@@ -43,7 +43,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
  const totalIn=finance.filter(x=>x.type==='masuk').reduce((s,x)=>s+Number(x.amount),0),totalOut=finance.filter(x=>x.type==='keluar').reduce((s,x)=>s+Number(x.amount),0);
  const sectors=['Ikhwan','Caringin Lebak','Caringin Pasir','Pojok 1','Pojok 2','Kongsi 1','Kongsi 2','Bobojong','Undrus','BBS / Selaawi'];
  const filteredJamaah=useMemo(()=>jamaah.filter(x=>((x.name||'').toLowerCase().includes(query.toLowerCase())||(x.member_no||'').toLowerCase().includes(query.toLowerCase()))&&(sectorFilter==='Semua sektor'||x.sector===sectorFilter)).sort((a,b)=>{const sectorOrder=sectors.indexOf(a.sector)-sectors.indexOf(b.sector);if(sectorOrder!==0)return sectorOrder;return Number(a.member_no)-Number(b.member_no)}),[jamaah,query,sectorFilter]);
- async function importJamaah(file){const rows=parseCSV(await file.text());const body=rows.slice(1).filter(r=>r[0]&&r[1]).map(r=>({member_no:r[0],name:r[1],sector:r[2]||null,status:r[3]||'aktif'}));if(body.length)await saveMany('jamaah',body);else setError('Tidak ada baris jamaah valid. Periksa format CSV.')}
+ async function importJamaah(file){try{const rows=parseCSV(await file.text());const body=rows.slice(1).filter(r=>r[0]&&r[1]&&r[2]).map(r=>({member_no:String(r[0]).trim().padStart(2,'0'),name:String(r[1]).trim(),sector:String(r[2]).trim(),status:String(r[3]||'aktif').trim()}));if(body.length!==228||new Set(body.map(x=>x.sector)).size!==10)throw new Error('CSV harus berisi 228 anggota dari 10 sektor.');const {data:existing,error:readError}=await db.from('jamaah').select('id,name,sector,member_no,status');if(readError)throw readError;const norm=s=>String(s||'').trim().toLocaleUpperCase('id-ID');const matched=body.map(row=>({row,old:existing.find(x=>norm(x.name)===norm(row.name)&&norm(x.sector)===norm(row.sector))}));const missing=matched.filter(x=>!x.old);if(missing.length)throw new Error('Ada '+missing.length+' nama/sektor yang belum cocok dengan data lama. Impor dihentikan agar ID dan riwayat absensi tidak tertukar.');for(let i=0;i<matched.length;i++){const {error}=await db.from('jamaah').update({member_no:'TMP'+String(i+1).padStart(4,'0')}).eq('id',matched[i].old.id);if(error)throw error}for(const {row,old} of matched){const {error}=await db.from('jamaah').update({member_no:row.member_no,name:row.name,sector:row.sector,status:row.status}).eq('id',old.id);if(error)throw error}setNotice(body.length+' data jamaah berhasil diselaraskan. ID anggota dan riwayat absensi tetap dipertahankan.');await loadAll()}catch(e){setError('Impor jamaah gagal: '+e.message)}}
  async function importAttendance(file){const rows=parseCSV(await file.text());const body=rows.slice(1).filter(r=>r[0]&&r[1]&&r[2]&&r[3]).map(r=>({agenda_id:r[0],jamaah_id:r[1],status:r[2].toLowerCase(),note:r[3]||null,recorded_by:session.user.id}));if(body.length)await saveMany('attendance',body);else setError('CSV absensi harus berisi agenda_id, jamaah_id, status, catatan.')}
  async function saveMany(table,rows){const {error}=await db.from(table).insert(rows);if(error)setError(error.message);else{setNotice(`${rows.length} data berhasil diimpor`);loadAll()}}
  function exportJamaah(){const ordered=['Ikhwan','Caringin Lebak','Caringin Pasir','Pojok 1','Pojok 2','Kongsi 1','Kongsi 2','Bobojong','Undrus','BBS / Selaawi'];const rows=[["DATA JAMAAH MAJELIS TA'LIM SODIKUNA"],[]];for(const sector of ordered){const members=jamaah.filter(x=>x.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));rows.push(['SEKTOR',sector],['NO. ANGGOTA','NAMA JAMAAH','STATUS']);members.forEach(x=>rows.push([x.member_no,x.name,x.status]));rows.push(['JUMLAH JAMAAH',members.length],[])}csvDownload('data-jamaah-sodikuna-per-sektor.csv',rows)}
@@ -51,7 +51,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
 
  async function makeQR(item){const value=JSON.stringify({type:'sodikuna-attendance',agenda_id:item.id,token:item.qr_token||item.id});setQr(await QRCode.toDataURL(value,{width:280,margin:2}));}
  async function printMemberCard(person){
-  const value='sodikuna:member:'+person.id;
+  const value=JSON.stringify({type:'sodikuna-member',sector:person.sector,member_no:String(person.member_no).padStart(2,'0')});
   const code=await QRCode.toDataURL(value,{width:720,margin:1,errorCorrectionLevel:'H'});
   const safe=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const w=window.open('','_blank','width=720,height=1100');
@@ -146,11 +146,7 @@ useEffect(()=>{let stopped=false,frame=0,detector=null;let localStream=null;
        if(value&&!(lastQrRef.current.value===value&&now-lastQrRef.current.time<2200)){
         busyRef.current=true;lastQrRef.current={value,time:now};
         const data=scannerDataRef.current;
-        if(value.startsWith('sodikuna:member:')){
-         const id=value.split(':').pop(),person=data.activeJamaah.find(j=>j.id===id);
-         if(person)await markPresentRef.current(person,'qr');
-         else{feedback('invalid',null,'Kartu tidak ditemukan atau jamaah nonaktif.');setNotice('Kartu tidak ditemukan atau jamaah nonaktif.')}
-        }else{feedback('invalid',null,'QR bukan kartu anggota Sodikuna.');setNotice('QR bukan kartu anggota Sodikuna.')}
+        let person=null;try{const payload=JSON.parse(value);if(payload&&payload.type==='sodikuna-member'&&payload.sector&&payload.member_no){person=data.activeJamaah.find(j=>j.sector===payload.sector&&String(j.member_no).padStart(2,'0')===String(payload.member_no).padStart(2,'0'))}}catch{}if(!person&&value.startsWith('sodikuna:member:')){const id=value.split(':').pop();person=data.activeJamaah.find(j=>j.id===id)}if(person)await markPresentRef.current(person,'qr');else{feedback('invalid',null,'QR tidak cocok dengan nomor anggota dan sektor aktif.');setNotice('QR tidak cocok dengan nomor anggota dan sektor aktif.')}
        }
       }
      }catch(e){setCameraError(e.message)}
