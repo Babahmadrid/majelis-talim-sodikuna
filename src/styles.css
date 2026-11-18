@@ -186,3 +186,31 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
  .dashboard-stack{grid-template-columns:1fr}
  .dashboard-panel{padding:17px}
 }
+
+/* Modern Blue QR Scanner */
+.scanner-panel{padding:16px;border:1px solid #c8ddf6;border-radius:22px;background:linear-gradient(145deg,#ffffff 0%,#edf6ff 100%);box-shadow:0 14px 34px #0752b416;overflow:hidden}
+.scanner-head{margin:-16px -16px 14px;padding:17px 18px;background:linear-gradient(110deg,#0752b4,#087bd7);color:#fff}
+.scanner-head>div{display:grid;gap:3px}
+.scanner-head small{font-size:9px;letter-spacing:1.4px;font-weight:800;color:#bfe3ff}
+.scanner-head b{font-size:17px;color:#fff}
+.scanner-head .small-btn{background:#eaf3ff;color:#0752b4;border-radius:10px;padding:10px 13px}
+.scanner-stage{position:relative;width:100%;max-width:620px;margin:0 auto;overflow:hidden;border-radius:17px;background:#06182c;isolation:isolate}
+.scanner-video{display:block;width:100%;max-width:none;max-height: min(62vh,520px);min-height:250px;aspect-ratio:4/3;margin:0 auto;border-radius:17px;object-fit:cover}
+.scanner-frame{position:absolute;left:50%;top:50%;width:min(68%,330px);height:min(66%,280px);transform:translate(-50%,-50%);border:2px solid #72e5ff;border-radius:22px;box-shadow:0 0 0 999px #03152b22,inset 0 0 22px #54cfff20;pointer-events:none}
+.scanner-frame:before,.scanner-frame:after{content:"";position:absolute;inset:-3px;border-radius:23px;border:5px solid transparent}
+.scanner-frame:before{border-top-color:#fff;border-left-color:#fff;width:28px;height:28px;inset:-3px auto auto -3px}
+.scanner-frame:after{border-right-color:#fff;border-bottom-color:#fff;width:28px;height:28px;inset:auto -3px -3px auto}
+.scanner-hint{margin:12px 2px 2px!important;color:#54718f!important;font-size:11px!important;font-weight:600}
+.scanner-panel .scan-result{top:59%;left:50%;width:min(440px,calc(100% - 28px));border-radius:18px;z-index:9}
+.scanner-panel .scan-result.success{background:#e8f8eeed}
+.scanner-panel .scan-result.duplicate{background:#fff6dfed}
+.scanner-panel .scan-result.invalid{background:#fff0efed}
+@media(max-width:520px){
+ .scanner-panel{padding:12px;border-radius:19px}
+ .scanner-head{margin:-12px -12px 12px;padding:14px 13px}
+ .scanner-head b{font-size:15px}
+ .scanner-video{min-height:240px;max-height:52vh}
+ .scanner-frame{width:72%;height:62%;border-radius:18px}
+ .scanner-panel .scan-result{top:58%;width:calc(100% - 20px);padding:11px;gap:8px}
+ .scanner-hint{font-size:10px!important}
+}
