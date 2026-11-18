@@ -88,7 +88,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   <div class="detail"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="6" r="4"/><circle cx="4" cy="10" r="3"/><circle cx="20" cy="10" r="3"/><path d="M4 22v-3a6 6 0 0 1 12 0v3M0 21v-2a4 4 0 0 1 5-4M24 21v-2a4 4 0 0 0-5-4"/></svg><span class="label">Sektor</span><span class="colon">:</span><span class="value">${safe(person.sector)}</span></div></div>
   <div class="qr-frame"><img class="qr" src="${code}"></div><div class="id">ID: ${safe(person.member_no)}</div>
   <div class="wave"><svg viewBox="0 0 540 110" preserveAspectRatio="none"><path d="M0 14Q120 48 245 63T540 8V110H0Z" fill="#f5d137" stroke="#fff" stroke-width="4"/><path d="M0 38Q125 75 270 79T540 29V110H0Z" fill="#0781d8" stroke="#fff" stroke-width="4"/><path d="M0 70Q180 105 360 92T540 55V110H0Z" fill="#0050ad"/></svg></div>
-  </div><script>const logo=document.querySelector('.logo');logo.onload=()=>setTimeout(()=>window.print(),350);logo.onerror=()=>setTimeout(()=>window.print(),350);setTimeout(()=>window.print(),1400)<\\/script></body></html>\`);
+  </div><script>const logo=document.querySelector('.logo');logo.onload=()=>setTimeout(()=>window.print(),350);logo.onerror=()=>setTimeout(()=>window.print(),350);setTimeout(()=>window.print(),1400)<\\/script></body></html>`);
   w.document.close();
  }
 
