@@ -142,3 +142,12 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .scan-member-details span small{font-size:10px;font-weight:700;opacity:.78}
 .scan-member-details span strong{font-size:13px;text-align:right;overflow-wrap:anywhere}
 @media(max-width:520px){.scanner-panel .scan-result{top:55%;width:calc(100% - 24px);padding:12px;gap:9px}.scan-result-icon{width:32px;height:32px;font-size:20px}.scan-result b{font-size:12px}.scan-member-details span strong{font-size:12px}}
+
+
+/* Export CSV dropdown */
+.export-menu{position:relative;display:inline-flex;z-index:8}
+.export-menu-options{display:none;position:absolute;top:calc(100% + 6px);right:0;min-width:230px;padding:7px;background:#fff;border:1px solid #d8e5f3;border-radius:12px;box-shadow:0 12px 28px #12345a22}
+.export-menu.open .export-menu-options{display:grid;gap:5px}
+.export-menu-options button{width:100%;text-align:left;padding:11px 12px;border:0;border-radius:8px;background:#f2f7fd;color:#124b91;font-weight:700;cursor:pointer}
+.export-menu-options button:hover{background:#e2efff}
+@media(max-width:640px){.export-menu{width:100%}.export-menu>.secondary{width:100%;justify-content:center}.export-menu-options{left:0;right:auto;width:100%}}
