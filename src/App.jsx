@@ -51,7 +51,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
 
  async function makeQR(item){const value=JSON.stringify({type:'sodikuna-attendance',agenda_id:item.id,token:item.qr_token||item.id});setQr(await QRCode.toDataURL(value,{width:280,margin:2}));}
  async function printMemberCard(person){
-  const value=JSON.stringify({type:'sodikuna-member',sector:person.sector,member_no:String(person.member_no).padStart(2,'0')});
+  const value='sodikuna:member:'+person.id;
   const code=await QRCode.toDataURL(value,{width:720,margin:1,errorCorrectionLevel:'H'});
   const safe=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const w=window.open('','_blank','width=720,height=1100');
