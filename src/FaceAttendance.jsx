@@ -18,6 +18,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const [mode, setMode] = useState('match');
   const [memberId, setMemberId] = useState('');
   const [alreadyEnrolled, setAlreadyEnrolled] = useState(false);
+  const [withdrawingFace, setWithdrawingFace] = useState(false);
   const [enrollSector, setEnrollSector] = useState('');
   const [memberPickerOpen, setMemberPickerOpen] = useState(false);
   const [sectorPickerOpen, setSectorPickerOpen] = useState(false);
@@ -60,6 +61,47 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     } catch (e) {
       setError(e?.message || 'Gagal memeriksa status pendaftaran wajah.');
       setStatus('Status pendaftaran belum dapat diperiksa.');
+    }
+  }
+
+
+  async function removeRegisteredFace() {
+    if (!memberId || !alreadyEnrolled || withdrawingFace) return;
+    const person = active.find(item => item.id === memberId);
+    const name = person?.name || 'jamaah ini';
+    const confirmed = window.confirm(
+      'Hapus data wajah terdaftar milik ' + name + '? Data biometrik dan persetujuan wajah akan dihapus. Data jamaah dan riwayat absensi tidak dihapus.'
+    );
+    if (!confirmed) return;
+    setWithdrawingFace(true);
+    setError('');
+    setStatus('Menghapus data wajah ' + name + '...');
+    try {
+      const { data, error: invokeError } = await db.functions.invoke('face-biometric', {
+        body: { action: 'withdraw', jamaah_id: memberId },
+      });
+      if (invokeError) {
+        let detail = invokeError.message || 'Penghapusan data wajah gagal.';
+        try {
+          const response = invokeError.context;
+          if (response && typeof response.clone === 'function') {
+            const payload = await response.clone().json();
+            if (payload?.error) detail = payload.error;
+          }
+        } catch {}
+        throw new Error(detail);
+      }
+      setAlreadyEnrolled(false);
+      setConsentSaved(false);
+      setConsentConfirmed(false);
+      setGuardianName('');
+      setStatus(data?.message || ('Data wajah ' + name + ' berhasil dihapus. Jamaah dapat didaftarkan ulang dengan data yang benar.'));
+      setError('');
+    } catch (e) {
+      setError(e?.message || 'Penghapusan data wajah gagal. Silakan coba kembali.');
+      setStatus('Data wajah belum berhasil dihapus.');
+    } finally {
+      setWithdrawingFace(false);
     }
   }
 
@@ -263,6 +305,15 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
             </button>)}
             {!sectorMembers.length && <div className="face-member-empty">Belum ada jamaah aktif di sektor ini.</div>}
           </div>}
+
+          {alreadyEnrolled && memberId && <div className="face-consent-saved">
+            <b>⚠ Wajah jamaah ini sudah terdaftar</b>
+            <span>Jika pendaftaran salah orang, hapus data wajah ini terlebih dahulu. Data jamaah dan riwayat absensi tetap aman.</span>
+            <button type="button" disabled={withdrawingFace} onClick={removeRegisteredFace}>
+              {withdrawingFace ? 'Menghapus data wajah...' : 'Hapus data wajah terdaftar'}
+            </button>
+          </div>}
+
           <label>Persetujuan pendaftaran biometrik</label>
           <select value={consentType} onChange={e => setConsentType(e.target.value)}>
             <option value="parent_or_guardian">Orang tua / wali</option>
