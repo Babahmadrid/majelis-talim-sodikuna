@@ -516,3 +516,16 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
  .app-shell .dashboard-stats .stat-header{padding:12px 12px 7px!important}
  .app-shell .dashboard-stats .stat-card>b{padding:4px 13px 14px!important}
 }
+
+
+/* Make the Agenda and Pengumuman dashboard columns clearly distinct */
+.app-shell .dashboard-panel.agenda-panel{
+  background:linear-gradient(135deg,#e7f4ff 0%,#d9edff 52%,#f2f9ff 100%)!important;
+  border-color:#c8e2f7!important;
+}
+.app-shell .dashboard-panel.announcements-panel{
+  background:linear-gradient(135deg,#f5eaff 0%,#eadcff 52%,#fbf6ff 100%)!important;
+  border-color:#dfcdf4!important;
+}
+.app-shell .dashboard-panel.agenda-panel .panel-head{border-bottom-color:#c7e2f6!important}
+.app-shell .dashboard-panel.announcements-panel .panel-head{border-bottom-color:#dfcef3!important}
