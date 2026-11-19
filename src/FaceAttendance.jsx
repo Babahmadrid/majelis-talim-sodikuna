@@ -17,6 +17,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState('match');
   const [memberId, setMemberId] = useState('');
+  const [enrollSector, setEnrollSector] = useState('');
   const [consentType, setConsentType] = useState('parent_or_guardian');
   const [guardianName, setGuardianName] = useState('');
   const [consentConfirmed, setConsentConfirmed] = useState(false);
@@ -30,6 +31,8 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const busyRef = useRef(false);
   const lastRunRef = useRef(0);
   const active = jamaah.filter(person => person.status === 'aktif');
+  const activeSectors = [...new Set(active.map(person => person.sector).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'id'));
+  const sectorMembers = active.filter(person => person.sector === enrollSector).sort((a,b)=>a.name.localeCompare(b.name,'id'));
 
   async function loadModel() {
     if (humanRef.current) return humanRef.current;
@@ -176,10 +179,15 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
           <button type="button" className={mode === 'enroll' ? 'active' : ''} onClick={() => { setMode('enroll'); setError(''); }}>Daftarkan Wajah</button>
         </div>
         {mode === 'enroll' && <div className="face-enroll-form">
+          <label>Folder sektor</label>
+          <select className="face-compact-select" value={enrollSector} onChange={e => {setEnrollSector(e.target.value);setMemberId('');}}>
+            <option value="">Pilih sektor</option>
+            {activeSectors.map(sector => <option key={sector} value={sector}>{sector} ({active.filter(person=>person.sector===sector).length})</option>)}
+          </select>
           <label>Nama jamaah</label>
-          <select value={memberId} onChange={e => setMemberId(e.target.value)}>
-            <option value="">Pilih jamaah aktif</option>
-            {active.map(person => <option key={person.id} value={person.id}>{person.name} · {person.sector} · {person.member_no}</option>)}
+          <select className="face-compact-select" value={memberId} disabled={!enrollSector} onChange={e => setMemberId(e.target.value)}>
+            <option value="">{enrollSector ? 'Pilih nama jamaah' : 'Pilih sektor terlebih dahulu'}</option>
+            {sectorMembers.map(person => <option key={person.id} value={person.id}>{person.name} · {person.member_no}</option>)}
           </select>
           <label>Persetujuan pendaftaran biometrik</label>
           <select value={consentType} onChange={e => setConsentType(e.target.value)}>
