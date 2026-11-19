@@ -493,3 +493,26 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .app-shell .dashboard-panel.quick-panel{background:#fff!important;border-color:#d7e5f1!important}
 .app-shell .welcome-slides{z-index:0!important}
 .app-shell .welcome-copy,.app-shell .welcome-logo{position:relative;z-index:1}
+
+
+/* Dashboard pastel gradients: apply softly to the full cards, not only their headers */
+.app-shell .dashboard-stats .stat-card{border:1px solid transparent!important;overflow:hidden!important}
+.app-shell .dashboard-stats .stat-tone-0{background:linear-gradient(135deg,#f1f8ff 0%,#e5f2ff 55%,#f8fcff 100%)!important;border-color:#d8e9f8!important}
+.app-shell .dashboard-stats .stat-tone-1{background:linear-gradient(135deg,#f7f2ff 0%,#eee7ff 55%,#fcfaff 100%)!important;border-color:#e5daf8!important}
+.app-shell .dashboard-stats .stat-tone-2{background:linear-gradient(135deg,#effaf7 0%,#e1f5ef 55%,#f9fdfb 100%)!important;border-color:#d2eee5!important}
+.app-shell .dashboard-stats .stat-tone-3{background:linear-gradient(135deg,#fff7ee 0%,#ffedda 55%,#fffdfa 100%)!important;border-color:#f5e2cc!important}
+.app-shell .dashboard-stats .stat-header{background:transparent!important;padding:14px 15px 8px!important;color:#35536d!important}
+.app-shell .dashboard-stats .stat-header span{color:#35536d!important}
+.app-shell .dashboard-stats .stat-header .stat-icon{background:#ffffffa8!important;color:#557c9e!important}
+.app-shell .dashboard-stats .stat-card>b{padding:5px 16px 16px!important;color:#244765!important}
+.app-shell .dashboard-panel.agenda-panel{background:linear-gradient(135deg,#f1f8ff 0%,#e6f2ff 55%,#fbfdff 100%)!important;border-color:#d6e7f5!important}
+.app-shell .dashboard-panel.announcements-panel{background:linear-gradient(135deg,#f7f2ff 0%,#eee9ff 55%,#fcfbff 100%)!important;border-color:#e3daf5!important}
+.app-shell .dashboard-panel.quick-panel{background:linear-gradient(135deg,#effaf7 0%,#e5f6f0 55%,#fbfefc 100%)!important;border-color:#d5eee5!important}
+.app-shell .dashboard-panel>.panel-head{background:transparent!important;color:#244765!important;border-bottom:1px solid #ffffffb8!important}
+.app-shell .dashboard-panel>.panel-head h3{color:#244765!important}
+.app-shell .dashboard-panel>.panel-head button{color:#426c8f!important}
+.app-shell .welcome{background:linear-gradient(115deg,#176fbd 0%,#258fc7 55%,#5bb5d6 100%)!important;border-color:#4b9dca!important}
+@media(max-width:520px){
+ .app-shell .dashboard-stats .stat-header{padding:12px 12px 7px!important}
+ .app-shell .dashboard-stats .stat-card>b{padding:4px 13px 14px!important}
+}
