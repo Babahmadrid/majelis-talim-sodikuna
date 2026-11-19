@@ -1,0 +1,57 @@
+-- Majelis Ta'lim Sodikuna: fondasi aman Absensi Wajah
+-- Jalankan hanya setelah review. Tidak mengubah/menghapus jamaah, agenda, atau attendance.
+begin;
+
+create table if not exists public.face_consents (
+  id uuid primary key default gen_random_uuid(),
+  jamaah_id uuid not null references public.jamaah(id) on delete cascade,
+  consent_subject text not null check (consent_subject in ('adult_self','parent_or_guardian')),
+  guardian_name text,
+  consent_version text not null,
+  granted_by uuid not null references auth.users(id),
+  granted_at timestamptz not null default now(),
+  withdrawn_at timestamptz,
+  withdrawal_reason text,
+  created_at timestamptz not null default now(),
+  constraint face_consent_guardian_required check (
+    (consent_subject = 'adult_self' and guardian_name is null)
+    or (consent_subject = 'parent_or_guardian' and nullif(trim(guardian_name), '') is not null)
+  )
+);
+
+create unique index if not exists face_consents_one_active_per_jamaah
+  on public.face_consents(jamaah_id) where withdrawn_at is null;
+create index if not exists face_consents_jamaah_history_idx
+  on public.face_consents(jamaah_id, granted_at desc);
+
+alter table public.face_consents enable row level security;
+revoke all on public.face_consents from public, anon, authenticated;
+grant select, insert, update on public.face_consents to service_role;
+
+create schema if not exists private;
+revoke all on schema private from public, anon, authenticated;
+grant usage on schema private to service_role;
+
+create table if not exists private.face_templates (
+  jamaah_id uuid primary key references public.jamaah(id) on delete cascade,
+  encrypted_template bytea not null,
+  encryption_key_version text not null,
+  model_version text not null,
+  enrolled_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table private.face_templates enable row level security;
+revoke all on private.face_templates from public, anon, authenticated;
+grant select, insert, update, delete on private.face_templates to service_role;
+
+comment on table public.face_consents is
+  'Metadata persetujuan pemrosesan biometrik wajah; bukan penyimpanan gambar wajah.';
+comment on table private.face_templates is
+  'Template biometrik terenkripsi. Hanya backend tepercaya dengan service_role dan kunci enkripsi terpisah yang boleh mengakses.';
+comment on column private.face_templates.encrypted_template is
+  'Ciphertext embedding wajah. Jangan pernah menyimpan embedding mentah atau foto wajah di sini.';
+comment on column private.face_templates.encryption_key_version is
+  'Versi kunci enkripsi yang disimpan sebagai secret di Edge Function, bukan di database.';
+
+commit;
