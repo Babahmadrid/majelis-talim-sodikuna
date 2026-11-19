@@ -485,3 +485,11 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
  .app-shell .welcome-copy{max-width:76%}
  .welcome-slide-preview img{height:68px}
 }
+
+
+/* Keep dashboard content panels neutral; only their header strips carry color */
+.app-shell .dashboard-panel.agenda-panel,
+.app-shell .dashboard-panel.announcements-panel,
+.app-shell .dashboard-panel.quick-panel{background:#fff!important;border-color:#d7e5f1!important}
+.app-shell .welcome-slides{z-index:0!important}
+.app-shell .welcome-copy,.app-shell .welcome-logo{position:relative;z-index:1}
