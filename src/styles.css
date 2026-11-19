@@ -355,3 +355,33 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .face-fullpage .face-privacy-note{bottom:8px!important}
 .face-fullpage .alert.error{bottom:196px!important}
 @media(max-width:520px){.face-fullpage .face-capture-button{bottom:78px!important;min-height:50px!important;font-size:14px!important}.face-fullpage .face-status-line{bottom:137px!important}.face-fullpage .face-privacy-note{bottom:8px!important}}
+
+/* Sodikuna refreshed selectors, dashboard cards and administration colors */
+.modern-zigzag-select{width:100%;min-height:48px;padding:11px 42px 11px 14px;border:1px solid #b8d7ee;border-radius:15px;color:#17446f;font-size:13px;font-weight:700;letter-spacing:.1px;background-color:#f7fcff;background-image:repeating-linear-gradient(135deg,rgba(53,167,220,.10) 0 7px,transparent 7px 14px),linear-gradient(110deg,#e7f6ff,#fff7dc);box-shadow:0 5px 15px rgba(16,82,143,.07);outline:none}
+.modern-zigzag-select:focus{border-color:#188bd0;box-shadow:0 0 0 3px rgba(24,139,208,.15)}
+.modern-zigzag-select option{background:#f5fbff;color:#183e63;font-size:13px}
+.attendance-agenda-toolbar{padding:8px;border-radius:18px;background:linear-gradient(110deg,#e0f2ff,#fff1cf 52%,#e6f7ff);border:1px solid #c5e2f5}
+.attendance-agenda-toolbar select{font-size:13px}
+.attendance-search-tools{padding:10px;border-radius:18px;background:linear-gradient(115deg,#e5f4ff,#fff4d8 52%,#e6f8ff);border:1px solid #c8e2f4}
+.attendance-search-tools .modern-zigzag-select{font-size:12px;min-height:44px}
+.agenda-panel{background:linear-gradient(145deg,#e8f6ff 0%,#d8efff 54%,#f5fbff 100%);border-color:#b9def3;box-shadow:0 12px 30px rgba(28,112,174,.08)}
+.announcements-panel{background:linear-gradient(145deg,#fff4dc 0%,#ffe9c9 52%,#fffaf0 100%);border-color:#f3d8a7;box-shadow:0 12px 30px rgba(178,125,35,.08)}
+.announcements-panel .announcement-mark{background:linear-gradient(135deg,#ffe4a8,#fff5d9);color:#a66a08}
+.announcement-page .announcement{background:linear-gradient(120deg,#f1f8ff,#fff9eb);border-color:#d4e6f5;border-radius:17px;box-shadow:0 8px 22px rgba(20,76,125,.06)}
+.announcement-page .announcement:nth-child(even){background:linear-gradient(120deg,#fff3df,#f7fbff)}
+.announcement-page .announcement-content{min-width:0}
+.announcement-page .announcement-image,.announcement-page .announcement-video{display:block;max-width:100%;max-height:320px;border-radius:13px;margin:10px 0;object-fit:contain}
+.finance-page .stats-grid .stat-card:nth-child(1){background:linear-gradient(145deg,#e4f8ef,#f7fffb);border-color:#bfe8d2}
+.finance-page .stats-grid .stat-card:nth-child(2){background:linear-gradient(145deg,#fff0e7,#fffaf6);border-color:#f4d0bd}
+.finance-page .stats-grid .stat-card:nth-child(3){background:linear-gradient(145deg,#e8f1ff,#f8fbff);border-color:#c7daf5}
+.finance-page .table-wrap{border-color:#c9ddf1;box-shadow:0 10px 26px rgba(16,82,143,.07)}
+.finance-page th{background:#eaf4ff;color:#245783}
+.report-page .stats-grid .stat-card:nth-child(1){background:linear-gradient(145deg,#e4f5ff,#f8fcff);border-color:#c5e5f6}
+.report-page .stats-grid .stat-card:nth-child(2){background:linear-gradient(145deg,#fff1d9,#fffaf0);border-color:#f0ddb4}
+.report-page .stats-grid .stat-card:nth-child(3){background:linear-gradient(145deg,#e8f7ef,#f8fffb);border-color:#c7ead6}
+.report-page .stats-grid .stat-card:nth-child(4){background:linear-gradient(145deg,#f0eaff,#fbf9ff);border-color:#ded2f3}
+.report-panel{background:linear-gradient(145deg,#f5faff,#e9f4ff);border:1px solid #c9def3;border-radius:20px;box-shadow:0 12px 28px rgba(20,80,140,.08)}
+.report-panel .quick-link{background:rgba(255,255,255,.72);border-radius:12px;margin:7px 0;padding:14px}
+.report-panel .primary{background:linear-gradient(110deg,#0878ce,#0752b4)}
+.finance-page .primary{background:linear-gradient(110deg,#0c9b79,#087c8b)}
+@media(max-width:520px){.modern-zigzag-select{min-height:44px;font-size:12px;border-radius:13px;padding:10px 34px 10px 12px}.attendance-agenda-toolbar,.attendance-search-tools{padding:8px;gap:8px}.announcement-page .announcement{padding:12px;gap:10px}}
