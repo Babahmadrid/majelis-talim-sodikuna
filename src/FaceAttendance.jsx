@@ -23,6 +23,8 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const [consentType, setConsentType] = useState('parent_or_guardian');
   const [guardianName, setGuardianName] = useState('');
   const [consentConfirmed, setConsentConfirmed] = useState(false);
+  const [consentSaved, setConsentSaved] = useState(false);
+  const [savingConsent, setSavingConsent] = useState(false);
   const [status, setStatus] = useState('Siap memulai pemindaian wajah.');
   const [working, setWorking] = useState(false);
   const [error, setError] = useState('');
@@ -109,6 +111,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
       const embedding = normalize(faces[0].embedding);
       if (mode === 'enroll') {
         if (!memberId) throw new Error('Pilih nama jamaah yang akan didaftarkan.');
+        if (!consentSaved) throw new Error('Simpan data jamaah dan persetujuan terlebih dahulu.');
         if (!consentConfirmed) throw new Error('Persetujuan jamaah atau orang tua/wali wajib dikonfirmasi.');
         if (consentType === 'parent_or_guardian' && !guardianName.trim()) throw new Error('Nama orang tua/wali wajib diisi.');
         const { error: invokeError } = await db.functions.invoke('face-biometric', {
@@ -125,6 +128,9 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         if (invokeError) throw invokeError;
         setStatus('Pendaftaran template wajah berhasil. Foto tidak dikirim; template dienkripsi di server.');
         setConsentConfirmed(false);
+        setConsentSaved(false);
+        setMemberId('');
+        setGuardianName('');
       } else {
         setStatus('Mencocokkan wajah dengan template terdaftar...');
         const { data, error: invokeError } = await db.functions.invoke('face-biometric', {
@@ -177,10 +183,10 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
           <button type="button" onClick={() => setOpen(false)} aria-label="Tutup"><X size={19}/></button>
         </div>
         <div className="face-mode-tabs">
-          <button type="button" className={mode === 'match' ? 'active' : ''} onClick={() => { setMode('match'); setError(''); }}>Scan Absensi</button>
-          <button type="button" className={mode === 'enroll' ? 'active' : ''} onClick={() => { setMode('enroll'); setError(''); }}>Daftarkan Wajah</button>
+          <button type="button" className={mode === 'match' ? 'active' : ''} onClick={() => { setMode('match'); setError(''); setConsentSaved(false); }}>Scan Absensi</button>
+          <button type="button" className={mode === 'enroll' ? 'active' : ''} onClick={() => { setMode('enroll'); setError(''); setConsentSaved(false); }}>Daftarkan Wajah</button>
         </div>
-        {mode === 'enroll' && <div className="face-enroll-form">
+        {mode === 'enroll' && !consentSaved && <div className="face-enroll-form">
           <label>Folder sektor</label>
           <button type="button" className="face-sector-picker-trigger" onClick={() => setSectorPickerOpen(value => !value)}>
             <span>{enrollSector || 'Pilih sektor'}</span><span>{enrollSector ? active.filter(person=>person.sector===enrollSector).length + ' jamaah' : '▼'}</span>
@@ -208,7 +214,16 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
           </select>
           {consentType === 'parent_or_guardian' && <input value={guardianName} onChange={e => setGuardianName(e.target.value)} placeholder="Nama orang tua / wali"/>}
           <label className="face-consent-check"><input type="checkbox" checked={consentConfirmed} onChange={e => setConsentConfirmed(e.target.checked)}/> Saya memastikan persetujuan telah diberikan dan jamaah/wali memahami penggunaan template wajah untuk absensi.</label>
+          {consentConfirmed && <button type="button" className="face-save-consent-button" disabled={savingConsent} onClick={() => {
+            if (!memberId) { setError('Pilih nama jamaah terlebih dahulu.'); return; }
+            if (consentType === 'parent_or_guardian' && !guardianName.trim()) { setError('Nama orang tua/wali wajib diisi.'); return; }
+            setError('');
+            setSavingConsent(true);
+            setStatus('Menyimpan data pendaftaran...');
+            setTimeout(() => { setConsentSaved(true); setSavingConsent(false); setStatus('Data pendaftaran siap. Arahkan wajah jamaah ke kamera.'); }, 450);
+          }}>{savingConsent ? <><LoaderCircle size={16} className="face-spinner"/> Menyimpan data...</> : 'Simpan data'}</button>}
         </div>}
+        {mode === 'enroll' && consentSaved && <div className="face-consent-saved"><b>✓ Data pendaftaran tersimpan sementara</b><span>Identitas dan persetujuan sudah disiapkan. Silakan daftarkan wajah di kamera.</span><button type="button" onClick={() => {setConsentSaved(false);setStatus('Silakan periksa kembali data pendaftaran.');}}>Ubah data</button></div>}
         <div className="face-camera-stage"><video ref={videoRef} playsInline muted autoPlay/><div className="face-camera-guide"/></div>
         <div className="face-status-line">{working && <LoaderCircle size={16} className="face-spinner"/>}{status}</div>
         {recognized && mode === 'match' && <div className="face-notification-card"><b>HASIL PEMINDAIAN</b><span><small>Nama:</small><strong>{recognized.name}</strong></span><span><small>No anggota:</small><strong>{recognized.member_no}</strong></span><span><small>Sektor:</small><strong>{recognized.sector || '-'}</strong></span></div>}
