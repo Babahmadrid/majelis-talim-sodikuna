@@ -166,7 +166,9 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   }
 
   useEffect(() => {
-    if (!open) return;
+    // Pendaftaran wajah hanya dijalankan setelah petugas menekan tombol.
+    // Pemindaian otomatis hanya aktif pada mode absensi, bukan saat form pendaftaran.
+    if (!open || mode !== 'match') return;
     let frame = 0;
     const tick = timestamp => {
       if (timestamp - lastRunRef.current > 1300 && !busyRef.current) {
@@ -177,7 +179,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [open, mode, memberId, consentType, guardianName, consentConfirmed, working]);
+  }, [open, mode, working]);
 
   if (!isAdmin) return null;
   return (
