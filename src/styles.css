@@ -529,3 +529,33 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 }
 .app-shell .dashboard-panel.agenda-panel .panel-head{border-bottom-color:#c7e2f6!important}
 .app-shell .dashboard-panel.announcements-panel .panel-head{border-bottom-color:#dfcef3!important}
+
+
+/* Stronger separation between agenda and announcement dashboard cards */
+.app-shell .dashboard-panel.agenda-panel{
+ background:linear-gradient(135deg,#d8edff 0%,#c7e4fb 52%,#eaf5ff 100%)!important;
+ border:1px solid #a9d1f1!important;
+}
+.app-shell .dashboard-panel.announcements-panel{
+ background:linear-gradient(135deg,#ead9ff 0%,#ddc8fa 52%,#f3eaff 100%)!important;
+ border:1px solid #c7a8ed!important;
+}
+.app-shell .dashboard-panel.agenda-panel .panel-head{border-bottom:1px solid #afd2ee!important}
+.app-shell .dashboard-panel.announcements-panel .panel-head{border-bottom:1px solid #cbb1e9!important}
+/* Agenda date tile gets its own outlined blue frame */
+.app-shell .agenda-panel .mini-date{
+ background:linear-gradient(160deg,#fafdff,#dceeff)!important;
+ border:2px solid #77b8e8!important;
+ border-radius:16px!important;
+ color:#0752a5!important;
+ box-shadow:inset 0 0 0 1px #ffffffb5!important;
+}
+/* Announcement megaphone icon gets a purple outlined tile */
+.app-shell .announcements-panel .announcement-mark{
+ background:linear-gradient(145deg,#fbf7ff,#e6d6fb)!important;
+ border:2px solid #a77bd8!important;
+ border-radius:15px!important;
+ color:#63369a!important;
+ box-shadow:inset 0 0 0 1px #ffffffb5!important;
+}
+.app-shell .announcements-panel .announcement-mark svg{color:#63369a!important;stroke:#63369a!important}
