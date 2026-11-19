@@ -105,21 +105,16 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     }
   }
 
-  function playEnrollSuccess() {
+  function playFaceRegisteredAudio() {
     try {
-      if ('speechSynthesis' in window && 'SpeechSynthesisUtterance' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance('Pendaftaran wajah berhasil.');
-        utterance.lang = 'id-ID';
-        utterance.rate = 0.95;
-        utterance.volume = 1;
-        window.speechSynthesis.speak(utterance);
-      } else {
-        const audio = new Audio((import.meta.env.VITE_SUPABASE_URL || '') + '/storage/v1/object/public/absensi-voice/qr-berhasil.mp3');
-        audio.volume = 1;
-        audio.play().catch(() => {});
-      }
-    } catch {}
+      const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
+      const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/wajah-terdaftar.mp3');
+      audio.preload = 'auto';
+      audio.volume = 1;
+      audio.play().catch(err => console.warn('Audio wajah-terdaftar tidak dapat diputar:', err));
+    } catch (err) {
+      console.warn('Audio wajah-terdaftar gagal dimuat:', err);
+    }
   }
 
   async function loadModel() {
@@ -212,7 +207,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         if (invokeError) throw invokeError;
         setStatus('Pendaftaran wajah berhasil. Template biometrik sudah tersimpan.');
         setError('');
-        playEnrollSuccess();
+        playFaceRegisteredAudio();
         setAlreadyEnrolled(true);
         setConsentConfirmed(false);
         setConsentSaved(false);
@@ -244,6 +239,15 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
           if (payload?.error) detail = payload.error;
         }
       } catch {}
+      let duplicateFace = false;
+      try {
+        const response = e?.context;
+        if (response && typeof response.clone === 'function') {
+          const payload = await response.clone().json();
+          duplicateFace = payload?.duplicate_face === true;
+        }
+      } catch {}
+      if (duplicateFace) playFaceRegisteredAudio();
       setError(detail);
       setStatus('Pendaftaran belum berhasil. Periksa pesan kesalahan lalu coba kembali.');
     } finally {
