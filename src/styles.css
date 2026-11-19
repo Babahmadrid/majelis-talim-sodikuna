@@ -214,3 +214,13 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
  .scanner-panel .scan-result{top:58%;width:calc(100% - 20px);padding:11px;gap:8px}
  .scanner-hint{font-size:10px!important}
 }
+
+/* Uji kamera wajah - preview lokal tanpa capture atau upload */
+.face-camera-test{background:#fff;border:1px solid #dce8f7;border-radius:14px;padding:16px;margin:14px 0}
+.face-camera-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.face-camera-head b{display:flex;align-items:center;gap:8px;color:#174879;font-size:13px}
+.face-camera-head small{display:block;color:#71839a;font-size:10px;margin:5px 0 0}
+.face-camera-stage{position:relative;width:min(100%,520px);margin:0 auto;background:#10253e;border-radius:13px;overflow:hidden;aspect-ratio:4/3}
+.face-camera-stage video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.face-camera-guide{position:absolute;left:50%;top:50%;width:48%;height:66%;transform:translate(-50%,-50%);border:2px solid #8bd5ff;border-radius:48%}
+@media(max-width:640px){.face-camera-test{padding:12px}.face-camera-head{align-items:flex-start}.face-camera-stage{width:100%}}
