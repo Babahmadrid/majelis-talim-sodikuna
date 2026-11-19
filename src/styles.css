@@ -416,3 +416,6 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .dashboard-announcement-media[controls]{height:auto;aspect-ratio:16/9}
 .announcement-page .announcement-image,.announcement-page .announcement-video{width:100%;max-height:420px;background:#eaf2fb}
 .announcement-page .announcement-video{aspect-ratio:16/9}
+
+.announcement-preview-video{display:block;width:100%;max-height:260px;margin-top:9px;border-radius:12px;background:#eaf2fb}
+.dashboard-announcement-media{object-fit:contain}
