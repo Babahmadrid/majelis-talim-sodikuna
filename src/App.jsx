@@ -8,6 +8,7 @@ const supabaseUrl=import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey=import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY||import.meta.env.VITE_SUPABASE_ANON_KEY;
 const db=supabaseUrl&&supabaseKey?createClient(supabaseUrl,supabaseKey):null;
 const menus=[['Dashboard',LayoutDashboard],['Agenda',CalendarDays],['Data Jamaah',Users],['Absensi',ClipboardCheck],['Keuangan',Wallet],['Pengumuman',Megaphone],['Dokumentasi',Images],['Laporan',ChartNoAxesCombined],['Pengaturan',Settings]];
+const parseWelcomeSlides=v=>{if(Array.isArray(v))return v;if(typeof v==='string'){try{const parsed=JSON.parse(v);return Array.isArray(parsed)?parsed:[]}catch{return []}}return []};
 const money=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n||0));
 const dateID=d=>d?new Date(d+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'}):'-';
 function csvDownload(name,rows){const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download=name;a.click();URL.revokeObjectURL(a.href)}
@@ -33,7 +34,7 @@ function App(){
  db.from('announcements').select('*').order('created_at',{ascending:false}),
  db.from('app_settings').select('value').eq('id','dashboard_theme').maybeSingle(),
  db.from('app_settings').select('value').eq('id','dashboard_welcome_slides').maybeSingle()]);
- setProfile(p);setJamaah(j||[]);setAgenda(a||[]);setAttendance(at||[]);setFinance(f||[]);setAnnouncements(n||[]);setTheme(themeSetting?.value||'ocean');setWelcomeSlides(Array.isArray(slidesSetting?.value)?slidesSetting.value:[]);
+ setProfile(p);setJamaah(j||[]);setAgenda(a||[]);setAttendance(at||[]);setFinance(f||[]);setAnnouncements(n||[]);setTheme(themeSetting?.value||'ocean');setWelcomeSlides(parseWelcomeSlides(slidesSetting?.value));
  }catch(e){setError(e.message)}finally{setLoading(false)}}
  async function save(table,payload){if(!db||saving)return;setSaving(true);setNotice(editingRecord?'Memperbarui data...':'Menyimpan data...');try{const query=editingRecord?db.from(table).update(payload).eq('id',editingRecord.id):db.from(table).insert(payload);const {error}=await query;if(error)throw error;setShowForm(false);setForm({});setEditingRecord(null);setNotice(editingRecord?'Data berhasil diperbarui':'Data berhasil disimpan');await loadAll()}catch(e){setError(e.message);setNotice('Gagal menyimpan data')}finally{setSaving(false)}}
  async function deleteRecord(table,item,label){if(!await askConfirm('Konfirmasi penghapusan','Apakah '+label+' ini akan dihapus? Data yang dihapus tidak dapat dipulihkan.'))return;setSaving(true);setNotice('Menghapus data...');try{const {error}=await db.from(table).delete().eq('id',item.id);if(error)throw error;setNotice(label+' berhasil dihapus');await loadAll()}catch(e){setError(e.message);setNotice('Gagal menghapus '+label)}finally{setSaving(false)}}
@@ -99,7 +100,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
     if(error)throw error;
     urls.push(db.storage.from('announcement-images').getPublicUrl(data.path||path).data.publicUrl);
    }
-   const {error}=await db.from('app_settings').upsert({id:'dashboard_welcome_slides',value:urls,updated_by:session.user.id,updated_at:new Date().toISOString()},{onConflict:'id'});
+   const {error}=await db.from('app_settings').upsert({id:'dashboard_welcome_slides',value:JSON.stringify(urls),updated_by:session.user.id,updated_at:new Date().toISOString()},{onConflict:'id'});
    if(error)throw error;
    setWelcomeSlides(urls);setSlideFiles([]);setNotice('3 foto salam berhasil disimpan.');
   }catch(e){setError('Foto slide belum tersimpan: '+e.message);setNotice('Gagal menyimpan foto slide')}
