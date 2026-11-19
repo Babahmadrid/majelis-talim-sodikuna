@@ -42,6 +42,19 @@ alter table private.face_templates enable row level security;
 revoke all on private.face_templates from public, anon, authenticated;
 grant select, insert, delete on private.face_templates to service_role;
 
+-- Atomic hard-delete entry point. SECURITY INVOKER runs with caller privileges.
+create or replace function public.delete_face_data_for_jamaah(p_jamaah_id uuid)
+returns void
+language sql
+security invoker
+set search_path = ''
+as $
+  delete from private.face_templates where jamaah_id = p_jamaah_id;
+  delete from public.face_consents where jamaah_id = p_jamaah_id;
+$;
+revoke all on function public.delete_face_data_for_jamaah(uuid) from public, anon, authenticated;
+grant execute on function public.delete_face_data_for_jamaah(uuid) to service_role;
+
 comment on table public.face_consents is
   'Persetujuan aktif pemrosesan biometrik. Baris dihapus saat persetujuan ditarik.';
 comment on table private.face_templates is
