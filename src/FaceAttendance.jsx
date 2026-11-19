@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Camera, UserRound, X, LoaderCircle } from 'lucide-react';
+import { Camera, ScanFace, X, LoaderCircle } from 'lucide-react';
 
 const MODEL_BASE = 'https://vladmandic.github.io/human-models/models/';
 
@@ -23,6 +23,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const [status, setStatus] = useState('Siap memulai pemindaian wajah.');
   const [working, setWorking] = useState(false);
   const [error, setError] = useState('');
+  const [recognized, setRecognized] = useState(null);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const humanRef = useRef(null);
@@ -130,6 +131,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         } else {
           const person = active.find(item => item.id === data.jamaah_id);
           if (!person) throw new Error('Wajah cocok, tetapi jamaah tidak aktif atau tidak ditemukan.');
+          setRecognized(person);
           setStatus('Dikenali: ' + person.name + '. Memeriksa kehadiran agenda...');
           await markPresent(person, 'face');
           setStatus('Pemeriksaan selesai untuk ' + person.name + '.');
@@ -160,13 +162,13 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   if (!isAdmin) return null;
   return (
     <div className="face-attendance">
-      <button type="button" className="attendance-mode face-mode-ready" disabled={!selected} onClick={() => { setMode('match'); setOpen(value => !value); setError(''); }}>
+      <button type="button" className="attendance-mode face-mode-ready" disabled={!selected} onClick={() => { setMode('match'); setOpen(true); setError(''); setRecognized(null); }}>
         <ScanFace size={25} />
         <span><b>Scan Wajah</b><small>Pengenalan otomatis melalui kamera HP petugas</small></span>
       </button>
-      {open && <div className="face-scanner-panel">
+      {open && <div className="face-scanner-panel face-fullpage">
         <div className="face-scanner-head">
-          <div><b>Absensi dengan pengenalan wajah</b><small>Model berjalan di perangkat petugas</small></div>
+          <div><b>Absensi dengan pengenalan wajah</b><small>Mode otomatis · tanpa anti-spoof</small></div>
           <button type="button" onClick={() => setOpen(false)} aria-label="Tutup"><X size={19}/></button>
         </div>
         <div className="face-mode-tabs">
@@ -189,9 +191,10 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         </div>}
         <div className="face-camera-stage"><video ref={videoRef} playsInline muted autoPlay/><div className="face-camera-guide"/></div>
         <div className="face-status-line">{working && <LoaderCircle size={16} className="face-spinner"/>}{status}</div>
+        {recognized && mode === 'match' && <div className="face-notification-card"><b>HASIL PEMINDAIAN</b><span><small>Nama:</small><strong>{recognized.name}</strong></span><span><small>No anggota:</small><strong>{recognized.member_no}</strong></span><span><small>Sektor:</small><strong>{recognized.sector || '-'}</strong></span></div>}
         {error && <div className="alert error">{error}</div>}
-        <button type="button" className="face-capture-button" disabled={working} onClick={processFace}><Camera size={17}/>{mode === 'enroll' ? 'Ambil dan daftarkan wajah' : 'Kenali wajah sekarang'}</button>
-        <small className="face-privacy-note">Kamera diproses di HP petugas. Yang dikirim untuk pencocokan hanya template biometrik, bukan foto wajah. Fitur ini tidak memakai pemeriksaan anti-spoof.</small>
+        {mode === 'enroll' && <button type="button" className="face-capture-button" disabled={working} onClick={processFace}><Camera size={17}/>Ambil dan daftarkan wajah</button>}
+        <small className="face-privacy-note">Kamera diproses di HP petugas. Yang dikirim untuk pencocokan hanya template biometrik, bukan foto wajah. Tanpa anti-spoof, sistem dapat tertipu foto atau video di depan kamera.</small>
       </div>}
     </div>
   );
