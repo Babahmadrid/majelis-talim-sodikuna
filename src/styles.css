@@ -347,3 +347,11 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .face-member-empty{grid-column:1/-1}
 .face-fullpage .face-enroll-form{max-height:calc(100dvh - 170px)!important;overflow-y:auto!important;overscroll-behavior:contain}
 @media(max-width:520px){.face-sector-picker-grid{gap:4px;padding:4px}.face-sector-option{padding:6px;font-size:9px}.face-sector-option b{font-size:9px}.face-member-picker-list{gap:3px;padding:4px}.face-member-option{font-size:8px!important;min-height:27px!important;padding:4px 5px!important}.face-member-option>b{flex-basis:23px!important;font-size:8px!important}}
+
+
+/* Keep the explicit face-enrollment capture action visible above camera overlays */
+.face-fullpage .face-capture-button{position:absolute!important;z-index:12!important;left:16px!important;right:16px!important;bottom:76px!important;width:calc(100% - 32px)!important;min-height:52px!important;padding:14px!important;border-radius:14px!important;background:linear-gradient(110deg,#087bd7,#0752b4)!important;color:#fff!important;font-size:15px!important;box-shadow:0 8px 24px #001b3d66!important}
+.face-fullpage .face-status-line{bottom:137px!important}
+.face-fullpage .face-privacy-note{bottom:8px!important}
+.face-fullpage .alert.error{bottom:196px!important}
+@media(max-width:520px){.face-fullpage .face-capture-button{bottom:78px!important;min-height:50px!important;font-size:14px!important}.face-fullpage .face-status-line{bottom:137px!important}.face-fullpage .face-privacy-note{bottom:8px!important}}
