@@ -309,3 +309,21 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .face-enroll-form .face-consent-check{font-size:10px!important;line-height:1.35}
 .face-fullpage .face-enroll-form{max-height:44dvh;overflow-y:auto}
 @media(max-width:520px){.face-enroll-form>select,.face-enroll-form>input{font-size:11px!important;min-height:34px;padding:7px 9px!important}.face-enroll-form>label{font-size:9px!important}}
+
+
+/* Modern compact member picker: alternating sky-blue and soft-yellow rows */
+.face-member-picker-trigger{width:100%;min-height:34px;display:flex;align-items:center;gap:9px;padding:7px 10px;border:1px solid #c9dced;border-radius:10px;background:#f8fcff;color:#173b60;text-align:left;font-size:11px;font-weight:600}
+.face-member-picker-trigger:disabled{opacity:.55}
+.face-member-picker-trigger>b{min-width:30px;padding:3px 6px;border-radius:6px;background:#d8edff;color:#0752a5;text-align:center;font-size:10px}
+.face-member-picker-trigger>span:nth-child(2){flex:1}
+.face-picker-chevron{margin-left:auto;color:#47739b;font-size:9px}
+.face-member-picker-list{width:100%;max-height:170px;overflow-y:auto;border:1px solid #c8dced;border-radius:11px;background:#fff;box-shadow:0 7px 18px #16466b18}
+.face-member-option{width:100%;min-height:32px;display:flex;align-items:center;gap:9px;padding:6px 9px;border:0;border-bottom:1px solid #ffffffb0;text-align:left;color:#173b60;font-size:10px;line-height:1.2}
+.face-member-option.blue{background:#e2f2ff}
+.face-member-option.yellow{background:#fff4c9}
+.face-member-option>b{flex:0 0 32px;padding:3px 4px;border-radius:5px;background:#ffffffb8;color:#15528c;text-align:center;font-size:10px;font-weight:800}
+.face-member-option>span:nth-child(2){flex:1;font-weight:600}
+.face-member-option.selected{outline:2px solid #1875c9;outline-offset:-2px;font-weight:800}
+.face-member-check{font-size:13px;font-weight:900;color:#0752a5}
+.face-member-empty{padding:12px;text-align:center;color:#64809b;font-size:10px}
+@media(max-width:520px){.face-member-picker-trigger{font-size:10px;min-height:32px;padding:6px 8px}.face-member-picker-list{max-height:145px}.face-member-option{font-size:9px;min-height:29px;padding:5px 8px;gap:7px}.face-member-option>b{font-size:9px;flex-basis:29px}}
