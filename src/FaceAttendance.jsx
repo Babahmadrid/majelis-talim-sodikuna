@@ -18,6 +18,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const [mode, setMode] = useState('match');
   const [memberId, setMemberId] = useState('');
   const [enrollSector, setEnrollSector] = useState('');
+  const [memberPickerOpen, setMemberPickerOpen] = useState(false);
   const [consentType, setConsentType] = useState('parent_or_guardian');
   const [guardianName, setGuardianName] = useState('');
   const [consentConfirmed, setConsentConfirmed] = useState(false);
@@ -185,10 +186,16 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
             {activeSectors.map(sector => <option key={sector} value={sector}>{sector} ({active.filter(person=>person.sector===sector).length})</option>)}
           </select>
           <label>Nama jamaah</label>
-          <select className="face-compact-select" value={memberId} disabled={!enrollSector} onChange={e => setMemberId(e.target.value)}>
-            <option value="">{enrollSector ? 'Pilih nama jamaah' : 'Pilih sektor terlebih dahulu'}</option>
-            {sectorMembers.map(person => <option key={person.id} value={person.id}>{person.name} · {person.member_no}</option>)}
-          </select>
+          <button type="button" className="face-member-picker-trigger" disabled={!enrollSector} onClick={() => setMemberPickerOpen(value => !value)}>
+            {sectorMembers.find(person => person.id === memberId) ? <><b>{sectorMembers.find(person => person.id === memberId).member_no}</b><span>{sectorMembers.find(person => person.id === memberId).name}</span></> : <span>{enrollSector ? 'Pilih nama jamaah' : 'Pilih sektor terlebih dahulu'}</span>}
+            <span className="face-picker-chevron">{memberPickerOpen ? '▲' : '▼'}</span>
+          </button>
+          {memberPickerOpen && enrollSector && <div className="face-member-picker-list">
+            {sectorMembers.map((person,index) => <button type="button" key={person.id} className={`face-member-option ${index % 2 === 0 ? 'blue' : 'yellow'} ${memberId === person.id ? 'selected' : ''}`} onClick={() => {setMemberId(person.id);setMemberPickerOpen(false);}}>
+              <b>{person.member_no}</b><span>{person.name}</span>{memberId === person.id && <span className="face-member-check">✓</span>}
+            </button>)}
+            {!sectorMembers.length && <div className="face-member-empty">Belum ada jamaah aktif di sektor ini.</div>}
+          </div>}
           <label>Persetujuan pendaftaran biometrik</label>
           <select value={consentType} onChange={e => setConsentType(e.target.value)}>
             <option value="parent_or_guardian">Orang tua / wali</option>
