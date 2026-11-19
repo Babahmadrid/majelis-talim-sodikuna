@@ -222,3 +222,18 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .attendance-mode .face-status{margin-left:auto;flex:none;padding:6px 8px;border-radius:99px;background:#ffffff28;color:#fff;font-size:9px;font-weight:800;letter-spacing:.5px}
 .attendance-mode>span:not(.face-status){display:grid;gap:5px;min-width:0}
 @media(max-width:520px){.attendance-mode .face-status{grid-column:2;justify-self:start;margin:2px 0 0}.attendance-mode.face-mode-disabled{grid-template-columns:30px minmax(0,1fr)}}
+
+
+/* Attendance UI refinement: restore admin manual entry and place blue QR feedback below camera */
+.attendance-mode-grid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+.attendance-mode.manual-mode{background:linear-gradient(120deg,#078fbe 0%,#0752b4 100%);color:#fff;box-shadow:0 8px 18px #0752b422}
+.attendance-mode.manual-mode b,.attendance-mode.manual-mode small{color:#fff}
+.scanner-panel .scan-result{position:relative!important;inset:auto!important;left:auto!important;top:auto!important;transform:none!important;width:100%!important;max-width:none!important;margin:14px 0 0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:linear-gradient(120deg,#087bd7 0%,#0752b4 100%)!important;color:#fff!important;border:1px solid #65b9f4!important;box-shadow:0 8px 22px #0752b433!important}
+.scanner-panel .scan-result.success,.scanner-panel .scan-result.duplicate,.scanner-panel .scan-result.invalid{background:linear-gradient(120deg,#087bd7 0%,#0752b4 100%)!important;color:#fff!important}
+.scanner-panel .scan-result-icon{background:#ffffff2b;color:#fff}
+.scanner-panel .scan-result>button{color:#fff}
+.scanner-panel .scan-result small,.scanner-panel .scan-result b{color:#fff}
+.scanner-panel .scan-member-details span{background:#ffffff20;color:#fff}
+.scanner-panel .scan-member-details span small,.scanner-panel .scan-member-details span strong{color:#fff}
+@media(max-width:760px){.attendance-mode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.attendance-mode.manual-mode{grid-column:1/-1}}
+@media(max-width:520px){.attendance-mode-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.attendance-mode.manual-mode{grid-column:1/-1;min-height:76px;display:flex;flex-direction:row;align-items:center}.attendance-mode.manual-mode>span:not(.face-status){display:grid}.scanner-panel .scan-result{padding:12px;gap:9px}.scanner-panel .scan-result b{font-size:12px}}
