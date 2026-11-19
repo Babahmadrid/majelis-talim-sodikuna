@@ -127,6 +127,15 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         });
         if (invokeError) throw invokeError;
         setStatus('Pendaftaran template wajah berhasil. Foto tidak dikirim; template dienkripsi di server.');
+        try {
+          const audio = new Audio(`${db.supabaseUrl}/storage/v1/object/public/absensi-voice/wajah-terdaftar.mp3`);
+          audio.preload = 'auto';
+          audio.volume = 1;
+          await audio.play();
+        } catch (audioError) {
+          // Pendaftaran tetap berhasil meskipun audio tidak dapat diputar.
+          console.warn('Suara pendaftaran wajah tidak dapat diputar:', audioError);
+        }
         setConsentConfirmed(false);
         setConsentSaved(false);
         setMemberId('');
