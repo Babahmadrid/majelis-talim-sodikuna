@@ -385,3 +385,22 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .report-panel .primary{background:linear-gradient(110deg,#0878ce,#0752b4)}
 .finance-page .primary{background:linear-gradient(110deg,#0c9b79,#087c8b)}
 @media(max-width:520px){.modern-zigzag-select{min-height:44px;font-size:12px;border-radius:13px;padding:10px 34px 10px 12px}.attendance-agenda-toolbar,.attendance-search-tools{padding:8px;gap:8px}.announcement-page .announcement{padding:12px;gap:10px}}
+
+
+/* Custom compact zigzag pickers for agenda and sector filters */
+.zigzag-picker{position:relative;width:100%;min-width:0;z-index:3}
+.zigzag-picker.is-open{z-index:30}
+.zigzag-picker-trigger{width:100%;min-height:43px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 13px;border:1px solid #b9d8ed;border-radius:13px;background:linear-gradient(110deg,#f4fbff,#fff9e8);color:#17446f;text-align:left;font-size:12px;font-weight:750;box-shadow:0 4px 12px #17558a0d}
+.zigzag-picker-trigger>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.zigzag-picker-trigger svg{flex:0 0 auto;color:#39749d;transition:transform .18s ease}
+.zigzag-picker.is-open .zigzag-picker-trigger svg{transform:rotate(180deg)}
+.zigzag-picker-options{position:absolute;top:calc(100% + 6px);left:0;right:0;max-height:min(42vh,300px);overflow:auto;overscroll-behavior:contain;padding:6px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;border:1px solid #c5deef;border-radius:14px;background:#f8fcff;box-shadow:0 14px 32px #123b5b30}
+.zigzag-picker-option{min-width:0;min-height:34px;display:flex;align-items:center;justify-content:space-between;gap:6px;padding:7px 9px;border:1px solid #ffffffc9;border-radius:8px;color:#1b486e;text-align:left;font-size:10px;font-weight:650;line-height:1.25}
+.zigzag-picker-option.blue{background-color:#e0f2ff;background-image:repeating-linear-gradient(135deg,#ffffff26 0 5px,transparent 5px 10px)}
+.zigzag-picker-option.yellow{background-color:#fff1c7;background-image:repeating-linear-gradient(135deg,#ffffff35 0 5px,transparent 5px 10px)}
+.zigzag-picker-option>span{min-width:0;overflow-wrap:anywhere}
+.zigzag-picker-option svg{flex:0 0 auto;color:#075bb0}
+.zigzag-picker-option.selected{outline:2px solid #1679c5;outline-offset:-2px;font-weight:800}
+.agenda-zigzag-picker .zigzag-picker-options{grid-template-columns:1fr}
+.agenda-zigzag-picker .zigzag-picker-option{min-height:36px;font-size:11px}
+@media(max-width:520px){.zigzag-picker-trigger{min-height:40px;padding:8px 11px;font-size:11px}.zigzag-picker-options{gap:4px;padding:5px;max-height:38vh}.zigzag-picker-option{min-height:31px;padding:6px 7px;font-size:9px}.agenda-zigzag-picker .zigzag-picker-option{font-size:10px}}
