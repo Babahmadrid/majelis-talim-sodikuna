@@ -583,3 +583,21 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
  .app-shell .main{padding-left:20px;padding-right:20px}
  .app-shell .topbar{margin-left:-20px;margin-right:-20px;padding-left:22px;padding-right:22px}
 }
+
+
+/* Match Pengumuman dashboard card to the soft green attendance summary card */
+.app-shell .dashboard-panel.announcements-panel{
+ background:linear-gradient(135deg,#effaf7 0%,#e1f5ef 55%,#f9fdfb 100%)!important;
+ border:1px solid #d2eee5!important;
+}
+.app-shell .dashboard-panel.announcements-panel>.panel-head{
+ border-bottom:1px solid #d2eee5!important;
+}
+.app-shell .announcements-panel .announcement-mark{
+ background:linear-gradient(145deg,#f8fffc,#dff3eb)!important;
+ border:2px solid #8bcdb4!important;
+ color:#24795d!important;
+}
+.app-shell .announcements-panel .announcement-mark svg{
+ color:#24795d!important;stroke:#24795d!important;
+}
