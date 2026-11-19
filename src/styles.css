@@ -300,3 +300,12 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .face-fullpage .alert.error{position:absolute;z-index:9;left:14px;right:14px;bottom:65px}
 .face-fullpage .face-enroll-form{background:#ffffffed;padding:12px;border-radius:13px}
 @media(max-width:520px){.scanner-fullpage .scanner-head{padding:14px}.scanner-fullpage .scanner-stage{height:50dvh!important;flex-basis:50dvh!important}.scanner-fullpage .scanner-hint{font-size:11px!important}.face-fullpage .face-status-line{bottom:28px}.face-fullpage .face-privacy-note{font-size:9px}}
+
+
+/* Compact face enrollment selectors for Android */
+.face-enroll-form{gap:5px!important}
+.face-enroll-form>label{font-size:10px!important;margin-top:3px}
+.face-enroll-form>select,.face-enroll-form>input,.face-enroll-form .face-compact-select{font-size:12px!important;line-height:1.25;padding:8px 10px!important;min-height:36px}
+.face-enroll-form .face-consent-check{font-size:10px!important;line-height:1.35}
+.face-fullpage .face-enroll-form{max-height:44dvh;overflow-y:auto}
+@media(max-width:520px){.face-enroll-form>select,.face-enroll-form>input{font-size:11px!important;min-height:34px;padding:7px 9px!important}.face-enroll-form>label{font-size:9px!important}}
