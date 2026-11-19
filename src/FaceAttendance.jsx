@@ -149,7 +149,16 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         }
       }
     } catch (e) {
-      setError(e.message || 'Proses pengenalan wajah gagal.');
+      let detail = e?.message || 'Proses pengenalan wajah gagal.';
+      try {
+        const response = e?.context;
+        if (response && typeof response.clone === 'function') {
+          const payload = await response.clone().json();
+          if (payload?.error) detail = payload.error;
+        }
+      } catch {}
+      setError(detail);
+      setStatus('Pendaftaran belum berhasil. Periksa pesan kesalahan lalu coba kembali.');
     } finally {
       busyRef.current = false;
       setWorking(false);
