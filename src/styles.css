@@ -449,3 +449,39 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .app-shell .dashboard-stats .stat-card>span,.app-shell .dashboard-stats .stat-card>b{color:var(--theme-text)!important}
 .app-shell .dashboard-panel{border-color:var(--theme-border)!important}
 .pin-admin-row{display:flex;gap:10px;margin:14px 0;flex-wrap:wrap}.pin-admin-row input{flex:1;min-width:180px;padding:12px;border:1px solid #cbd9e8;border-radius:12px;font:inherit}.login-divider{text-align:center;color:#789;margin:18px 0;font-size:12px}.secondary-login{width:100%;padding:12px;border:1px solid #b9cde0;border-radius:12px;background:#f3f8fc;color:#214b70;font-weight:700}
+
+
+/* Dashboard: only header bands use distinct gradients; card bodies stay calm */
+.app-shell .dashboard-stats .stat-card{background:#f8fbff!important;border:1px solid #d9e6f2!important;color:#244765!important;overflow:hidden;padding:0!important;gap:0!important}
+.app-shell .dashboard-stats .stat-header{display:flex;align-items:center;gap:11px;padding:12px 15px;color:#fff!important}
+.app-shell .dashboard-stats .stat-header .stat-icon{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:#ffffff30!important;color:#fff!important}
+.app-shell .dashboard-stats .stat-header span{color:#fff!important;font-weight:750}
+.app-shell .dashboard-stats .stat-card>b{display:block;padding:13px 16px 16px;color:#244765!important}
+.app-shell .dashboard-stats .stat-tone-0 .stat-header{background:linear-gradient(110deg,#0878ce,#24b6df)}
+.app-shell .dashboard-stats .stat-tone-1 .stat-header{background:linear-gradient(110deg,#7654c8,#ad79e8)}
+.app-shell .dashboard-stats .stat-tone-2 .stat-header{background:linear-gradient(110deg,#078b83,#39bda4)}
+.app-shell .dashboard-stats .stat-tone-3 .stat-header{background:linear-gradient(110deg,#d97728,#f0ad45)}
+.app-shell .dashboard-panel{overflow:hidden}
+.app-shell .dashboard-panel>.panel-head{margin:-1px -1px 14px;padding:14px 17px;border-radius:19px 19px 0 0;color:#fff}
+.app-shell .dashboard-panel>.panel-head h3,.app-shell .dashboard-panel>.panel-head button{color:#fff!important}
+.app-shell .agenda-panel>.panel-head{background:linear-gradient(110deg,#0878ce,#24b6df)}
+.app-shell .announcements-panel>.panel-head{background:linear-gradient(110deg,#7654c8,#ad79e8)}
+.app-shell .quick-panel>.panel-head{background:linear-gradient(110deg,#078b83,#39bda4)}
+.app-shell .welcome{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(120deg,#0752b4,#079ed0)!important}
+.app-shell .welcome-slides{position:absolute;inset:0;z-index:-1}
+.app-shell .welcome-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.1s ease}
+.app-shell .welcome-slide.active{opacity:1}
+.app-shell .welcome-copy{position:relative;z-index:1;max-width:78%}
+.app-shell .welcome-logo{position:relative;z-index:1}
+.welcome-slide-preview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0}
+.welcome-slide-preview img{width:100%;height:86px;object-fit:cover;border-radius:11px;border:1px solid #d3e2ef;background:#edf5fb}
+.slide-upload{margin:10px 0;cursor:pointer}
+.slide-upload input{display:none}
+@media(max-width:520px){
+ .app-shell .dashboard-stats .stat-header{padding:10px 11px;gap:8px}
+ .app-shell .dashboard-stats .stat-header span{font-size:11px}
+ .app-shell .dashboard-stats .stat-card>b{padding:11px 12px 14px}
+ .app-shell .dashboard-panel>.panel-head{padding:12px 14px}
+ .app-shell .welcome-copy{max-width:76%}
+ .welcome-slide-preview img{height:68px}
+}
