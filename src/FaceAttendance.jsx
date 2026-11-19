@@ -19,6 +19,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const [memberId, setMemberId] = useState('');
   const [enrollSector, setEnrollSector] = useState('');
   const [memberPickerOpen, setMemberPickerOpen] = useState(false);
+  const [sectorPickerOpen, setSectorPickerOpen] = useState(false);
   const [consentType, setConsentType] = useState('parent_or_guardian');
   const [guardianName, setGuardianName] = useState('');
   const [consentConfirmed, setConsentConfirmed] = useState(false);
@@ -181,10 +182,14 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         </div>
         {mode === 'enroll' && <div className="face-enroll-form">
           <label>Folder sektor</label>
-          <select className="face-compact-select" value={enrollSector} onChange={e => {setEnrollSector(e.target.value);setMemberId('');}}>
-            <option value="">Pilih sektor</option>
-            {activeSectors.map(sector => <option key={sector} value={sector}>{sector} ({active.filter(person=>person.sector===sector).length})</option>)}
-          </select>
+          <button type="button" className="face-sector-picker-trigger" onClick={() => setSectorPickerOpen(value => !value)}>
+            <span>{enrollSector || 'Pilih sektor'}</span><span>{enrollSector ? active.filter(person=>person.sector===enrollSector).length + ' jamaah' : '▼'}</span>
+          </button>
+          {sectorPickerOpen && <div className="face-sector-picker-grid">
+            {activeSectors.map((sector,index) => <button type="button" key={sector} className={`face-sector-option ${index % 2 === 0 ? 'blue' : 'yellow'} ${enrollSector === sector ? 'selected' : ''}`} onClick={() => {setEnrollSector(sector);setMemberId('');setMemberPickerOpen(false);setSectorPickerOpen(false);}}>
+              <b>{sector}</b><small>{active.filter(person=>person.sector===sector).length}</small>
+            </button>)}
+          </div>}
           <label>Nama jamaah</label>
           <button type="button" className="face-member-picker-trigger" disabled={!enrollSector} onClick={() => setMemberPickerOpen(value => !value)}>
             {sectorMembers.find(person => person.id === memberId) ? <><b>{sectorMembers.find(person => person.id === memberId).member_no}</b><span>{sectorMembers.find(person => person.id === memberId).name}</span></> : <span>{enrollSector ? 'Pilih nama jamaah' : 'Pilih sektor terlebih dahulu'}</span>}
