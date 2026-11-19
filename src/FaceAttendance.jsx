@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Camera, ScanFace, UserPlus, X, LoaderCircle } from 'lucide-react';
+import { Camera, UserRound, X, LoaderCircle } from 'lucide-react';
 
 const MODEL_BASE = 'https://vladmandic.github.io/human-models/models/';
 
