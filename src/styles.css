@@ -237,3 +237,34 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .scanner-panel .scan-member-details span small,.scanner-panel .scan-member-details span strong{color:#fff}
 @media(max-width:760px){.attendance-mode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.attendance-mode.manual-mode{grid-column:1/-1}}
 @media(max-width:520px){.attendance-mode-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.attendance-mode.manual-mode{grid-column:1/-1;min-height:76px;display:flex;flex-direction:row;align-items:center}.attendance-mode.manual-mode>span:not(.face-status){display:grid}.scanner-panel .scan-result{padding:12px;gap:9px}.scanner-panel .scan-result b{font-size:12px}}
+
+
+/* Face attendance scanner */
+.face-attendance{min-width:0;display:flex;flex-direction:column}
+.face-mode-ready{width:100%;height:100%;min-height:116px;background:linear-gradient(120deg,#087bd7,#0752b4);color:#fff;box-shadow:0 8px 18px #0752b422}
+.face-mode-ready b,.face-mode-ready small{color:#fff}
+.face-scanner-panel{margin-top:12px;padding:14px;border:1px solid #c8ddf6;border-radius:18px;background:linear-gradient(145deg,#fff,#edf6ff);box-shadow:0 12px 28px #0752b416}
+.face-scanner-head{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#123c70}
+.face-scanner-head>div{display:grid;gap:4px}
+.face-scanner-head b{font-size:15px}
+.face-scanner-head small{font-size:11px;color:#617b97}
+.face-scanner-head button{border:0;background:#e5f1ff;color:#0752b4;border-radius:10px;padding:8px;display:grid;place-items:center}
+.face-mode-tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:13px 0}
+.face-mode-tabs button{border:1px solid #c9ddf4;background:#fff;color:#27547e;border-radius:10px;padding:10px;font-weight:750}
+.face-mode-tabs button.active{background:#0752b4;color:#fff;border-color:#0752b4}
+.face-enroll-form{display:grid;gap:8px;margin-bottom:12px}
+.face-enroll-form>label{font-size:11px;font-weight:750;color:#315577}
+.face-enroll-form>select,.face-enroll-form>input{width:100%;border:1px solid #d5e3f2;border-radius:10px;padding:11px;background:#fff;color:#173d69}
+.face-enroll-form .face-consent-check{display:flex;align-items:flex-start;gap:8px;font-size:11px;line-height:1.5;font-weight:600}
+.face-consent-check input{margin-top:2px}
+.face-camera-stage{position:relative;overflow:hidden;border-radius:15px;background:#071b32}
+.face-camera-stage video{display:block;width:100%;aspect-ratio:4/3;max-height:52vh;object-fit:cover;transform:scaleX(-1)}
+.face-camera-guide{position:absolute;left:50%;top:50%;width:52%;height:76%;transform:translate(-50%,-50%);border:2px solid #69dcff;border-radius:48%}
+.face-status-line{display:flex;align-items:center;gap:8px;margin:12px 0;color:#174d82;font-size:12px;font-weight:700;line-height:1.45}
+.face-spinner{animation:face-spin 1s linear infinite}
+@keyframes face-spin{to{transform:rotate(360deg)}}
+.face-capture-button{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:11px;padding:12px;background:linear-gradient(110deg,#087bd7,#0752b4);color:#fff;font-weight:800}
+.face-capture-button:disabled{opacity:.6}
+.face-privacy-note{display:block;margin-top:10px;color:#6b8096;font-size:10px;line-height:1.5}
+@media(max-width:760px){.face-mode-ready{min-height:100px}}
+@media(max-width:520px){.face-scanner-panel{padding:11px}.face-mode-ready{min-height:105px}}
