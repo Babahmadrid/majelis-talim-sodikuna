@@ -17,6 +17,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState('match');
   const [memberId, setMemberId] = useState('');
+  const [alreadyEnrolled, setAlreadyEnrolled] = useState(false);
   const [enrollSector, setEnrollSector] = useState('');
   const [memberPickerOpen, setMemberPickerOpen] = useState(false);
   const [sectorPickerOpen, setSectorPickerOpen] = useState(false);
@@ -37,6 +38,47 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const active = jamaah.filter(person => person.status === 'aktif');
   const activeSectors = [...new Set(active.map(person => person.sector).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'id'));
   const sectorMembers = active.filter(person => person.sector === enrollSector).sort((a,b)=>a.name.localeCompare(b.name,'id'));
+
+
+  async function chooseMember(person) {
+    setMemberId(person.id);
+    setAlreadyEnrolled(false);
+    setError('');
+    setStatus('Memeriksa status pendaftaran wajah ' + person.name + '...');
+    try {
+      const { data, error: statusError } = await db.functions.invoke('face-biometric', {
+        body: { action: 'status', jamaah_id: person.id },
+      });
+      if (statusError) throw statusError;
+      if (data?.enrolled) {
+        setAlreadyEnrolled(true);
+        setStatus('Wajah ' + person.name + ' sudah terdaftar. Tidak perlu mendaftarkan ulang.');
+        setError('Wajah jamaah ini sudah terdaftar. Pilih jamaah lain atau gunakan Scan Absensi.');
+      } else {
+        setStatus('Wajah belum terdaftar. Silakan lanjutkan pendaftaran.');
+      }
+    } catch (e) {
+      setError(e?.message || 'Gagal memeriksa status pendaftaran wajah.');
+      setStatus('Status pendaftaran belum dapat diperiksa.');
+    }
+  }
+
+  function playEnrollSuccess() {
+    try {
+      if ('speechSynthesis' in window && 'SpeechSynthesisUtterance' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance('Pendaftaran wajah berhasil.');
+        utterance.lang = 'id-ID';
+        utterance.rate = 0.95;
+        utterance.volume = 1;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        const audio = new Audio((import.meta.env.VITE_SUPABASE_URL || '') + '/storage/v1/object/public/absensi-voice/qr-berhasil.mp3');
+        audio.volume = 1;
+        audio.play().catch(() => {});
+      }
+    } catch {}
+  }
 
   async function loadModel() {
     if (humanRef.current) return humanRef.current;
@@ -126,7 +168,10 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
           },
         });
         if (invokeError) throw invokeError;
-        setStatus('Pendaftaran template wajah berhasil. Foto tidak dikirim; template dienkripsi di server.');
+        setStatus('Pendaftaran wajah berhasil. Template biometrik sudah tersimpan.');
+        setError('');
+        playEnrollSuccess();
+        setAlreadyEnrolled(true);
         setConsentConfirmed(false);
         setConsentSaved(false);
         setMemberId('');
@@ -203,7 +248,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
             <span>{enrollSector || 'Pilih sektor'}</span><span>{enrollSector ? active.filter(person=>person.sector===enrollSector).length + ' jamaah' : '▼'}</span>
           </button>
           {sectorPickerOpen && <div className="face-sector-picker-grid">
-            {activeSectors.map((sector,index) => <button type="button" key={sector} className={`face-sector-option ${index % 2 === 0 ? 'blue' : 'yellow'} ${enrollSector === sector ? 'selected' : ''}`} onClick={() => {setEnrollSector(sector);setMemberId('');setMemberPickerOpen(false);setSectorPickerOpen(false);}}>
+            {activeSectors.map((sector,index) => <button type="button" key={sector} className={`face-sector-option ${index % 2 === 0 ? 'blue' : 'yellow'} ${enrollSector === sector ? 'selected' : ''}`} onClick={() => {setEnrollSector(sector);setMemberId('');setAlreadyEnrolled(false);setMemberPickerOpen(false);setSectorPickerOpen(false);}}>
               <b>{sector}</b><small>{active.filter(person=>person.sector===sector).length}</small>
             </button>)}
           </div>}
@@ -213,7 +258,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
             <span className="face-picker-chevron">{memberPickerOpen ? '▲' : '▼'}</span>
           </button>
           {memberPickerOpen && enrollSector && <div className="face-member-picker-list">
-            {sectorMembers.map((person,index) => <button type="button" key={person.id} className={`face-member-option ${index % 2 === 0 ? 'blue' : 'yellow'} ${memberId === person.id ? 'selected' : ''}`} onClick={() => {setMemberId(person.id);setMemberPickerOpen(false);}}>
+            {sectorMembers.map((person,index) => <button type="button" key={person.id} className={`face-member-option ${index % 2 === 0 ? 'blue' : 'yellow'} ${memberId === person.id ? 'selected' : ''}`} onClick={() => {chooseMember(person);setMemberPickerOpen(false);}}>
               <b>{person.member_no}</b><span>{person.name}</span>{memberId === person.id && <span className="face-member-check">✓</span>}
             </button>)}
             {!sectorMembers.length && <div className="face-member-empty">Belum ada jamaah aktif di sektor ini.</div>}
@@ -239,7 +284,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         <div className="face-status-line">{working && <LoaderCircle size={16} className="face-spinner"/>}{status}</div>
         {recognized && mode === 'match' && <div className="face-notification-card"><b>HASIL PEMINDAIAN</b><span><small>Nama:</small><strong>{recognized.name}</strong></span><span><small>No anggota:</small><strong>{recognized.member_no}</strong></span><span><small>Sektor:</small><strong>{recognized.sector || '-'}</strong></span></div>}
         {error && <div className="alert error">{error}</div>}
-        {mode === 'enroll' && <button type="button" className="face-capture-button" disabled={working} onClick={processFace}><Camera size={17}/>Ambil dan daftarkan wajah</button>}
+        {mode === 'enroll' && <button type="button" className="face-capture-button" disabled={working || alreadyEnrolled} onClick={processFace}><Camera size={17}/>Ambil dan daftarkan wajah</button>}
         <small className="face-privacy-note">Kamera diproses di HP petugas. Yang dikirim untuk pencocokan hanya template biometrik, bukan foto wajah. Tanpa anti-spoof, sistem dapat tertipu foto atau video di depan kamera.</small>
       </div>}
     </div>
