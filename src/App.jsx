@@ -10,10 +10,8 @@ const db=supabaseUrl&&supabaseKey?createClient(supabaseUrl,supabaseKey):null;
 const menus=[['Dashboard',LayoutDashboard],['Agenda',CalendarDays],['Data Jamaah',Users],['Absensi',ClipboardCheck],['Keuangan',Wallet],['Pengumuman',Megaphone],['Dokumentasi',Images],['Laporan',ChartNoAxesCombined],['Pengaturan',Settings]];
 const money=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n||0));
 const dateID=d=>d?new Date(d+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'}):'-';
-function csvDownload(name,rows){const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('
-');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download=name;a.click();URL.revokeObjectURL(a.href)}
-function parseCSV(text){const lines=text.replace(/^\ufeff/,'').split(/\r?
-/).filter(Boolean);return lines.map(line=>{let out=[],s='',q=false;for(let i=0;i<line.length;i++){let c=line[i];if(c==='"'&&line[i+1]==='"'){s+='"';i++}else if(c==='"')q=!q;else if(c===','&&!q){out.push(s);s=''}else s+=c}out.push(s);return out})}
+function csvDownload(name,rows){const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download=name;a.click();URL.revokeObjectURL(a.href)}
+function parseCSV(text){const lines=text.replace(/^\ufeff/,'').split(/\\r?\\n/).filter(Boolean);return lines.map(line=>{let out=[],s='',q=false;for(let i=0;i<line.length;i++){let c=line[i];if(c==='"'&&line[i+1]==='"'){s+='"';i++}else if(c==='"')q=!q;else if(c===','&&!q){out.push(s);s=''}else s+=c}out.push(s);return out})}
 function App(){
  const [session,setSession]=useState(null),[page,setPage]=useState('Dashboard'),[profile,setProfile]=useState(null),[mobile,setMobile]=useState(false),[theme,setTheme]=useState('ocean');
  const [jamaahToken,setJamaahToken]=useState(()=>localStorage.getItem('sodikuna_jamaah_token')||''),[pinInput,setPinInput]=useState('');
