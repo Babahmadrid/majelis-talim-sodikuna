@@ -214,3 +214,11 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
  .scanner-panel .scan-result{top:58%;width:calc(100% - 20px);padding:11px;gap:8px}
  .scanner-hint{font-size:10px!important}
 }
+
+
+/* Attendance mode separation: face recognition remains safely unavailable until model and liveness validation are integrated */
+.attendance-mode.face-mode-disabled{position:relative;background:linear-gradient(120deg,#8795a8,#64748b)!important;box-shadow:0 8px 18px #33415522!important;cursor:not-allowed;opacity:.88}
+.attendance-mode.face-mode-disabled:disabled{opacity:.88}
+.attendance-mode .face-status{margin-left:auto;flex:none;padding:6px 8px;border-radius:99px;background:#ffffff28;color:#fff;font-size:9px;font-weight:800;letter-spacing:.5px}
+.attendance-mode>span:not(.face-status){display:grid;gap:5px;min-width:0}
+@media(max-width:520px){.attendance-mode .face-status{grid-column:2;justify-self:start;margin:2px 0 0}.attendance-mode.face-mode-disabled{grid-template-columns:30px minmax(0,1fr)}}
