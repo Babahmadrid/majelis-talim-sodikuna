@@ -1,0 +1,21 @@
+{
+  "id": "/",
+  "name": "Majelis Ta'lim Sodikuna Caringin Sukabumi",
+  "short_name": "Sodikuna",
+  "description": "Aplikasi resmi administrasi dan layanan jamaah Majelis Ta'lim Sodikuna.",
+  "lang": "id",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#e8f4ff",
+  "theme_color": "#0752b4",
+  "icons": [
+    {
+      "src": "/icons/sodikuna-app.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
