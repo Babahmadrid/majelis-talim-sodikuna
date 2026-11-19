@@ -32,19 +32,11 @@ Deno.serve(
         return Response.json({ error: 'Permintaan tidak valid.' }, { status: 400, headers: corsHeaders })
       }
 
-      // Delete both rows; never log the member ID or retain a withdrawal record.
-      const { error: templateError } = await ctx.supabaseAdmin
-        .schema('private')
-        .from('face_templates')
-        .delete()
-        .eq('jamaah_id', jamaahId)
-      if (templateError) throw templateError
-
-      const { error: consentError } = await ctx.supabaseAdmin
-        .from('face_consents')
-        .delete()
-        .eq('jamaah_id', jamaahId)
-      if (consentError) throw consentError
+      // One database function deletes both rows in a single transaction.
+      const { error: deleteError } = await ctx.supabaseAdmin.rpc('delete_face_data_for_jamaah', {
+        p_jamaah_id: jamaahId,
+      })
+      if (deleteError) throw deleteError
 
       return Response.json({ success: true, message: 'Data biometrik berhasil dihapus dari database aktif.' }, {
         status: 200,
