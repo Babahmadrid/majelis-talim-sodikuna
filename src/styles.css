@@ -1411,3 +1411,80 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .materials-toolbar .materials-font-tools>span{margin-right:auto}
  .materials-toolbar .text-align-control{width:100%;justify-content:space-between}
 }
+
+
+/* Mobile devotional controls: keep every label on its own readable row */
+.devotional-tools-unified{
+ display:flex!important;
+ flex-direction:column!important;
+ align-items:stretch!important;
+ flex-wrap:nowrap!important;
+ gap:9px!important;
+ width:100%;
+ box-sizing:border-box;
+ padding:12px!important;
+ border:1px solid #bfd9eb!important;
+ border-radius:16px!important;
+ background:linear-gradient(145deg,#f8fcff,#eaf6ff)!important;
+ box-shadow:0 5px 15px rgba(22,85,135,.07);
+}
+.devotional-tools-unified .quran-font-tools{
+ width:100%!important;
+ min-width:0;
+ display:flex!important;
+ flex-wrap:nowrap!important;
+ align-items:center!important;
+ gap:6px!important;
+}
+.devotional-tools-unified .quran-font-tools>span{
+ margin-right:auto!important;
+ white-space:nowrap;
+ font-size:12px;
+}
+.devotional-tools-unified .quran-font-tools button{
+ flex:0 0 auto;
+ min-width:35px!important;
+ min-height:32px!important;
+ padding:5px 8px!important;
+}
+.devotional-tools-unified .quran-font-tools b{min-width:36px!important;text-align:center}
+.devotional-tools-unified>.text-align-control,
+.devotional-tools-unified .text-align-control{
+ display:flex!important;
+ flex:0 0 auto!important;
+ width:100%!important;
+ min-width:0!important;
+ align-items:center!important;
+ justify-content:space-between!important;
+ gap:10px!important;
+ padding-top:8px;
+ border-top:1px solid #d9e8f3;
+ box-sizing:border-box;
+ font-size:12px;
+}
+.devotional-tools-unified .text-align-control input[type="range"]{
+ display:block;
+ flex:1 1 auto!important;
+ width:auto!important;
+ min-width:65px;
+ max-width:none!important;
+ accent-color:#087fc5;
+}
+.devotional-tools-unified .text-align-control select{
+ flex:1 1 58%!important;
+ min-width:0!important;
+ max-width:68%!important;
+}
+.devotional-tools-unified .text-align-control b{
+ flex:0 0 auto;
+ min-width:36px;
+ text-align:right;
+}
+.asma-arabic{text-decoration:none!important;text-decoration-line:none!important}
+@media(max-width:600px){
+ .devotional-tools-unified{padding:10px!important;gap:7px!important}
+ .devotional-tools-unified .quran-font-tools>span{font-size:11px}
+ .devotional-tools-unified .quran-font-tools{gap:5px!important}
+ .devotional-tools-unified .quran-font-tools button{min-width:32px!important;min-height:30px!important;padding:4px 7px!important}
+ .devotional-tools-unified .text-align-control{font-size:11px}
+}
