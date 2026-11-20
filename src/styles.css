@@ -1210,3 +1210,56 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .quran-bismillah{font-family:"Noto Naskh Arabic","Amiri",serif;text-align:center;color:#0b4d91;font-size:clamp(25px,5vw,36px);line-height:2;margin:2px 0 18px}
 .quran-full-text{font-family:"Noto Naskh Arabic","Amiri",serif;text-align:justify;text-align-last:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:2.25;color:#123f78;direction:rtl}
 .quran-source{margin-top:20px;padding-top:12px;border-top:1px solid #c8e0f3;text-align:center;color:#6b8298;font-size:12px}
+
+
+/* Sodikuna approved dashboard UI concept */
+.welcome{position:relative;border:2px solid #16b9ef;box-shadow:0 12px 28px #0876c833}
+.welcome-logo{background:transparent!important;padding:0!important;border-radius:50%;filter:drop-shadow(0 5px 9px #001d4a55)}
+.dashboard-scan-shortcuts{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:18px 0 22px}
+.dashboard-scan-card{min-height:154px;border:2px solid #62c9ff;border-radius:25px;padding:22px 24px;display:grid;grid-template-columns:112px minmax(0,1fr) 42px;align-items:center;gap:18px;text-align:left;color:#fff;position:relative;overflow:hidden;box-shadow:0 10px 0 rgba(4,52,129,.2),0 18px 28px #0752b42c,inset 0 2px 5px #ffffff55}
+.dashboard-scan-card:after{content:"";position:absolute;left:7%;right:7%;bottom:0;height:8px;background:radial-gradient(ellipse,#5deaffaa,transparent 70%);pointer-events:none}
+.qr-shortcut{background:linear-gradient(115deg,#0752c7 0%,#0878e2 58%,#0647b6 100%)}
+.face-shortcut{background:linear-gradient(115deg,#078bd8 0%,#0870d2 55%,#064db8 100%)}
+.scan-art{height:94px;display:grid;place-items:center;border-right:2px solid #ffffff85;padding-right:18px;color:#fff;filter:drop-shadow(0 5px 3px #001d5c55)}
+.scan-copy{display:grid;gap:8px;min-width:0}.scan-copy b{font-size:clamp(20px,2.2vw,30px);font-weight:850}.scan-copy small{font-size:clamp(12px,1.2vw,17px);line-height:1.45;color:#e8f6ff}
+.scan-arrow{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#ffffff28;border:1px solid #ffffff35;font-size:34px;line-height:1}
+.dashboard-stats .stat-card{min-height:185px;border-radius:25px;padding:22px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;border:1px solid #ffffff80;box-shadow:0 12px 0 rgba(2,38,105,.45),0 19px 30px #123d7430,inset 0 2px 8px #ffffff5c}
+.dashboard-stats .stat-card:before{content:"";position:absolute;width:155px;height:155px;right:-8px;top:-40px;border-radius:50%;background:#ffffff1c;pointer-events:none}
+.dashboard-stats .stat-card:nth-child(1){background:linear-gradient(145deg,#2587f5,#0752c5 72%,#06409f)}
+.dashboard-stats .stat-card:nth-child(2){background:linear-gradient(145deg,#20c4e2,#078fc8 68%,#06699e)}
+.dashboard-stats .stat-card:nth-child(3){background:linear-gradient(145deg,#9b82f6,#6550d8 68%,#4032a2)}
+.dashboard-stats .stat-card:nth-child(4){background:linear-gradient(145deg,#ff9855,#ed642f 68%,#b84220)}
+.dashboard-stats .stat-icon{width:62px;height:62px;border-radius:18px;background:#ffffff38;color:#fff;border:1px solid #ffffff8a;box-shadow:0 6px 14px #001c4933}
+.dashboard-stats .stat-icon svg{width:29px;height:29px}
+.dashboard-stats .stat-header{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
+.dashboard-stats .stat-card span{font-size:14px;font-weight:800;color:#fff}
+.dashboard-stats .stat-card b{font-size:clamp(25px,3vw,40px);color:#fff;text-shadow:0 3px 5px #00265b55;position:relative;z-index:1}
+.dashboard-stat-button{cursor:pointer;text-align:left}
+.dashboard-stat-button:hover{transform:translateY(-3px);filter:brightness(1.04)}
+.dashboard-stack .agenda-panel{background:linear-gradient(145deg,#d9efff,#c2e3ff);border-color:#a8d5f3}
+.dashboard-stack .announcements-panel{background:linear-gradient(145deg,#e0f5ff,#c8eaff);border-color:#a8d5f3}
+.dashboard-announcement .announcement-mark{background:#e9f8ff;color:#0878bd;border:1px solid #a8d9ef}
+.dashboard-announcement-body p{white-space:pre-wrap}
+.materials-hero{padding:25px;border-radius:22px;background:linear-gradient(115deg,#0752b4,#078bd5);color:#fff;box-shadow:0 12px 25px #0752b422;margin-bottom:18px}
+.materials-hero span{font-size:10px;font-weight:800;letter-spacing:1.6px;color:#bfeaff}.materials-hero h2{font-size:25px;margin:8px 0}.materials-hero p{color:#e3f5ff;margin:0;font-size:13px}
+.materials-toolbar{display:flex;gap:12px;align-items:center;margin-bottom:18px}.materials-toolbar .search{min-height:44px}
+.materials-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.material-card{background:linear-gradient(145deg,#fff,#eaf6ff);border:1px solid #c8e0f2;border-radius:19px;padding:20px;box-shadow:0 8px 0 #c4e2f3;min-width:0}
+.material-card-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(145deg,#0c9ee1,#0752b4);color:#fff;display:grid;place-items:center;box-shadow:0 5px 0 #06408e;margin-bottom:12px}
+.material-card>span{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#0784c6;font-weight:800}
+.material-card h3{font-size:18px;color:#12477e;margin:7px 0}.material-card p{font-size:13px;line-height:1.75;color:#506d89;white-space:pre-wrap;overflow-wrap:anywhere}.material-card small{color:#7a8fa5}
+.materials-preview{border:1px solid #bcd9ef;background:#eaf6ff;border-radius:14px;padding:14px}.materials-preview h3{margin:8px 0;color:#12477e}.materials-preview p{white-space:pre-wrap;line-height:1.7;color:#496987;max-height:180px;overflow:auto}
+.materials-editor textarea{white-space:pre-wrap;line-height:1.65}
+.devotional-subfolders{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0 16px}
+.devotional-subfolders button{border:1px solid #c5def2;background:#f5fbff;color:#14518a;border-radius:13px;padding:11px 14px;font-weight:750;font-size:12px}
+.devotional-subfolders button.active{background:linear-gradient(110deg,#087bd7,#0752b4);color:#fff;border-color:#087bd7;box-shadow:0 5px 0 #06408e}
+.quran-reader-settings{background:#fff;border:1px solid #cfe2f1;border-radius:16px;padding:16px;margin:12px 0}
+.quran-mode-choice{display:grid;gap:8px}.quran-mode-choice>b{font-size:14px;color:#173d69;margin-bottom:4px}
+.quran-mode-choice button{border:1px solid #e1eaf2;background:#fff;border-radius:12px;padding:13px;display:flex;justify-content:space-between;align-items:center;text-align:left;color:#294e70}
+.quran-mode-choice button span{display:grid;gap:5px}.quran-mode-choice button small{font-size:11px;color:#7c8fa2}.quran-mode-choice button i{width:19px;height:19px;border:2px solid #aab9c8;border-radius:50%}
+.quran-mode-choice button.selected{border-color:#0a8cbd;background:#f0faff}.quran-mode-choice button.selected i{border:5px solid #078fb8}
+.quran-mushaf-mode{max-width:780px;margin:0 auto;min-height:950px;display:flex;flex-direction:column;justify-content:space-between}
+.quran-custom-mode{max-width:100%;overflow:auto}
+.quran-full-text{white-space:pre-wrap;line-height:2.25;text-align:justify;text-align-last:center;overflow-wrap:anywhere}
+.devotional-content p{white-space:pre-wrap;line-height:1.8}
+@media(max-width:760px){.dashboard-scan-shortcuts{grid-template-columns:1fr;gap:13px}.dashboard-scan-card{min-height:128px;grid-template-columns:78px minmax(0,1fr) 34px;padding:16px;gap:12px;border-radius:20px}.scan-art{height:76px;padding-right:12px}.scan-art svg{width:48px;height:48px}.scan-copy b{font-size:21px}.scan-copy small{font-size:12px}.scan-arrow{width:34px;height:34px;font-size:28px}.dashboard-stats .stat-card{min-height:150px;padding:16px;border-radius:21px}.dashboard-stats .stat-icon{width:48px;height:48px}.dashboard-stats .stat-card span{font-size:12px}.dashboard-stats .stat-card b{font-size:29px}.materials-grid{grid-template-columns:1fr}.materials-toolbar{align-items:stretch;flex-direction:column}.quran-mushaf-mode{min-height:0}}
