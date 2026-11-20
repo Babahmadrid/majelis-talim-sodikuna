@@ -13,12 +13,53 @@ const money=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',ma
 const dateID=d=>d?new Date(d+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'}):'-';
 function csvDownload(name,rows){const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download=name;a.click();URL.revokeObjectURL(a.href)}
 function parseCSV(text){const lines=text.replace(/^\ufeff/,'').split(/\r?\n/).filter(Boolean);return lines.map(line=>{let out=[],s='',q=false;for(let i=0;i<line.length;i++){let c=line[i];if(c==='"'&&line[i+1]==='"'){s+='"';i++}else if(c==='"')q=!q;else if(c===','&&!q){out.push(s);s=''}else s+=c}out.push(s);return out})}
+
+function PrayerScheduleWidget(){
+ const [open,setOpen]=useState(false),[times,setTimes]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState('');
+ useEffect(()=>{
+  let alive=true;
+  async function load(){
+   setBusy(true);setError('');
+   try{
+    const now=new Date();
+    const date=[String(now.getDate()).padStart(2,'0'),String(now.getMonth()+1).padStart(2,'0'),now.getFullYear()].join('-');
+    const url='https://api.aladhan.com/v1/timingsByCity/'+date+'?city=Sukabumi&country=Indonesia&method=20';
+    const response=await fetch(url);
+    if(!response.ok)throw new Error('Jadwal sholat belum dapat dimuat.');
+    const json=await response.json();
+    if(json.code!==200||!json.data?.timings)throw new Error('Data jadwal sholat tidak tersedia.');
+    if(alive)setTimes(json.data.timings);
+   }catch(e){if(alive)setError(e.message||'Gagal memuat jadwal sholat.')}
+   finally{if(alive)setBusy(false)}
+  }
+  load();
+  return()=>{alive=false}
+ },[]);
+ const items=[['Subuh','Fajr'],['Dzuhur','Dhuhr'],['Ashar','Asr'],['Maghrib','Maghrib'],['Isya','Isha']];
+ return <>
+  <button className="prayer-header-btn" type="button" onClick={()=>setOpen(true)} title="Lihat jadwal sholat">
+   <span className="prayer-header-icon">☼</span><span>Jadwal Sholat</span>
+  </button>
+  {open&&<div className="prayer-modal-backdrop" onClick={()=>setOpen(false)}>
+   <section className="prayer-modal" role="dialog" aria-modal="true" aria-label="Jadwal sholat Sukabumi" onClick={e=>e.stopPropagation()}>
+    <div className="prayer-modal-head"><div><small>MAJELIS TA'LIM SODIKUNA</small><h3>Jadwal Sholat</h3><p>Sukabumi · Metode Kemenag RI</p></div><button type="button" onClick={()=>setOpen(false)} aria-label="Tutup">×</button></div>
+    <div className="prayer-date">{new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
+    {busy&&<p className="prayer-loading">Memuat jadwal sholat…</p>}
+    {error&&<p className="prayer-error">{error}</p>}
+    {times&&<div className="prayer-times">{items.map(([label,key])=><div className="prayer-time-row" key={key}><span>{label}</span><b>{String(times[key]||'--:--').split(' ')[0]}</b></div>)}</div>}
+    <small className="prayer-source">Perhitungan metode Kementerian Agama RI (AlAdhan). Waktu dapat berbeda dari jadwal masjid setempat.</small>
+   </section>
+  </div>}
+ </>
+}
+
 function App(){
  const [session,setSession]=useState(null),[page,setPage]=useState('Dashboard'),[profile,setProfile]=useState(null),[mobile,setMobile]=useState(false),[theme,setTheme]=useState('ocean');
  const [welcomeSlides,setWelcomeSlides]=useState([]),[slideFiles,setSlideFiles]=useState([]);
  const [jamaahToken,setJamaahToken]=useState(()=>localStorage.getItem('sodikuna_jamaah_token')||''),[pinInput,setPinInput]=useState('');
  const [jamaah,setJamaah]=useState([]),[agenda,setAgenda]=useState([]),[attendance,setAttendance]=useState([]),[finance,setFinance]=useState([]),[announcements,setAnnouncements]=useState([]);
  const [loading,setLoading]=useState(false),[saving,setSaving]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState(''),[query,setQuery]=useState(''),[sectorFilter,setSectorFilter]=useState('Semua sektor');
+ const [lastUpdated,setLastUpdated]=useState(null);
  const [showForm,setShowForm]=useState(false),[form,setForm]=useState({}),[qr,setQr]=useState(''),[editingJamaah,setEditingJamaah]=useState(null),[editingRecord,setEditingRecord]=useState(null);
  const [confirmDialog,setConfirmDialog]=useState(null);const [faceEnrollTarget,setFaceEnrollTarget]=useState(null);const confirmResolver=useRef(null);function askConfirm(title,message,confirmText='Hapus'){return new Promise(resolve=>{confirmResolver.current=resolve;setConfirmDialog({title,message,confirmText})})}function closeConfirm(result){setConfirmDialog(null);if(confirmResolver.current){confirmResolver.current(result);confirmResolver.current=null}}
  const isAdmin=profile?.role&&profile.role!=='jamaah';
@@ -35,7 +76,7 @@ function App(){
  db.from('app_settings').select('value').eq('id','dashboard_theme').maybeSingle(),
  db.from('app_settings').select('value').eq('id','dashboard_welcome_slides').maybeSingle()]);
  setProfile(p);setJamaah(j||[]);setAgenda(a||[]);setAttendance(at||[]);setFinance(f||[]);setAnnouncements(n||[]);setTheme(themeSetting?.value||'ocean');setWelcomeSlides(parseWelcomeSlides(slidesSetting?.value));
- }catch(e){setError(e.message)}finally{setLoading(false)}}
+ }catch(e){setError(e.message)}finally{setLoading(false);setLastUpdated(new Date())}}
  async function save(table,payload){if(!db||saving)return;setSaving(true);setNotice(editingRecord?'Memperbarui data...':'Menyimpan data...');try{const query=editingRecord?db.from(table).update(payload).eq('id',editingRecord.id):db.from(table).insert(payload);const {error}=await query;if(error)throw error;setShowForm(false);setForm({});setEditingRecord(null);setNotice(editingRecord?'Data berhasil diperbarui':'Data berhasil disimpan');await loadAll()}catch(e){setError(e.message);setNotice('Gagal menyimpan data')}finally{setSaving(false)}}
  async function deleteRecord(table,item,label){if(!await askConfirm('Konfirmasi penghapusan','Apakah '+label+' ini akan dihapus? Data yang dihapus tidak dapat dipulihkan.'))return;setSaving(true);setNotice('Menghapus data...');try{const {error}=await db.from(table).delete().eq('id',item.id);if(error)throw error;setNotice(label+' berhasil dihapus');await loadAll()}catch(e){setError(e.message);setNotice('Gagal menghapus '+label)}finally{setSaving(false)}}
  function editRecord(type,item){setEditingRecord(item);setForm({...item});setShowForm(type)}
@@ -163,7 +204,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
  if(!session)return <Login onSubmit={signIn} onPinSubmit={signInJamaah} pin={pinInput} setPin={setPinInput} error={error}/>;
  return <div className="app-shell" data-dashboard-theme={theme}>
   <aside className={'sidebar '+(mobile?'open':'')}><div className="brand"><img src="/logo-sodikuna.png"/><div><b>SODIKUNA</b><small>MAJELIS TA'LIM</small></div><button className="icon-btn close-mobile" onClick={()=>setMobile(false)}><X/></button></div><div className="side-label">MENU UTAMA</div>{menus.filter(m=>isAdmin||['Dashboard','Agenda','Absensi','Pengumuman'].includes(m[0])).map(([name,Icon])=><button key={name} className={'nav-item '+(page===name?'active':'')} onClick={()=>{setPage(name);setMobile(false)}}><Icon size={18}/>{name}</button>)}<div className="sidebar-bottom"><div className="profile-mini"><div className="avatar">{(profile?.full_name||session.user.email||'S').slice(0,1).toUpperCase()}</div><div><b>{profile?.full_name||'Pengguna Sodikuna'}</b><small>{profile?.role||'akun belum diatur'}</small></div></div><button className="nav-item" onClick={signOut}><LogOut size={18}/>Keluar</button></div></aside>
-  <main className="main"><header className="topbar"><button className="icon-btn mobile-menu" onClick={()=>setMobile(true)}><Menu/></button><div><span className="eyebrow">PUSAT ADMINISTRASI</span><h1>{page}</h1></div><div className="top-actions"><span className="date-pill">{new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span><button className="icon-btn" title="Muat ulang" onClick={loadAll}><RefreshCw size={18}/></button></div></header>
+  <main className="main"><header className="topbar"><button className="icon-btn mobile-menu" onClick={()=>setMobile(true)}><Menu/></button><div><span className="eyebrow">PUSAT ADMINISTRASI</span><h1>{page}</h1></div><div className="top-actions"><div className="last-updated"><small>PEMBARUAN TERAKHIR</small><b>{lastUpdated?lastUpdated.toLocaleString('id-ID',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'Belum diperbarui'}</b></div><PrayerScheduleWidget/></div></header>
   {error&&<div className="alert error">{error}<button onClick={()=>setError('')}>Tutup</button></div>}{notice&&<div className={'toast-notice '+(notice.toLowerCase().includes('gagal')?'toast-error':'')}><CheckCircle2 size={18}/><span>{notice}</span></div>}{saving&&<div className="saving-overlay"><div><span className="saving-spinner"/>Menyimpan...</div></div>}
   {loading&&<div className="loading-line">Memuat data...</div>}
   {page==='Dashboard'&&<Dashboard jamaah={jamaah} agenda={agenda} attendance={attendance} income={totalIn} expense={totalOut} announcements={announcements} welcomeSlides={welcomeSlides} setPage={setPage}/>}
