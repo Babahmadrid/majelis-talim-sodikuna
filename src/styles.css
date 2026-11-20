@@ -1201,3 +1201,12 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .asma-card .asma-arabic{font-size:28px}
  .devotional-tools{gap:7px}
 }
+
+
+/* RTL sequence and complete Surah Ar-Rahman reading view */
+.asma-grid{direction:rtl}
+.asma-card{direction:ltr;text-align:left}
+.quran-surah{display:block;padding:20px 16px}
+.quran-bismillah{font-family:"Noto Naskh Arabic","Amiri",serif;text-align:center;color:#0b4d91;font-size:clamp(25px,5vw,36px);line-height:2;margin:2px 0 18px}
+.quran-full-text{font-family:"Noto Naskh Arabic","Amiri",serif;text-align:justify;text-align-last:center;white-space:pre-wrap;overflow-wrap:anywhere;line-height:2.25;color:#123f78;direction:rtl}
+.quran-source{margin-top:20px;padding-top:12px;border-top:1px solid #c8e0f3;text-align:center;color:#6b8298;font-size:12px}
