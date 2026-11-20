@@ -1150,3 +1150,11 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .devotional-card{padding:13px;gap:9px;flex-wrap:wrap}
  .devotional-content{flex-basis:calc(100% - 48px)}
 }
+
+.app-shell .welcome img.welcome-logo{
+ width:84px!important;height:84px!important;padding:0!important;
+ border:0!important;border-radius:50%!important;background:transparent!important;
+ clip-path:circle(45% at 50% 50%)!important;
+ box-shadow:0 4px 12px rgba(0,20,65,.25)!important;object-fit:cover!important;
+}
+@media(max-width:520px){.app-shell .welcome img.welcome-logo{width:72px!important;height:72px!important}}
