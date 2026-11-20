@@ -23,7 +23,7 @@ function PrayerScheduleWidget(){
    try{
     const now=new Date();
     const date=[String(now.getDate()).padStart(2,'0'),String(now.getMonth()+1).padStart(2,'0'),now.getFullYear()].join('-');
-    const url='https://api.aladhan.com/v1/timingsByCity/'+date+'?city=Sukabumi&country=Indonesia&method=20';
+    const url='https://api.aladhan.com/v1/timings/'+date+'?latitude=-6.8738&longitude=106.8686&method=20';
     const response=await fetch(url);
     if(!response.ok)throw new Error('Jadwal sholat belum dapat dimuat.');
     const json=await response.json();
@@ -41,8 +41,8 @@ function PrayerScheduleWidget(){
    <span className="prayer-header-icon">☼</span><span>Jadwal Sholat</span>
   </button>
   {open&&<div className="prayer-modal-backdrop" onClick={()=>setOpen(false)}>
-   <section className="prayer-modal" role="dialog" aria-modal="true" aria-label="Jadwal sholat Sukabumi" onClick={e=>e.stopPropagation()}>
-    <div className="prayer-modal-head"><div><small>MAJELIS TA'LIM SODIKUNA</small><h3>Jadwal Sholat</h3><p>Sukabumi · Metode Kemenag RI</p></div><button type="button" onClick={()=>setOpen(false)} aria-label="Tutup">×</button></div>
+   <section className="prayer-modal" role="dialog" aria-modal="true" aria-label="Jadwal sholat Caringin Sukabumi" onClick={e=>e.stopPropagation()}>
+    <div className="prayer-modal-head"><div><small>MAJELIS TA'LIM SODIKUNA</small><h3>Jadwal Sholat</h3><p>Caringin, Sukabumi · Metode Kemenag RI</p></div><button type="button" onClick={()=>setOpen(false)} aria-label="Tutup">×</button></div>
     <div className="prayer-date">{new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
     {busy&&<p className="prayer-loading">Memuat jadwal sholat…</p>}
     {error&&<p className="prayer-error">{error}</p>}
