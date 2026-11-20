@@ -19,6 +19,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const [memberId, setMemberId] = useState('');
   const [alreadyEnrolled, setAlreadyEnrolled] = useState(false);
   const [withdrawingFace, setWithdrawingFace] = useState(false);
+  const [confirmRemoveOpen, setConfirmRemoveOpen] = useState(false);
   const [enrollSector, setEnrollSector] = useState('');
   const [memberPickerOpen, setMemberPickerOpen] = useState(false);
   const [sectorPickerOpen, setSectorPickerOpen] = useState(false);
@@ -55,6 +56,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         setAlreadyEnrolled(true);
         setStatus('Wajah ' + person.name + ' sudah terdaftar. Tidak perlu mendaftarkan ulang.');
         setError('Wajah jamaah ini sudah terdaftar. Pilih jamaah lain atau gunakan Scan Absensi.');
+        playAlreadyRegisteredAudio();
       } else {
         setStatus('Wajah belum terdaftar. Silakan lanjutkan pendaftaran.');
       }
@@ -69,10 +71,14 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     if (!memberId || !alreadyEnrolled || withdrawingFace) return;
     const person = active.find(item => item.id === memberId);
     const name = person?.name || 'jamaah ini';
-    const confirmed = window.confirm(
-      'Hapus data wajah terdaftar milik ' + name + '? Data biometrik dan persetujuan wajah akan dihapus. Data jamaah dan riwayat absensi tidak dihapus.'
-    );
-    if (!confirmed) return;
+    setConfirmRemoveOpen(true);
+  }
+
+  async function confirmRemoveRegisteredFace() {
+    if (!memberId || !alreadyEnrolled || withdrawingFace) return;
+    const person = active.find(item => item.id === memberId);
+    const name = person?.name || 'jamaah ini';
+    setConfirmRemoveOpen(false);
     setWithdrawingFace(true);
     setError('');
     setStatus('Menghapus data wajah ' + name + '...');
@@ -105,15 +111,27 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     }
   }
 
-  function playFaceRegisteredAudio() {
+  function playFaceEnrollmentSuccessAudio() {
     try {
       const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
-      const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/wajah-terdaftar.mp3');
+      const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/pendaftaran-wajah-berhasil.mp3');
       audio.preload = 'auto';
       audio.volume = 1;
-      audio.play().catch(err => console.warn('Audio wajah-terdaftar tidak dapat diputar:', err));
+      audio.play().catch(err => console.warn('Audio pendaftaran-wajah-berhasil tidak dapat diputar:', err));
     } catch (err) {
       console.warn('Audio wajah-terdaftar gagal dimuat:', err);
+    }
+  }
+
+  function playAlreadyRegisteredAudio() {
+    try {
+      const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
+      const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/wajah-sudah-terdaftar.mp3');
+      audio.preload = 'auto';
+      audio.volume = 1;
+      audio.play().catch(err => console.warn('Audio wajah-sudah-terdaftar tidak dapat diputar:', err));
+    } catch (err) {
+      console.warn('Audio wajah-sudah-terdaftar gagal dimuat:', err);
     }
   }
 
@@ -207,7 +225,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         if (invokeError) throw invokeError;
         setStatus('Pendaftaran wajah berhasil. Template biometrik sudah tersimpan.');
         setError('');
-        playFaceRegisteredAudio();
+        playFaceEnrollmentSuccessAudio();
         setAlreadyEnrolled(true);
         setConsentConfirmed(false);
         setConsentSaved(false);
@@ -247,7 +265,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
           duplicateFace = payload?.duplicate_face === true;
         }
       } catch {}
-      if (duplicateFace) playFaceRegisteredAudio();
+      if (duplicateFace) playAlreadyRegisteredAudio();
       setError(detail);
       setStatus('Pendaftaran belum berhasil. Periksa pesan kesalahan lalu coba kembali.');
     } finally {
@@ -340,6 +358,17 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         {recognized && mode === 'match' && <div className="face-notification-card"><b>HASIL PEMINDAIAN</b><span><small>Nama:</small><strong>{recognized.name}</strong></span><span><small>No anggota:</small><strong>{recognized.member_no}</strong></span><span><small>Sektor:</small><strong>{recognized.sector || '-'}</strong></span></div>}
         {error && <div className="alert error">{error}</div>}
         {mode === 'enroll' && <button type="button" className="face-capture-button" disabled={working || alreadyEnrolled} onClick={processFace}><Camera size={17}/>Ambil dan daftarkan wajah</button>}
+        {confirmRemoveOpen && <div className="face-confirm-backdrop" role="presentation">
+          <div className="face-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="face-confirm-title">
+            <div className="face-confirm-icon"><X size={25}/></div>
+            <h3 id="face-confirm-title">Hapus pendaftaran wajah?</h3>
+            <p>Data biometrik dan persetujuan wajah milik <b>{active.find(item => item.id === memberId)?.name || 'jamaah ini'}</b> akan dihapus. Data jamaah dan riwayat absensi tetap aman.</p>
+            <div className="face-confirm-actions">
+              <button type="button" className="face-confirm-cancel" onClick={() => setConfirmRemoveOpen(false)}>Batal</button>
+              <button type="button" className="face-confirm-delete" disabled={withdrawingFace} onClick={confirmRemoveRegisteredFace}>{withdrawingFace ? 'Menghapus...' : 'Ya, hapus wajah'}</button>
+            </div>
+          </div>
+        </div>}
         <small className="face-privacy-note">Kamera diproses di HP petugas. Yang dikirim untuk pencocokan hanya template biometrik, bukan foto wajah. Tanpa anti-spoof, sistem dapat tertipu foto atau video di depan kamera.</small>
       </div>}
     </div>
