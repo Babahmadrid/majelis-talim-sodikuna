@@ -12,10 +12,10 @@
   "theme_color": "#0752b4",
   "icons": [
     {
-      "src": "/icons/sodikuna-app.svg",
+      "src": "/logo-sodikuna.png",
       "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
