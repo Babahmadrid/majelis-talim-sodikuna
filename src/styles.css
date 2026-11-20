@@ -1271,3 +1271,27 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .modal textarea{resize:vertical;min-height:105px;line-height:1.7;white-space:pre-wrap}
 .modal input:focus,.modal select:focus,.modal textarea:focus{border-color:#159bd8;box-shadow:0 0 0 3px #159bd822}
 .devotional-form,.form-modal{border:1px solid #c9e1f4;border-radius:22px;box-shadow:0 24px 70px #082a5040}
+
+
+/* Sodikuna Arabic typography and reading alignment controls */
+@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&display=swap');
+.quran-opening-block{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:12px 8px 22px;text-align:center}
+.quran-opening-block .quran-bismillah{font-family:'Amiri Quran','Noto Naskh Arabic',serif!important;font-size:clamp(25px,5vw,36px)!important;font-weight:600!important;line-height:1.9!important;text-align:center!important;color:#111!important;margin:0!important;width:100%}
+.quran-full-text,.devotional-arabic,.asma-card .asma-arabic,[lang="ar"]{font-family:'Amiri Quran','Noto Naskh Arabic',serif!important;font-weight:600!important;color:#111!important}
+.quran-full-text{line-height:2.15!important}
+.devotional-arabic{line-height:2!important}
+.asma-card .asma-arabic{color:#111!important;font-weight:600!important}
+.text-align-control{display:inline-flex;align-items:center;gap:7px;color:#294d6d;font-size:12px;font-weight:700}
+.text-align-control select{min-width:125px;padding:7px 10px;border:1px solid #b9d5eb;border-radius:10px;background:#fff;color:#173f68;font:inherit}
+.material-card p,.materials-preview p{color:#17212b;font-weight:500;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere}
+.materials-toolbar .text-align-control{padding:8px 10px;border:1px solid #c9dff1;border-radius:12px;background:#f7fbff}
+.modern-confirm-backdrop{position:fixed;inset:0;z-index:100100;display:grid;place-items:center;padding:20px;background:rgba(7,20,38,.58);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.modern-confirm-card{width:min(390px,100%);padding:25px 22px 19px;border:1px solid #dce8f5;border-radius:25px;background:linear-gradient(155deg,#fff 0%,#f4f8ff 100%);box-shadow:0 25px 75px rgba(2,24,54,.32);animation:confirmPop .18s ease-out}
+.modern-confirm-icon{width:48px;height:48px;display:grid;place-items:center;margin-bottom:15px;border-radius:16px;background:#fff0f0;color:#c33c47}
+.modern-confirm-card h3{margin:0 0 8px;color:#153b62;font-size:19px;font-weight:800}
+.modern-confirm-card p{margin:0;color:#60758b;font-size:13px;line-height:1.6}
+.modern-confirm-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:24px}
+.modern-confirm-actions button{min-height:42px;padding:10px 17px;border:0;border-radius:13px;font:inherit;font-size:13px;font-weight:750}
+.modern-confirm-cancel{background:#eaf1f8;color:#365572}
+.modern-confirm-delete{background:linear-gradient(110deg,#e14e59,#bd2738);color:#fff;box-shadow:0 6px 16px rgba(189,39,56,.2)}
+@media(max-width:520px){.text-align-control{width:100%;justify-content:space-between}.text-align-control select{flex:1}.quran-opening-block{gap:3px;padding:10px 4px 18px}}
