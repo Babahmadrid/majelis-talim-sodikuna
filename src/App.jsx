@@ -184,7 +184,17 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   td.center,th.center{text-align:center}
   tbody tr:nth-child(even){background:#f3f8fc}
   .sector{margin:10px 0 4px;color:#0b5e9e;font-weight:700;font-size:12px}
-  .muted{color:#71879a;font-size:8px}
+  .sector-row td{background:#e8f4fc!important;color:#075b9e;font-weight:800;font-size:10px;padding:7px 8px}
+  .sector-row span{float:right;font-weight:600;color:#668096}
+  .jamaah-table,.finance-table{table-layout:fixed;width:100%}
+  .jamaah-table th,.jamaah-table td,.finance-table th,.finance-table td{overflow-wrap:anywhere;word-break:normal}
+  .finance-table .amount{text-align:right;white-space:normal;font-weight:700}
+  .finance-table tfoot td{background:#edf6fc;font-weight:700}
+  .finance-table tfoot .balance-row td{background:#dceffc;color:#064f8d;font-size:11px}
+  .finance-type{display:inline-block;padding:3px 5px;border-radius:5px;font-size:8px;font-weight:700}
+  .finance-type.income{background:#e4f6ed;color:#147747}
+  .finance-type.expense{background:#fff0ed;color:#a13d32}
+    .muted{color:#71879a;font-size:8px}
   .footer{margin-top:18px;padding-top:7px;border-top:1px solid #d8e5ee;text-align:center;color:#71879a;font-size:8px}
   @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.no-print{display:none}}
   </style></head><body><div class="head"><img src="/logo-sodikuna.png" onerror="this.style.display='none'"><h1>MAJELIS TA’LIM SODIKUNA</h1><p class="sub">${safe(title)} · ${safe(subtitle)}</p></div>${body}<div class="footer">Majelis Ta’lim Sodikuna Caringin Sukabumi · Dokumen dibuat dari data aplikasi</div><script>window.onload=()=>setTimeout(()=>window.print(),500)<\/script></body></html>`);
