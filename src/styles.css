@@ -1510,3 +1510,23 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .report-download-copy label{align-items:flex-start;flex-direction:column;gap:4px}
  .report-download-copy select{width:100%;min-width:0}
 }
+
+
+/* Compact modern agenda selector in PDF report panel */
+.agenda-picker-wrap{position:relative;margin-top:7px;max-width:100%;z-index:5}
+.picker-label{display:block;margin-bottom:5px;font-size:10px;font-weight:750;color:#54738b}
+.agenda-picker-trigger{width:100%;display:flex;align-items:center;gap:8px;padding:9px 11px;border:1px solid #b9d4e7;border-radius:12px;background:linear-gradient(145deg,#fff,#f3f9ff);color:#1b4d73;text-align:left;box-shadow:0 2px 7px rgba(10,75,120,.05)}
+.agenda-picker-trigger:disabled{opacity:.5}
+.agenda-picker-date{flex:0 0 auto;padding:4px 7px;border-radius:7px;background:#e2f2fc;color:#0864a7;font-size:10px;font-weight:800}
+.agenda-picker-title{flex:1;min-width:0;font-size:11px;font-weight:650;line-height:1.35;white-space:normal;overflow-wrap:anywhere}
+.agenda-picker-trigger>svg{flex:0 0 auto;color:#47718e}
+.agenda-picker-options{position:absolute;left:0;right:0;top:calc(100% + 5px);max-height:220px;overflow-y:auto;padding:5px;border:1px solid #c3d9e9;border-radius:13px;background:#fff;box-shadow:0 12px 30px rgba(11,55,88,.2);z-index:30}
+.agenda-picker-options>button{width:100%;display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:9px 10px;border:0;border-radius:9px;background:#fff;text-align:left;color:#234c6d}
+.agenda-picker-options>button+button{margin-top:3px;border-top:1px solid #edf2f6}
+.agenda-picker-options>button.selected{background:#eaf6ff;color:#075da1}
+.agenda-option-date{font-size:10px;font-weight:800;color:#0874b9}
+.agenda-option-title{grid-column:1;font-size:11px;line-height:1.3;font-weight:600}
+.agenda-picker-options>button>svg{grid-column:2;grid-row:1/3;align-self:center;color:#0874b9}
+.report-download-card{overflow:visible}
+.report-panel{overflow:visible}
+.report-page{overflow:visible}
