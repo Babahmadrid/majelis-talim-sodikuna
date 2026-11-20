@@ -186,6 +186,22 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   .sector{margin:10px 0 4px;color:#0b5e9e;font-weight:700;font-size:12px}
   .sector-row td{background:#e8f4fc!important;color:#075b9e;font-weight:800;font-size:10px;padding:7px 8px}
   .sector-row span{float:right;font-weight:600;color:#668096}
+  .sector-block{width:100%;margin:0 0 13px;break-inside:auto}
+  .sector-block .sector{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 0;padding:7px 9px;border:1px solid #a9cbe1;border-bottom:0;border-radius:6px 6px 0 0;background:#eaf5fc;color:#075b9e;font-size:10px;font-weight:800;letter-spacing:.25px}
+  .sector-block .sector span{font-size:8px;color:#54738b;font-weight:700;white-space:nowrap}
+  .sector-block table{margin:0 0 9px;width:100%;table-layout:fixed;border-collapse:collapse}
+  .sector-block thead{display:table-header-group}
+  .sector-block th{font-size:8px;line-height:1.2;padding:6px 3px;text-align:center;overflow-wrap:anywhere}
+  .sector-block td{font-size:8.5px;line-height:1.25;padding:5px 4px;overflow-wrap:anywhere}
+  .sector-block td.no{white-space:nowrap}
+  .sector-block td.name{text-align:left}
+  .sector-block .total-cell{background:#eaf5fc;font-weight:800;color:#07569a}
+  .annual-table th,.annual-table td{font-size:6.7px;padding:4px 2px;overflow-wrap:anywhere}
+  .annual-table td.month-cell{font-size:6.2px;line-height:1.15}
+  .annual-table th:last-child{background:#064b86}
+  .annual-table tr{break-inside:avoid}
+  .jamaah-table th,.jamaah-table td,.attendance-date-table th,.attendance-date-table td{overflow-wrap:anywhere;word-break:normal}
+  .jamaah-table td.name,.attendance-date-table td.name{padding-left:7px}
   .jamaah-table,.finance-table{table-layout:fixed;width:100%}
   .jamaah-table th,.jamaah-table td,.finance-table th,.finance-table td{overflow-wrap:anywhere;word-break:normal}
   .finance-table .amount{text-align:right;white-space:normal;font-weight:700}
