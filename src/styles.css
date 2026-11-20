@@ -734,3 +734,149 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
  .app-shell .prayer-header-btn{min-height:38px!important;padding:0 8px!important;gap:4px!important;border-radius:10px!important;font-size:9px!important}
  .app-shell .prayer-header-icon{font-size:16px!important}
 }
+
+
+/* SODIKUNA UI MASTER THEME — Prototype 01
+   Visual-only layer: preserves existing routes, forms, Supabase data and actions. */
+:root{
+ --sodi-blue:#0752c9;
+ --sodi-deep:#06358f;
+ --sodi-cyan:#08a9ec;
+ --sodi-sky:#dff3ff;
+ --sodi-yellow:#ffd51f;
+ --sodi-ink:#0b3477;
+}
+body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!important;color:var(--sodi-ink)!important}
+.app-shell{background:transparent!important}
+.app-shell .main{color:var(--sodi-ink)}
+.app-shell .sidebar{
+ background:linear-gradient(180deg,#06358f 0%,#0752c9 62%,#087fc9 100%)!important;
+ border-right:1px solid #45c5ff!important;
+ box-shadow:8px 0 28px #06358f20!important;
+}
+.app-shell .brand b,.app-shell .brand small,.app-shell .side-label,
+.app-shell .profile-mini b,.app-shell .profile-mini small{color:#fff!important}
+.app-shell .brand{border-bottom:1px solid #ffffff28}
+.app-shell .nav-item{color:#e5f5ff!important;border:1px solid transparent!important}
+.app-shell .nav-item:hover,.app-shell .nav-item.active{
+ background:linear-gradient(110deg,#ffffff 0%,#d9f4ff 100%)!important;
+ color:#0646a8!important;border-color:#7bdcff!important;
+ box-shadow:0 5px 14px #001d6330!important;
+}
+.app-shell .nav-item.active svg{color:#0752c9!important}
+.app-shell .profile-mini{border-top-color:#ffffff35!important}
+.app-shell .avatar{background:#fff!important;color:#0752c9!important}
+.app-shell .topbar{
+ position:relative;isolation:isolate;overflow:hidden;
+ background:linear-gradient(112deg,#06358f 0%,#0752c9 52%,#08a9e8 100%)!important;
+ border:0!important;border-radius:0 0 24px 24px!important;
+ box-shadow:0 10px 25px #0752c926!important;
+ padding-left:22px;padding-right:22px;
+}
+.app-shell .topbar:after{
+ content:"";position:absolute;z-index:-1;left:-4%;right:-4%;bottom:-30px;height:58px;
+ border-top:4px solid #17c6ff;border-radius:50% 50% 0 0/70% 70% 0 0;
+ box-shadow:0 -5px 0 #ffffff16;
+}
+.app-shell .topbar .eyebrow{color:#d8f4ff!important}
+.app-shell .topbar h1{color:#fff!important;font-weight:850!important;letter-spacing:-.5px}
+.app-shell .mobile-menu,.app-shell .top-actions .icon-btn{
+ background:#ffffff20!important;border:1px solid #ffffff65!important;
+ color:#fff!important;box-shadow:inset 0 1px 0 #ffffff25,0 5px 14px #002b7430!important;
+}
+.app-shell .mobile-menu svg,.app-shell .top-actions .icon-btn svg{stroke:#fff!important}
+.app-shell .last-updated small{color:#d9f5ff!important}
+.app-shell .last-updated b{color:#fff!important}
+.app-shell .prayer-header-btn{
+ background:linear-gradient(145deg,#fff 0%,#dff6ff 100%)!important;
+ border:2px solid #61d6ff!important;color:#0645a4!important;
+ box-shadow:0 5px 16px #001d6330!important;
+}
+.app-shell .welcome{
+ position:relative;border:2px solid #36baff!important;border-radius:22px!important;
+ background:linear-gradient(115deg,#06358f 0%,#0752c9 55%,#08a9e8 100%)!important;
+ box-shadow:0 12px 26px #0752c92b!important;
+}
+.app-shell .welcome:after{
+ content:"";position:absolute;left:0;right:0;bottom:0;height:9px;
+ background:linear-gradient(90deg,#08b8f5,#fff 45%,#ffd51f 78%,#08a9e8);
+ opacity:.95;
+}
+.app-shell .welcome span{color:#aeeaff!important}
+.app-shell .welcome h2,.app-shell .welcome p{color:#fff!important}
+.app-shell .welcome img{border:4px solid #fff!important;box-shadow:0 5px 18px #001b5838!important}
+.app-shell .stat-card,.app-shell .panel,.app-shell .table-wrap,
+.app-shell .list-card,.app-shell .announcement,.app-shell .scanner-panel{
+ border:1px solid #b8ddf8!important;border-radius:19px!important;
+ background:linear-gradient(145deg,#fff 0%,#eaf7ff 100%)!important;
+ box-shadow:0 8px 20px #0752c914!important;
+}
+.app-shell .stat-card{position:relative;overflow:hidden;padding:19px!important}
+.app-shell .stat-card:before{
+ content:"";position:absolute;top:0;left:0;right:0;height:5px;
+ background:linear-gradient(90deg,#0752c9,#08b7f1,#ffd51f);
+}
+.app-shell .stat-icon{
+ width:42px!important;height:42px!important;border-radius:13px!important;
+ background:linear-gradient(145deg,#08a9ec,#0752c9)!important;color:#fff!important;
+ box-shadow:0 5px 12px #0752c933!important;
+}
+.app-shell .stat-card span{color:#426487!important;font-weight:700}
+.app-shell .stat-card b{color:#073c91!important;font-size:22px!important}
+.app-shell .panel h3,.app-shell .section-head h2{color:#073c91!important}
+.app-shell .panel-head{border-bottom:1px solid #b9def8;padding-bottom:12px}
+.app-shell .panel-head button{color:#0752c9!important}
+.app-shell .primary,.app-shell button.primary{
+ background:linear-gradient(110deg,#087fe5 0%,#0752c9 100%)!important;
+ color:#fff!important;border:1px solid #3dbdff!important;border-radius:13px!important;
+ box-shadow:0 6px 14px #0752c933!important;
+}
+.app-shell .secondary,.app-shell .small-btn{
+ background:linear-gradient(145deg,#f7fcff,#dcedff)!important;
+ color:#0752b4!important;border:1px solid #b9ddf8!important;border-radius:11px!important;
+}
+.app-shell .danger-btn{background:linear-gradient(145deg,#fff5f4,#ffe5e2)!important;color:#b42335!important;border-color:#f3c0bc!important}
+.app-shell .search,.app-shell .toolbar select,.app-shell input,.app-shell select,.app-shell textarea{
+ border-color:#b9d9f3!important;border-radius:12px!important;
+}
+.app-shell .search:focus-within{border-color:#08a9ec!important;box-shadow:0 0 0 3px #08a9ec22!important}
+.app-shell th{background:linear-gradient(90deg,#d9efff,#c5e6ff)!important;color:#06449e!important}
+.app-shell td{border-bottom-color:#dcecf8!important}
+.app-shell .attendance-mode{
+ min-height:125px;border:2px solid #7bcfff!important;border-radius:19px!important;
+ background:linear-gradient(135deg,#087fe5 0%,#0752c9 100%)!important;
+ color:#fff!important;box-shadow:0 8px 18px #0752c92b!important;
+}
+.app-shell .attendance-mode svg{color:#fff!important;filter:drop-shadow(0 3px 3px #002b7044)}
+.app-shell .attendance-mode b,.app-shell .attendance-mode small{color:#fff!important}
+.app-shell .attendance-mode.chosen{background:linear-gradient(120deg,#06358f,#08a9e8)!important;border-color:#ffd51f!important}
+.app-shell .face-mode-ready{background:linear-gradient(120deg,#08a9ec,#0752c9)!important}
+.app-shell .face-mode-tabs button.active{background:linear-gradient(110deg,#087fe5,#0752c9)!important;border-color:#08a9ec!important}
+.app-shell .date-tile,.app-shell .mini-date{background:linear-gradient(145deg,#fff,#dff3ff)!important;border:2px solid #77caff!important;color:#0752b4!important;border-radius:14px!important}
+.app-shell .toast-notice{border-radius:14px!important;box-shadow:0 8px 20px #062f6722!important}
+.app-shell .modal,.app-shell .face-confirm-dialog{border:1px solid #7bcfff!important;box-shadow:0 24px 60px #06358f44!important}
+@media(max-width:760px){
+ .app-shell .main{padding:0 14px 28px!important}
+ .app-shell .topbar{
+  margin:0 -14px 19px!important;padding:15px 14px 17px!important;
+  min-height:88px!important;height:auto!important;border-radius:0 0 21px 21px!important;
+  gap:10px!important;
+ }
+ .app-shell .topbar h1{font-size:22px!important}
+ .app-shell .topbar .eyebrow{font-size:8px!important;letter-spacing:1px!important}
+ .app-shell .mobile-menu{width:43px!important;height:43px!important;flex:0 0 43px!important;border-radius:12px!important}
+ .app-shell .mobile-menu svg{width:23px!important;height:23px!important}
+ .app-shell .welcome{min-height:170px!important;padding:20px 18px!important;border-radius:18px!important}
+ .app-shell .welcome h2{font-size:20px!important}
+ .app-shell .welcome p{font-size:11px!important}
+ .app-shell .welcome img{width:76px!important;height:76px!important}
+ .app-shell .stats-grid{gap:10px!important}
+ .app-shell .stat-card{padding:14px!important;border-radius:16px!important}
+ .app-shell .dashboard-grid{gap:12px!important}
+ .app-shell .panel{padding:15px!important}
+ .app-shell .attendance-mode{min-height:105px!important;padding:15px!important}
+}
+@media(min-width:761px) and (max-width:1180px){
+ .app-shell .topbar{min-height:116px!important;height:116px!important}
+ .app-shell .mobile-menu{width:58px!important;height:58px!important;flex:0 0 58px!important}
+}
