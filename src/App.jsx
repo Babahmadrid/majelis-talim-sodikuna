@@ -200,9 +200,25 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   openReportPDF('Rekap Absensi Satu Tahun',`Tahun ${year}`,summary+body,`rekap-absensi-sodikuna-${year}.pdf`,true);
  }
  function printJamaahPDF(){
-  let body='';let total=0;for(const sector of sectors){const members=jamaah.filter(j=>j.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));if(!members.length)continue;total+=members.length;body+=`<div class="sector">SEKTOR: ${sector} · ${members.length} jamaah</div><table><thead><tr><th class="center">NO. ANGGOTA</th><th>NAMA JAMAAH</th><th>STATUS</th></tr></thead><tbody>${members.map(m=>`<tr><td class="center">${m.member_no}</td><td>${m.name}</td><td>${m.status||'—'}</td></tr>`).join('')}</tbody></table>`;}
-  const summary=`<div class="summary"><div><b>${sectors.filter(x=>jamaah.some(m=>m.sector===x)).length}</b><span>SEKTOR AKTIF</span></div><div><b>${total}</b><span>TOTAL JAMAAH</span></div></div>`;
-  openReportPDF('Data Jamaah Per Sektor',`${total} jamaah terdaftar`,summary+body,'data-jamaah-sodikuna.pdf',false);
+  const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  let rows='',total=0,activeSectors=0;
+  for(const sector of sectors){const members=jamaah.filter(j=>j.sector===sector).sort((x,y)=>Number(x.member_no)-Number(y.member_no));if(!members.length)continue;activeSectors++;total+=members.length;rows+=`<tr class="sector-row"><td colspan="3">SEKTOR: ${esc(sector)} <span>${members.length} jamaah</span></td></tr>`+members.map(m=>`<tr><td class="center no">${esc(m.member_no)}</td><td class="name">${esc(m.name)}</td><td class="center">${esc(m.status||'—')}</td></tr>`).join('');}
+  const summary=`<div class="summary"><div><b>${activeSectors}</b><span>SEKTOR AKTIF</span></div><div><b>${total}</b><span>TOTAL JAMAAH</span></div></div>`;
+  const table=`<table class="jamaah-table"><colgroup><col style="width:18%"><col style="width:57%"><col style="width:25%"></colgroup><thead><tr><th class="center">NO. ANGGOTA</th><th>NAMA JAMAAH</th><th class="center">STATUS</th></tr></thead><tbody>${rows}</tbody></table>`;
+  openReportPDF('Data Jamaah Per Sektor',`${total} jamaah terdaftar`,summary+table,'data-jamaah-sodikuna.pdf',false);
+ }
+ function printFinancePDF(){
+  const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmt=v=>'Rp '+Number(v||0).toLocaleString('id-ID');
+  const totalIn=finance.filter(x=>x.type==='masuk').reduce((n,x)=>n+Number(x.amount||0),0);
+  const totalOut=finance.filter(x=>x.type==='keluar').reduce((n,x)=>n+Number(x.amount||0),0);
+  const sorted=[...finance].sort((a,b)=>String(b.transaction_date||'').localeCompare(String(a.transaction_date||'')));
+  const dates=sorted.map(x=>x.transaction_date).filter(Boolean).sort();
+  const period=dates.length?`${new Date(dates[0]+'T00:00:00').toLocaleDateString('id-ID')} – ${new Date(dates[dates.length-1]+'T00:00:00').toLocaleDateString('id-ID')}`:'Belum ada transaksi';
+  const summary=`<div class="summary"><div><b>${fmt(totalIn)}</b><span>TOTAL PEMASUKAN</span></div><div><b>${fmt(totalOut)}</b><span>TOTAL PENGELUARAN</span></div><div><b>${fmt(totalIn-totalOut)}</b><span>SALDO AKHIR</span></div></div>`;
+  const rows=sorted.map((x,i)=>`<tr><td class="center">${i+1}</td><td>${x.transaction_date?new Date(x.transaction_date+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'}):'—'}</td><td class="center"><span class="finance-type ${x.type==='masuk'?'income':'expense'}">${x.type==='masuk'?'Pemasukan':'Pengeluaran'}</span></td><td>${esc(x.description)}</td><td class="amount">${fmt(x.amount)}</td></tr>`).join('');
+  const table=`<table class="finance-table"><colgroup><col style="width:7%"><col style="width:17%"><col style="width:17%"><col style="width:39%"><col style="width:20%"></colgroup><thead><tr><th class="center">NO</th><th>TANGGAL</th><th class="center">JENIS</th><th>KETERANGAN</th><th class="amount">JUMLAH</th></tr></thead><tbody>${rows||'<tr><td colspan="5" class="center">Belum ada transaksi keuangan</td></tr>'}</tbody><tfoot><tr><td colspan="4" class="amount">TOTAL PEMASUKAN</td><td class="amount">${fmt(totalIn)}</td></tr><tr><td colspan="4" class="amount">TOTAL PENGELUARAN</td><td class="amount">${fmt(totalOut)}</td></tr><tr class="balance-row"><td colspan="4" class="amount">SALDO AKHIR</td><td class="amount">${fmt(totalIn-totalOut)}</td></tr></tfoot></table>`;
+  openReportPDF('Laporan Keuangan Majelis',period,summary+table,'laporan-keuangan-sodikuna.pdf',false);
  }
  function printAttendanceDate(agendaId){
   const event=agenda.find(a=>a.id===agendaId);if(!event){setError('Pilih tanggal pengajian terlebih dahulu.');return}
