@@ -114,7 +114,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   function playFaceEnrollmentSuccessAudio() {
     try {
       const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
-      const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/pendaftaran-wajah-berhasil.mp3');
+      const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/wajah-terdaftar.mp3');
       audio.preload = 'auto';
       audio.volume = 1;
       audio.play().catch(err => console.warn('Audio pendaftaran-wajah-berhasil tidak dapat diputar:', err));
