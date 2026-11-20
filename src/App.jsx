@@ -201,21 +201,57 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   win.document.close();
  }
  function printAnnualAttendance(year=new Date().getFullYear()){
-  const ordered=sectors;const months=['JANUARI','FEBRUARI','MARET','APRIL','MEI','JUNI','JULI','AGUSTUS','SEPTEMBER','OKTOBER','NOVEMBER','DESEMBER'];const agendaById=new Map(agenda.map(a=>[a.id,a]));let body='';let totalRows=0;const totalBySector=[];
-  for(const sector of ordered){const members=jamaah.filter(j=>j.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));if(!members.length)continue;totalRows+=members.length;totalBySector.push([sector,members.length]);let rows='';
-   for(const person of members){const values=Array.from({length:12},()=>[]);attendance.filter(x=>x.jamaah_id===person.id).forEach(record=>{const event=agendaById.get(record.agenda_id);const raw=event?.event_date||record.created_at;if(!raw)return;const d=new Date(raw.length===10?raw+'T00:00:00':raw);if(d.getFullYear()!==Number(year))return;const st=String(record.status||'').toLowerCase();const label=st==='hadir'?'HADIR':st==='izin'?'IZIN':st==='sakit'?'SAKIT':st==='alpa'?'ALPA':st.toUpperCase();if(label&&!values[d.getMonth()].includes(label))values[d.getMonth()].push(label)});rows+=`<tr><td class="center">${person.member_no}</td><td>${person.name}</td>${values.map(v=>`<td class="center">${v.join(' / ')||'—'}</td>`).join('')}</tr>`;}
-   body+=`<div class="sector">SEKTOR: ${sector} · ${members.length} jamaah</div><table><thead><tr><th class="center">NO ABSEN</th><th>NAMA JAMAAH</th>${months.map(m=>`<th class="center">${m.slice(0,3)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;
+  const months=['JANUARI','FEBRUARI','MARET','APRIL','MEI','JUNI','JULI','AGUSTUS','SEPTEMBER','OKTOBER','NOVEMBER','DESEMBER'];
+  const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const agendaById=new Map(agenda.map(a=>[a.id,a]));let body='';let totalRows=0;
+  for(const sector of sectors){
+   const members=jamaah.filter(j=>j.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));
+   if(!members.length)continue;totalRows+=members.length;let rows='';
+   for(const person of members){
+    const values=Array.from({length:12},()=>[]);let totalHadir=0;
+    attendance.filter(x=>x.jamaah_id===person.id).forEach(record=>{
+     const event=agendaById.get(record.agenda_id);const raw=event?.event_date||record.created_at;if(!raw)return;
+     const d=new Date(raw.length===10?raw+'T00:00:00':raw);if(d.getFullYear()!==Number(year))return;
+     const st=String(record.status||'').toLowerCase();
+     const label=st==='hadir'?'HADIR':st==='izin'?'IZIN':st==='sakit'?'SAKIT':st==='alpa'?'ALPA':st.toUpperCase();
+     if(st==='hadir')totalHadir++;
+     if(label&&!values[d.getMonth()].includes(label))values[d.getMonth()].push(label);
+    });
+    rows+=`<tr><td class="center no">${esc(person.member_no)}</td><td class="name">${esc(person.name)}</td>${values.map(v=>`<td class="center month-cell">${v.join(' / ')||'—'}</td>`).join('')}<td class="center total-cell">${totalHadir}</td></tr>`;
+   }
+   body+=`<section class="sector-block"><div class="sector">SEKTOR: ${esc(sector)} <span>${members.length} jamaah</span></div><table class="annual-table"><colgroup><col style="width:6%"><col style="width:17%">${months.map(()=>'<col style="width:5.8%">').join('')}<col style="width:7.4%"></colgroup><thead><tr><th class="center">NO</th><th>NAMA JAMAAH</th>${months.map(m=>`<th class="center">${m.slice(0,3)}</th>`).join('')}<th class="center">TOTAL HADIR</th></tr></thead><tbody>${rows}</tbody></table></section>`;
   }
-  const summary=`<div class="summary"><div><b>${ordered.length}</b><span>SEKTOR</span></div><div><b>${totalRows}</b><span>JUMLAH JAMAAH</span></div><div><b>${year}</b><span>TAHUN REKAP</span></div></div>`;
+  const summary=`<div class="summary"><div><b>${sectors.filter(x=>jamaah.some(m=>m.sector===x)).length}</b><span>SEKTOR AKTIF</span></div><div><b>${totalRows}</b><span>JUMLAH JAMAAH</span></div><div><b>${year}</b><span>TAHUN REKAP</span></div></div>`;
   openReportPDF('Rekap Absensi Satu Tahun',`Tahun ${year}`,summary+body,`rekap-absensi-sodikuna-${year}.pdf`,true);
  }
  function printJamaahPDF(){
   const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  let rows='',total=0,activeSectors=0;
-  for(const sector of sectors){const members=jamaah.filter(j=>j.sector===sector).sort((x,y)=>Number(x.member_no)-Number(y.member_no));if(!members.length)continue;activeSectors++;total+=members.length;rows+=`<tr class="sector-row"><td colspan="3">SEKTOR: ${esc(sector)} <span>${members.length} jamaah</span></td></tr>`+members.map(m=>`<tr><td class="center no">${esc(m.member_no)}</td><td class="name">${esc(m.name)}</td><td class="center">${esc(m.status||'—')}</td></tr>`).join('');}
+  let body='',total=0,activeSectors=0;
+  for(const sector of sectors){
+   const members=jamaah.filter(j=>j.sector===sector).sort((x,y)=>Number(x.member_no)-Number(y.member_no));
+   if(!members.length)continue;activeSectors++;total+=members.length;
+   const rows=members.map(m=>`<tr><td class="center no">${esc(m.member_no)}</td><td class="name">${esc(m.name)}</td><td class="center">${esc(m.status||'—')}</td></tr>`).join('');
+   body+=`<section class="sector-block"><div class="sector">SEKTOR: ${esc(sector)} <span>${members.length} jamaah</span></div><table class="jamaah-table"><colgroup><col style="width:18%"><col style="width:57%"><col style="width:25%"></colgroup><thead><tr><th class="center">NO. ANGGOTA</th><th>NAMA JAMAAH</th><th class="center">STATUS</th></tr></thead><tbody>${rows}</tbody></table></section>`;
+  }
   const summary=`<div class="summary"><div><b>${activeSectors}</b><span>SEKTOR AKTIF</span></div><div><b>${total}</b><span>TOTAL JAMAAH</span></div></div>`;
-  const table=`<table class="jamaah-table"><colgroup><col style="width:18%"><col style="width:57%"><col style="width:25%"></colgroup><thead><tr><th class="center">NO. ANGGOTA</th><th>NAMA JAMAAH</th><th class="center">STATUS</th></tr></thead><tbody>${rows}</tbody></table>`;
-  openReportPDF('Data Jamaah Per Sektor',`${total} jamaah terdaftar`,summary+table,'data-jamaah-sodikuna.pdf',false);
+  openReportPDF('Data Jamaah Per Sektor',`${total} jamaah terdaftar`,summary+body,'data-jamaah-sodikuna.pdf',false);
+ }
+ function printAttendanceDate(agendaId){
+  const event=agenda.find(a=>a.id===agendaId);if(!event){setError('Pilih tanggal pengajian terlebih dahulu.');return}
+  const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const records=attendance.filter(x=>x.agenda_id===agendaId);let body='';let total=0;const counts={hadir:0,izin:0,sakit:0,alpa:0,belum:0};
+  for(const sector of sectors){
+   const members=jamaah.filter(j=>j.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));if(!members.length)continue;
+   const rows=members.map(m=>{
+    const rec=records.find(x=>x.jamaah_id===m.id);const status=String(rec?.status||'belum').toLowerCase();
+    counts[status]=(counts[status]||0)+1;total++;
+    return `<tr><td class="center no">${esc(m.member_no)}</td><td class="name">${esc(m.name)}</td><td class="center status-cell">${esc(status==='alpa'?'Tanpa keterangan':status==='belum'?'Belum dicatat':status.charAt(0).toUpperCase()+status.slice(1))}</td></tr>`;
+   }).join('');
+   body+=`<section class="sector-block"><div class="sector">SEKTOR: ${esc(sector)} <span>${members.length} jamaah</span></div><table class="attendance-date-table"><colgroup><col style="width:18%"><col style="width:52%"><col style="width:30%"></colgroup><thead><tr><th class="center">NO. ANGGOTA</th><th>NAMA JAMAAH</th><th class="center">STATUS KEHADIRAN</th></tr></thead><tbody>${rows}</tbody></table></section>`;
+  }
+  const date=event.event_date?new Date(event.event_date+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'}):'-';
+  const summary=`<div class="summary"><div><b>${counts.hadir}</b><span>HADIR</span></div><div><b>${counts.izin}</b><span>IZIN</span></div><div><b>${counts.sakit}</b><span>SAKIT</span></div><div><b>${counts.alpa}</b><span>ALPA</span></div><div><b>${counts.belum}</b><span>BELUM DICATAT</span></div></div>`;
+  openReportPDF('Rekap Absensi Pertanggal Pengajian',`${event.title||'Pengajian'} · ${date}`,summary+body,`rekap-absensi-${event.event_date||'pengajian'}.pdf`,false);
  }
  function printFinancePDF(){
   const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
