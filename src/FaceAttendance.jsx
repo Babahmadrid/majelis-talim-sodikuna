@@ -13,9 +13,9 @@ function normalize(vector) {
   return values.map(value => value / norm);
 }
 
-export default function FaceAttendance({ db, selected, jamaah, markPresent, isAdmin }) {
-  const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState('match');
+export default function FaceAttendance({ db, selected, jamaah, markPresent, isAdmin, initialMemberId = '', initialMode = 'match', onClose, hideTrigger = false }) {
+  const [open, setOpen] = useState(Boolean(initialMemberId));
+  const [mode, setMode] = useState(initialMode);
   const [memberId, setMemberId] = useState('');
   const [alreadyEnrolled, setAlreadyEnrolled] = useState(false);
   const [withdrawingFace, setWithdrawingFace] = useState(false);
@@ -37,6 +37,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const humanRef = useRef(null);
   const busyRef = useRef(false);
   const lastRunRef = useRef(0);
+  const lastUnknownAudioRef = useRef(0);
   const active = jamaah.filter(person => person.status === 'aktif');
   const activeSectors = [...new Set(active.map(person => person.sector).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'id'));
   const sectorMembers = active.filter(person => person.sector === enrollSector).sort((a,b)=>a.name.localeCompare(b.name,'id'));
@@ -123,6 +124,18 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     }
   }
 
+  function playUnknownFaceAudio() {
+    try {
+      const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\\/$/, '');
+      const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/qr-tidak-terdaftar.mp3');
+      audio.preload = 'auto';
+      audio.volume = 1;
+      audio.play().catch(err => console.warn('Audio wajah tidak terdaftar tidak dapat diputar:', err));
+    } catch (err) {
+      console.warn('Audio wajah tidak terdaftar gagal dimuat:', err);
+    }
+  }
+
   function playAlreadyRegisteredAudio() {
     try {
       const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
@@ -134,6 +147,15 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
       console.warn('Audio wajah-sudah-terdaftar gagal dimuat:', err);
     }
   }
+
+  useEffect(() => {
+    if (!initialMemberId) return;
+    const person = active.find(item => item.id === initialMemberId);
+    if (person) {
+      setEnrollSector(person.sector || '');
+      chooseMember(person);
+    }
+  }, [initialMemberId]);
 
   async function loadModel() {
     if (humanRef.current) return humanRef.current;
@@ -170,7 +192,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
       if (!open) return;
       try {
         setError('');
-        if (!selected) throw new Error('Pilih agenda kegiatan terlebih dahulu.');
+        if (mode === 'match' && !selected) throw new Error('Pilih agenda kegiatan terlebih dahulu.');
         if (!navigator.mediaDevices?.getUserMedia) throw new Error('Kamera membutuhkan HTTPS dan izin kamera dari Chrome.');
         const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
         if (cancelled) { stream.getTracks().forEach(track => track.stop()); return; }
@@ -238,7 +260,11 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         });
         if (invokeError) throw invokeError;
         if (!data?.matched || !data?.jamaah_id) {
-          setStatus('Wajah belum cocok dengan data jamaah yang terdaftar.');
+          setStatus('Wajah belum terdaftar pada data jamaah.');
+          if (Date.now() - lastUnknownAudioRef.current > 6000) {
+            lastUnknownAudioRef.current = Date.now();
+            playUnknownFaceAudio();
+          }
         } else {
           const person = active.find(item => item.id === data.jamaah_id);
           if (!person) throw new Error('Wajah cocok, tetapi jamaah tidak aktif atau tidak ditemukan.');
@@ -293,19 +319,19 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   if (!isAdmin) return null;
   return (
     <div className="face-attendance">
-      <button type="button" className="attendance-mode face-mode-ready" disabled={!selected} onClick={() => { setMode('match'); setOpen(true); setError(''); setRecognized(null); }}>
+      {!hideTrigger && <button type="button" className="attendance-mode face-mode-ready" disabled={!selected} onClick={() => { setMode('match'); setOpen(true); setError(''); setRecognized(null); }}>
         <ScanFace size={25} />
         <span><b>Scan Wajah</b><small>Pengenalan otomatis melalui kamera HP petugas</small></span>
-      </button>
+      </button>}
       {open && <div className="face-scanner-panel face-fullpage">
         <div className="face-scanner-head">
           <div><b>Absensi dengan pengenalan wajah</b><small>Mode otomatis · tanpa anti-spoof</small></div>
-          <button type="button" onClick={() => setOpen(false)} aria-label="Tutup"><X size={19}/></button>
+          <button type="button" onClick={() => { setOpen(false); onClose?.(); }} aria-label="Tutup"><X size={19}/></button>
         </div>
-        <div className="face-mode-tabs">
+        {!initialMemberId && <div className="face-mode-tabs">
           <button type="button" className={mode === 'match' ? 'active' : ''} onClick={() => { setMode('match'); setError(''); setConsentSaved(false); }}>Scan Absensi</button>
           <button type="button" className={mode === 'enroll' ? 'active' : ''} onClick={() => { setMode('enroll'); setError(''); setConsentSaved(false); }}>Daftarkan Wajah</button>
-        </div>
+        </div>}
         {mode === 'enroll' && !consentSaved && <div className="face-enroll-form">
           <label>Folder sektor</label>
           <button type="button" className="face-sector-picker-trigger" onClick={() => setSectorPickerOpen(value => !value)}>
