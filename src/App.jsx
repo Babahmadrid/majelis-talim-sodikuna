@@ -1,4 +1,5 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {createPortal} from 'react-dom';
 import FaceAttendance from './FaceAttendance.jsx';
 import {createClient} from '@supabase/supabase-js';
 import QRCode from 'qrcode';
@@ -40,13 +41,13 @@ function PrayerScheduleWidget(){
   <button className="prayer-header-btn" type="button" onClick={()=>setOpen(true)} title="Lihat jadwal sholat">
    <span className="prayer-header-icon">☼</span><span>Jadwal Sholat</span>
   </button>
-  {open&&<div className="prayer-modal-backdrop" onClick={()=>setOpen(false)}>
+  {open&&createPortal(<div className="prayer-modal-backdrop" onClick={()=>setOpen(false)}>
    <section className="prayer-modal" role="dialog" aria-modal="true" aria-label="Jadwal sholat Caringin Sukabumi" onClick={e=>e.stopPropagation()}>
     <div className="prayer-modal-head"><div><small>MAJELIS TA'LIM SODIKUNA</small><h3>Jadwal Sholat</h3><p>Caringin, Sukabumi · Metode Kemenag RI</p></div><button type="button" onClick={()=>setOpen(false)} aria-label="Tutup">×</button></div>
     <div className="prayer-date">{new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
     {busy&&<p className="prayer-loading">Memuat jadwal sholat…</p>}
     {error&&<p className="prayer-error">{error}</p>}
-    {times&&<div className="prayer-times">{items.map(([label,key])=><div className="prayer-time-row" key={key}><span>{label}</span><b>{String(times[key]||'--:--').split(' ')[0]}</b></div>)}</div>}
+    {times&&<div className="prayer-times">{items.map(([label,key])=><div className="prayer-time-row" key={key}><span>{label}</span><b>{String(times[key]||'--:--').split(' ')[0]}</b></div>)}</div>,document.body)}
     <small className="prayer-source">Perhitungan metode Kementerian Agama RI (AlAdhan). Waktu dapat berbeda dari jadwal masjid setempat.</small>
    </section>
   </div>}
