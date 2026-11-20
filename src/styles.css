@@ -1158,3 +1158,46 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  box-shadow:0 4px 12px rgba(0,20,65,.25)!important;object-fit:cover!important;
 }
 @media(max-width:520px){.app-shell .welcome img.welcome-logo{width:72px!important;height:72px!important}}
+
+
+/* Revision: Asmaul Husna and daily devotional categories */
+.devotional-intro h2{font-size:clamp(22px,4vw,29px);letter-spacing:-.4px}
+.devotional-tabs-four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.devotional-tabs-four button{min-width:0;padding:8px 5px;white-space:normal;line-height:1.25}
+.asma-heading{text-align:center;padding:5px 0 2px}
+.asma-heading h3{font-family:"Noto Naskh Arabic","Amiri",serif;color:#0752a8;font-size:25px;margin:0}
+.asma-heading p{font-size:11px;color:#67829c;margin:3px 0 0}
+.asma-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.asma-card{
+ position:relative;overflow:hidden;min-height:156px;padding:14px 13px;
+ align-items:flex-start;justify-content:center;gap:5px;
+ border:1px solid color-mix(in srgb,var(--asma-color) 35%,white);
+ background:linear-gradient(145deg,color-mix(in srgb,var(--asma-color) 15%,white),color-mix(in srgb,var(--asma-color) 5%,white));
+ box-shadow:0 5px 0 color-mix(in srgb,var(--asma-color) 28%,white),0 9px 18px #0752c914;
+}
+.asma-card:nth-child(6n+1){--asma-color:#087bd5}
+.asma-card:nth-child(6n+2){--asma-color:#08a69a}
+.asma-card:nth-child(6n+3){--asma-color:#8057d9}
+.asma-card:nth-child(6n+4){--asma-color:#e68a32}
+.asma-card:nth-child(6n+5){--asma-color:#d34f83}
+.asma-card:nth-child(6n){--asma-color:#398b68}
+.asma-card>span{color:var(--asma-color);font-size:11px;letter-spacing:1px;font-weight:950}
+.asma-card .asma-arabic{align-self:stretch;text-align:center;color:var(--asma-color);font-family:"Noto Naskh Arabic","Amiri",serif;font-size:clamp(25px,5vw,34px);line-height:1.55;margin:1px 0 2px}
+.asma-card>strong{font-size:14px;font-weight:900;color:#153e70}
+.asma-card>small{font-size:11px;color:#526d87;line-height:1.35}
+.devotional-tools{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:10px 12px;border:1px solid #c3def2;background:#f4faff;border-radius:14px;color:#315a7e;font-size:12px}
+.devotional-tools button{border:1px solid #a9d0ef;background:white;color:#0752b4;border-radius:9px;padding:7px 11px;font-weight:900}
+.devotional-tools b{min-width:38px;text-align:center}
+.devotional-arabic{white-space:pre-wrap;overflow-wrap:anywhere;line-height:2.05!important}
+.devotional-content p{white-space:pre-wrap;overflow-wrap:anywhere}
+.devotional-content h3{white-space:pre-wrap}
+.devotional-form textarea{white-space:pre-wrap;min-height:76px}
+.devotional-form select{width:100%;padding:11px;border:1px solid #b8d8f1;border-radius:11px;background:#fbfdff;color:#173f68;font:inherit}
+@media(max-width:520px){
+ .devotional-tabs-four{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .devotional-tabs-four button{min-height:52px;font-size:11px}
+ .asma-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .asma-card{min-height:145px;padding:12px 10px}
+ .asma-card .asma-arabic{font-size:28px}
+ .devotional-tools{gap:7px}
+}
