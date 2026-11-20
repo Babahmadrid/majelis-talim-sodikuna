@@ -1349,3 +1349,22 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .quran-frame-label{font-size:18px}
  .quran-tools .text-align-control{font-size:12px}
 }
+
+
+/* Compact reader controls: single custom reading layout */
+.quran-reader-settings-compact{padding:10px 12px!important;margin-bottom:12px!important;border-radius:16px!important}
+.quran-reader-settings-compact .quran-settings-title{margin:0 1px 6px!important;font-size:12px!important}
+.quran-reader-settings-compact .quran-settings-title small{font-size:9px!important}
+.quran-reader-settings-compact .quran-tools{margin-top:0!important;padding:7px 9px!important;gap:6px!important;border-radius:12px!important}
+.quran-reader-settings-compact .quran-font-tools{gap:6px!important;font-size:11px!important}
+.quran-reader-settings-compact .quran-font-tools button{min-width:34px!important;min-height:30px!important;padding:4px 8px!important;font-size:12px!important}
+.quran-reader-settings-compact .quran-font-tools b{min-width:36px!important;font-size:11px!important}
+.quran-reader-settings-compact .quran-tools .text-align-control{padding-top:6px!important;font-size:11px!important}
+.quran-reader-settings-compact .quran-tools .text-align-control select{padding:5px 8px!important;font-size:11px!important;max-width:68%!important}
+@media(max-width:600px){
+ .quran-reader-settings-compact{padding:9px 10px!important;margin-bottom:10px!important}
+ .quran-reader-settings-compact .quran-settings-title small{display:none}
+ .quran-reader-settings-compact .quran-font-tools{gap:5px!important}
+ .quran-reader-settings-compact .quran-font-tools>span{font-size:11px!important}
+ .quran-reader-settings-compact .quran-font-tools button{min-width:32px!important;min-height:29px!important}
+}
