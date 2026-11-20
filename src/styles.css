@@ -1263,3 +1263,11 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .quran-full-text{white-space:pre-wrap;line-height:2.25;text-align:justify;text-align-last:center;overflow-wrap:anywhere}
 .devotional-content p{white-space:pre-wrap;line-height:1.8}
 @media(max-width:760px){.dashboard-scan-shortcuts{grid-template-columns:1fr;gap:13px}.dashboard-scan-card{min-height:128px;grid-template-columns:78px minmax(0,1fr) 34px;padding:16px;gap:12px;border-radius:20px}.scan-art{height:76px;padding-right:12px}.scan-art svg{width:48px;height:48px}.scan-copy b{font-size:21px}.scan-copy small{font-size:12px}.scan-arrow{width:34px;height:34px;font-size:28px}.dashboard-stats .stat-card{min-height:150px;padding:16px;border-radius:21px}.dashboard-stats .stat-icon{width:48px;height:48px}.dashboard-stats .stat-card span{font-size:12px}.dashboard-stats .stat-card b{font-size:29px}.materials-grid{grid-template-columns:1fr}.materials-toolbar{align-items:stretch;flex-direction:column}.quran-mushaf-mode{min-height:0}}
+
+/* Consistent modern authoring and preserved paragraph breaks */
+.announcement-content p,.dashboard-announcement-body p,.list-card p,.material-card p,.devotional-content p{white-space:pre-wrap;overflow-wrap:anywhere}
+.modal label{display:grid;gap:7px;color:#234d76;font-size:12px;font-weight:750}
+.modal input:not([type=file]),.modal select,.modal textarea{width:100%;border:1px solid #c9dced;border-radius:12px;background:linear-gradient(180deg,#fff,#f7fbff);padding:12px 13px;color:#173d69;outline:none;transition:border-color .18s,box-shadow .18s}
+.modal textarea{resize:vertical;min-height:105px;line-height:1.7;white-space:pre-wrap}
+.modal input:focus,.modal select:focus,.modal textarea:focus{border-color:#159bd8;box-shadow:0 0 0 3px #159bd822}
+.devotional-form,.form-modal{border:1px solid #c9e1f4;border-radius:22px;box-shadow:0 24px 70px #082a5040}
