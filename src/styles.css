@@ -954,3 +954,83 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .app-shell .dashboard-stats .stat-card{min-height:132px!important}
  .app-shell .dashboard-stats .stat-card b{font-size:24px!important}
 }
+
+
+/* Dashboard cards v2 — colorful dimensional cards, no yellow edge stripe.
+   Scoped only to dashboard content; sidebar/navigation is intentionally untouched. */
+.app-shell .dashboard-stats .stat-card{
+ position:relative!important;isolation:isolate!important;overflow:hidden!important;
+ border:1px solid rgba(255,255,255,.55)!important;
+ border-radius:21px!important;
+ background:linear-gradient(145deg,#238cff 0%,#0860d5 56%,#063f9f 100%)!important;
+ box-shadow:
+  0 9px 0 #063b91,
+  0 15px 24px rgba(3,49,121,.25),
+  inset 0 2px 2px rgba(255,255,255,.38),
+  inset 0 -5px 10px rgba(0,25,88,.18)!important;
+ transform:translateY(-2px);
+}
+.app-shell .dashboard-stats .stat-card:nth-child(2){
+ background:linear-gradient(145deg,#20c9f2 0%,#0799d8 55%,#0566b8 100%)!important;
+ box-shadow:0 9px 0 #045c9e,0 15px 24px rgba(3,83,145,.23),inset 0 2px 2px rgba(255,255,255,.45),inset 0 -5px 10px rgba(0,45,90,.16)!important;
+}
+.app-shell .dashboard-stats .stat-card:nth-child(3){
+ background:linear-gradient(145deg,#8b78f5 0%,#6554d8 55%,#4034a5 100%)!important;
+ box-shadow:0 9px 0 #372d91,0 15px 24px rgba(57,42,139,.23),inset 0 2px 2px rgba(255,255,255,.42),inset 0 -5px 10px rgba(22,15,83,.18)!important;
+}
+.app-shell .dashboard-stats .stat-card:nth-child(4){
+ background:linear-gradient(145deg,#ff9c54 0%,#ed7138 55%,#bd492e 100%)!important;
+ box-shadow:0 9px 0 #a93e29,0 15px 24px rgba(135,54,32,.22),inset 0 2px 2px rgba(255,255,255,.45),inset 0 -5px 10px rgba(92,24,15,.16)!important;
+}
+.app-shell .dashboard-stats .stat-card:before{
+ content:none!important;display:none!important;
+}
+.app-shell .dashboard-stats .stat-card:after{
+ content:"";position:absolute;z-index:-1;top:-35%;right:-14%;
+ width:72%;height:90%;border-radius:50%;
+ background:linear-gradient(145deg,rgba(255,255,255,.23),rgba(255,255,255,0));
+ transform:rotate(-24deg);pointer-events:none;
+}
+.app-shell .dashboard-stats .stat-icon{
+ width:48px!important;height:48px!important;border-radius:15px!important;
+ background:linear-gradient(145deg,rgba(255,255,255,.34),rgba(255,255,255,.10))!important;
+ border:1px solid rgba(255,255,255,.55)!important;color:#fff!important;
+ box-shadow:0 5px 12px rgba(0,24,76,.18),inset 0 1px 2px rgba(255,255,255,.45)!important;
+}
+.app-shell .dashboard-stats .stat-icon svg,
+.app-shell .dashboard-stats .stat-card svg{color:#fff!important;stroke:#fff!important}
+.app-shell .dashboard-stats .stat-card span,
+.app-shell .dashboard-stats .stat-card b{color:#fff!important;text-shadow:0 2px 5px rgba(0,25,75,.25)!important}
+.app-shell .dashboard-stats .stat-card span{font-weight:800!important}
+.app-shell .dashboard-stats .stat-card b{font-size:27px!important;font-weight:900!important}
+.app-shell .dashboard-panel{
+ background:linear-gradient(145deg,#fafdff 0%,#e2f4ff 100%)!important;
+ border:1px solid #8acfff!important;
+ box-shadow:0 8px 0 #c2e5fb,0 14px 25px rgba(7,82,201,.12),inset 0 1px 0 #fff!important;
+}
+.app-shell .dashboard-panel .panel-head{border-bottom:1px solid #a8d7f8!important}
+.app-shell .dashboard-panel h3{color:#0647a8!important}
+.app-shell .dashboard-panel .panel-head button{color:#0752c9!important}
+.app-shell .agenda-panel .upcoming{border-top:1px solid #c4e5fa!important}
+.app-shell .agenda-panel .mini-date{
+ background:linear-gradient(145deg,#fff,#ccecff)!important;
+ border:2px solid #36aef0!important;color:#0752b4!important;
+ box-shadow:0 4px 0 #82c8ed,0 7px 12px rgba(7,82,201,.14),inset 0 1px 2px #fff!important;
+}
+.app-shell .upcoming-info>b{color:#0752b4!important}
+.app-shell .upcoming-info>small{color:#527493!important}
+.app-shell .dashboard-announcement{
+ background:linear-gradient(110deg,#eaf7ff,#d7efff)!important;
+ border:1px solid #b2def9!important;border-radius:14px!important;
+ padding:13px!important;margin-top:10px!important;
+ box-shadow:0 4px 0 #c0e4fa!important;
+}
+.app-shell .announcement-mark{
+ background:linear-gradient(145deg,#087fe5,#0752c9)!important;
+ border:1px solid #48c5ff!important;color:#fff!important;
+ box-shadow:0 4px 0 #06439f,0 6px 10px rgba(7,82,201,.2)!important;
+}
+.app-shell .announcement-mark svg{color:#fff!important;stroke:#fff!important}
+.app-shell .dashboard-announcement-body>b{color:#0752b4!important}
+.app-shell .dashboard-announcement-body p{color:#365f83!important}
+.app-shell .dashboard-announcement-body small{color:#6686a4!important}
