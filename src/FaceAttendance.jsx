@@ -143,7 +143,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   }
 
   function playUnknownFaceAudio() {
-    playFaceAudio('qr-tidak-terdaftar.mp3', 'Wajah belum terdaftar.');
+    playFaceAudio('wajah-tidak-terdaftar.mp3', 'Wajah belum terdaftar.');
   }
 
   function playAlreadyRegisteredAudio() {
