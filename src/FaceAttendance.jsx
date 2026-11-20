@@ -126,7 +126,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
 
   function playUnknownFaceAudio() {
     try {
-      const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\\/$/, '');
+      const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
       const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/qr-tidak-terdaftar.mp3');
       audio.preload = 'auto';
       audio.volume = 1;
