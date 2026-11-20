@@ -695,3 +695,42 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 @media (min-width:761px) and (max-width:900px){
   .app-shell .topbar{padding-left:20px!important;padding-right:20px!important}
 }
+
+
+/* Header info and prayer schedule */
+.app-shell .last-updated{display:flex;flex-direction:column;gap:4px;align-items:flex-end;color:#fff;white-space:nowrap}
+.app-shell .last-updated small{font-size:9px;letter-spacing:1px;font-weight:800;color:#d7efff}
+.app-shell .last-updated b{font-size:12px;color:#fff;font-weight:700}
+.app-shell .prayer-header-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 14px;border:1px solid rgba(255,255,255,.42);border-radius:14px;background:rgba(255,255,255,.16);color:#fff;font-size:12px;font-weight:800;white-space:nowrap}
+.app-shell .prayer-header-icon{font-size:21px;line-height:1}
+.app-shell .mobile-menu svg,.app-shell .mobile-menu svg *{stroke:#fff!important;color:#fff!important;fill:none!important;opacity:1!important;visibility:visible!important}
+.app-shell .mobile-menu svg{stroke-width:2.6!important}
+.prayer-modal-backdrop{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:18px;background:rgba(7,24,48,.62);backdrop-filter:blur(6px)}
+.prayer-modal{width:min(430px,100%);padding:0 20px 18px;border-radius:22px;background:linear-gradient(160deg,#fff 0%,#eff7ff 100%);border:1px solid #d8e9fa;box-shadow:0 24px 70px #031d3c55;overflow:hidden}
+.prayer-modal-head{display:flex;justify-content:space-between;align-items:flex-start;margin:0 -20px 14px;padding:19px 20px;background:linear-gradient(110deg,#0752b4,#0b9bd1);color:#fff}
+.prayer-modal-head small{font-size:9px;letter-spacing:1.4px;color:#cbeaff;font-weight:800}
+.prayer-modal-head h3{margin:5px 0 3px;font-size:21px;color:#fff}
+.prayer-modal-head p{margin:0;font-size:11px;color:#e3f4ff}
+.prayer-modal-head>button{width:34px;height:34px;border:1px solid #ffffff55;border-radius:10px;background:#ffffff20;color:#fff;font-size:25px;line-height:1}
+.prayer-date{font-size:12px;font-weight:800;color:#244c73;margin-bottom:12px}
+.prayer-times{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.prayer-time-row{display:flex;justify-content:space-between;align-items:center;padding:12px 13px;border:1px solid #d9e9f8;border-radius:12px;background:#fff;color:#45627f;font-size:12px}
+.prayer-time-row b{font-size:17px;color:#0752b4}
+.prayer-loading,.prayer-error{padding:13px;border-radius:12px;background:#fff;font-size:12px;color:#536e89}
+.prayer-error{color:#b42335;background:#fff0f1}
+.prayer-source{display:block;margin-top:14px;color:#7a8ea5;font-size:10px;line-height:1.5}
+@media (min-width:761px) and (max-width:1180px){
+ .app-shell .top-actions{gap:12px!important}
+ .app-shell .last-updated small{font-size:9px!important}
+ .app-shell .last-updated b{font-size:11px!important}
+ .app-shell .prayer-header-btn{min-height:58px!important;padding:0 13px!important;border-radius:15px!important;font-size:12px!important}
+ .app-shell .mobile-menu svg,.app-shell .mobile-menu svg *{stroke:#fff!important;fill:none!important;stroke-width:2.6!important}
+}
+@media(max-width:760px){
+ .app-shell .top-actions{gap:7px!important}
+ .app-shell .last-updated{gap:2px!important;align-items:flex-end!important}
+ .app-shell .last-updated small{font-size:7px!important;letter-spacing:.5px!important}
+ .app-shell .last-updated b{font-size:9px!important}
+ .app-shell .prayer-header-btn{min-height:38px!important;padding:0 8px!important;gap:4px!important;border-radius:10px!important;font-size:9px!important}
+ .app-shell .prayer-header-icon{font-size:16px!important}
+}
