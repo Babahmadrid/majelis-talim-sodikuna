@@ -880,3 +880,77 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .app-shell .topbar{min-height:116px!important;height:116px!important}
  .app-shell .mobile-menu{width:58px!important;height:58px!important;flex:0 0 58px!important}
 }
+
+/* Dashboard refinement — align page 2 with Prototype 01; sidebar/menu remains untouched */
+.app-shell .welcome{
+ background:linear-gradient(115deg,#06358f 0%,#0752c9 48%,#079ee2 100%)!important;
+ border:2px solid #21baff!important;
+ box-shadow:0 12px 28px #0752c933, inset 0 1px 0 #ffffff35!important;
+}
+.app-shell .welcome:before{
+ content:"";position:absolute;inset:auto -5% -48px -5%;height:100px;
+ border-top:5px solid #18c5ff;border-radius:50%;pointer-events:none;
+}
+.app-shell .welcome h2{font-size:clamp(22px,3vw,30px)!important;text-shadow:0 2px 8px #00275b55}
+.app-shell .welcome p{font-size:13px!important}
+.app-shell .dashboard-stats .stat-card{
+ border:1px solid #54c6ff!important;border-radius:20px!important;
+ background:linear-gradient(145deg,#087fe5 0%,#0752c9 58%,#063c9d 100%)!important;
+ box-shadow:0 10px 22px #0752c933,inset 0 1px 0 #ffffff35!important;
+ color:#fff!important;
+}
+.app-shell .dashboard-stats .stat-card:nth-child(2){
+ background:linear-gradient(145deg,#08b5e9 0%,#0879d8 55%,#0752b4 100%)!important;
+}
+.app-shell .dashboard-stats .stat-card:nth-child(3){
+ background:linear-gradient(145deg,#126bd1 0%,#0848b0 58%,#06358f 100%)!important;
+}
+.app-shell .dashboard-stats .stat-card:nth-child(4){
+ background:linear-gradient(145deg,#087fc9 0%,#0752b4 58%,#06358f 100%)!important;
+}
+.app-shell .dashboard-stats .stat-card:before{
+ height:5px!important;background:linear-gradient(90deg,#fff,#ffd51f,#15d2ff)!important;
+}
+.app-shell .dashboard-stats .stat-icon{
+ background:#ffffff22!important;border:1px solid #ffffff80!important;
+ color:#fff!important;box-shadow:inset 0 1px 0 #ffffff35!important;
+}
+.app-shell .dashboard-stats .stat-icon svg{stroke:#fff!important}
+.app-shell .dashboard-stats .stat-card span,
+.app-shell .dashboard-stats .stat-card b{color:#fff!important}
+.app-shell .dashboard-stats .stat-card span{font-weight:750!important}
+.app-shell .dashboard-stats .stat-card b{font-size:26px!important;text-shadow:0 2px 5px #002b6640}
+.app-shell .dashboard-panel{
+ border:1px solid #8acfff!important;border-radius:20px!important;
+ background:linear-gradient(145deg,#fafdff 0%,#d9efff 100%)!important;
+ box-shadow:0 10px 24px #0752c91b!important;
+}
+.app-shell .dashboard-panel .panel-head{
+ border-bottom:1px solid #a8d7f8!important;padding-bottom:13px!important;
+}
+.app-shell .dashboard-panel h3{color:#063f99!important;font-weight:850!important}
+.app-shell .dashboard-panel .panel-head button{color:#0752c9!important}
+.app-shell .agenda-panel .mini-date{
+ background:linear-gradient(145deg,#fff,#d8efff)!important;
+ border:2px solid #37aef0!important;color:#0752b4!important;
+}
+.app-shell .upcoming-info>b{color:#0752b4!important;font-weight:850!important}
+.app-shell .upcoming-info>small{color:#537494!important}
+.app-shell .dashboard-announcement{border-top-color:#b9ddf7!important}
+.app-shell .announcement-mark{
+ background:linear-gradient(145deg,#087fe5,#0752c9)!important;
+ border:1px solid #49c3ff!important;color:#fff!important;
+}
+.app-shell .announcement-mark svg{color:#fff!important;stroke:#fff!important}
+.app-shell .dashboard-announcement-body>b{color:#0752b4!important}
+.app-shell .dashboard-announcement-body p{color:#426487!important}
+.app-shell .dashboard-announcement-body small{color:#6f8eaa!important}
+.app-shell .quick-panel .quick-link{
+ background:transparent!important;border-bottom:1px solid #b9ddf7!important;
+ color:#0752b4!important;font-weight:750!important;
+}
+.app-shell .quick-panel .quick-link svg{color:#0789d9!important}
+@media(max-width:760px){
+ .app-shell .dashboard-stats .stat-card{min-height:132px!important}
+ .app-shell .dashboard-stats .stat-card b{font-size:24px!important}
+}
