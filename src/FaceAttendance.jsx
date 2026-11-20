@@ -112,40 +112,42 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     }
   }
 
-  function playFaceEnrollmentSuccessAudio() {
+  function playFaceAudio(file, fallbackText) {
     try {
       const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
-      const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/wajah-terdaftar.mp3');
+      const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/' + file);
       audio.preload = 'auto';
       audio.volume = 1;
-      audio.play().catch(err => console.warn('Audio pendaftaran-wajah-berhasil tidak dapat diputar:', err));
+      audio.play().catch(err => {
+        console.warn('Audio wajah tidak dapat diputar:', err);
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(fallbackText);
+          utterance.lang = 'id-ID';
+          utterance.rate = 0.95;
+          window.speechSynthesis.speak(utterance);
+        }
+      });
     } catch (err) {
-      console.warn('Audio wajah-terdaftar gagal dimuat:', err);
+      console.warn('Audio wajah gagal dimuat:', err);
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(fallbackText);
+        utterance.lang = 'id-ID';
+        window.speechSynthesis.speak(utterance);
+      }
     }
+  }
+
+  function playFaceEnrollmentSuccessAudio() {
+    playFaceAudio('wajah-terdaftar.mp3', 'Pendaftaran wajah berhasil.');
   }
 
   function playUnknownFaceAudio() {
-    try {
-      const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
-      const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/qr-tidak-terdaftar.mp3');
-      audio.preload = 'auto';
-      audio.volume = 1;
-      audio.play().catch(err => console.warn('Audio wajah tidak terdaftar tidak dapat diputar:', err));
-    } catch (err) {
-      console.warn('Audio wajah tidak terdaftar gagal dimuat:', err);
-    }
+    playFaceAudio('qr-tidak-terdaftar.mp3', 'Wajah belum terdaftar.');
   }
 
   function playAlreadyRegisteredAudio() {
-    try {
-      const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
-      const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/wajah-sudah-terdaftar.mp3');
-      audio.preload = 'auto';
-      audio.volume = 1;
-      audio.play().catch(err => console.warn('Audio wajah-sudah-terdaftar tidak dapat diputar:', err));
-    } catch (err) {
-      console.warn('Audio wajah-sudah-terdaftar gagal dimuat:', err);
-    }
+    playFaceAudio('wajah-sudah-terdaftar.mp3', 'Wajah jamaah ini sudah terdaftar.');
   }
 
   useEffect(() => {
@@ -330,7 +332,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         </div>
         {!initialMemberId && <div className="face-mode-tabs">
           <button type="button" className={mode === 'match' ? 'active' : ''} onClick={() => { setMode('match'); setError(''); setConsentSaved(false); }}>Scan Absensi</button>
-          <button type="button" className={mode === 'enroll' ? 'active' : ''} onClick={() => { setMode('enroll'); setError(''); setConsentSaved(false); }}>Daftarkan Wajah</button>
+          <button type="button" className={mode === 'enroll' ? 'active' : ''} onClick={() => { try { window.speechSynthesis?.resume(); } catch {} setMode('enroll'); setError(''); setConsentSaved(false); }}>Daftarkan Wajah</button>
         </div>}
         {mode === 'enroll' && !consentSaved && <div className="face-enroll-form">
           <label>Folder sektor</label>
