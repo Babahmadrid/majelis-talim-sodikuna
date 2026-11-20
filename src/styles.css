@@ -601,3 +601,17 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .app-shell .announcements-panel .announcement-mark svg{
  color:#24795d!important;stroke:#24795d!important;
 }
+
+
+.face-confirm-backdrop{position:absolute;inset:0;z-index:30;background:rgba(8,28,54,.68);backdrop-filter:blur(7px);display:grid;place-items:center;padding:18px;border-radius:18px}
+.face-confirm-dialog{width:min(430px,100%);background:linear-gradient(155deg,#fff 0%,#f3f8ff 100%);border:1px solid #dbe9fa;border-radius:22px;padding:25px 22px 20px;box-shadow:0 24px 70px rgba(3,30,68,.32);text-align:center;animation:faceDialogIn .2s ease-out}
+.face-confirm-icon{width:58px;height:58px;border-radius:18px;margin:0 auto 14px;display:grid;place-items:center;background:linear-gradient(135deg,#fff0ee,#ffe0db);color:#d94b42}
+.face-confirm-dialog h3{font-size:19px;color:#123d70;margin:0 0 10px}
+.face-confirm-dialog p{font-size:13px;line-height:1.65;color:#526b86;margin:0 0 22px}
+.face-confirm-actions{display:flex;gap:10px}
+.face-confirm-actions button{flex:1;border:0;border-radius:12px;padding:13px 10px;font-weight:800;font-size:13px}
+.face-confirm-cancel{background:#e9f1fb;color:#24527f}
+.face-confirm-delete{background:linear-gradient(110deg,#e34f49,#c92e48);color:#fff;box-shadow:0 7px 16px #cf3b4630}
+.face-confirm-delete:disabled{opacity:.6}
+@keyframes faceDialogIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.face-scanner-panel{position:relative}
