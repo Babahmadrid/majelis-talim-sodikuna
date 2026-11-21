@@ -1530,3 +1530,28 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .report-download-card{overflow:visible}
 .report-panel{overflow:visible}
 .report-page{overflow:visible}
+
+
+/* Devotional folders and collapsed reading cards */
+.devotional-folder-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.devotional-folder-grid button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:58px;padding:12px 10px;border:1px solid #c4dcec;border-radius:16px;background:linear-gradient(145deg,#fff,#f1f8fe);color:#245476;font-size:14px;font-weight:800;box-shadow:0 3px 0 rgba(14,83,137,.08)}
+.devotional-folder-grid button.active{background:linear-gradient(135deg,#078ed0,#0751b6);border-color:#0879c6;color:#fff;box-shadow:0 5px 0 #06438f}
+.devotional-accordion{display:block;padding:0;overflow:hidden}
+.devotional-accordion-trigger{width:100%;min-height:64px;display:flex;align-items:center;gap:13px;padding:12px 16px;border:0;background:transparent;text-align:left;color:#174e7e}
+.devotional-accordion-title{flex:1;min-width:0;font-size:16px;font-weight:800;line-height:1.4}
+.devotional-accordion .devotional-number{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,#0c9cda,#0752b8);box-shadow:0 4px 0 #06418c;color:#fff;font-size:16px;font-weight:900}
+.devotional-accordion-chevron{flex:0 0 auto;color:#397294;transition:transform .18s ease}
+.devotional-accordion.expanded .devotional-accordion-chevron{transform:rotate(180deg)}
+.devotional-accordion-body{padding:8px 18px 16px;border-top:1px solid #dceaf3}
+.devotional-accordion-body .devotional-content{width:100%}
+.devotional-accordion-body .devotional-arabic{padding:14px 4px 18px;border-bottom:1px solid #e2e8ed;line-height:2.15;color:#090909;font-weight:600}
+.devotional-accordion-body .devotional-content>p{line-height:1.8}
+.devotional-accordion-body .row-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+@media(max-width:640px){
+ .devotional-folder-grid{grid-template-columns:1fr}
+ .devotional-folder-grid button{justify-content:flex-start;min-height:52px;padding-left:16px}
+ .devotional-accordion-trigger{min-height:58px;padding:10px 12px;gap:11px}
+ .devotional-accordion-title{font-size:14px}
+ .devotional-accordion .devotional-number{flex-basis:36px;width:36px;height:36px;font-size:14px}
+ .devotional-accordion-body{padding:8px 12px 14px}
+}
