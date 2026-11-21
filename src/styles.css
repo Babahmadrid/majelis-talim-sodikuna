@@ -1555,3 +1555,23 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .devotional-accordion .devotional-number{flex-basis:36px;width:36px;height:36px;font-size:14px}
  .devotional-accordion-body{padding:8px 12px 14px}
 }
+
+
+/* Dedicated devotional reading screen */
+.devotional-back-button{display:inline-flex;align-items:center;gap:8px;border:1px solid #bfd8e8;background:#f4faff;color:#14517e;border-radius:12px;padding:11px 15px;font-weight:800;font-size:14px;margin:0 0 14px}
+.devotional-detail-heading{margin:0 0 16px}
+.devotional-detail-heading>span{font-size:12px;font-weight:800;letter-spacing:.5px;color:#1584bd;text-transform:uppercase}
+.devotional-detail-heading h2{margin:5px 0 0;color:#104e86;font-size:25px}
+.devotional-detail-tools{margin:0 0 16px}
+.devotional-detail-card{padding:22px 20px;min-height:220px}
+.devotional-detail-card .devotional-arabic{line-height:2.15;padding:10px 2px 22px;color:#080808;border-bottom:1px solid #e0e9ef}
+.devotional-detail-card .devotional-latin{line-height:1.85;margin:18px 0;color:#315a75}
+.devotional-detail-card .devotional-meaning{line-height:1.9;margin:18px 0;color:#31516a}
+.devotional-detail-card>small{display:block;margin-top:16px;color:#698398}
+.devotional-detail-actions{justify-content:flex-end;gap:8px;margin-top:12px}
+.devotional-open-label{font-size:12px;font-weight:700;color:#1684bd;white-space:nowrap}
+@media(max-width:640px){
+ .devotional-detail-heading h2{font-size:21px}
+ .devotional-detail-card{padding:16px 13px}
+ .devotional-detail-tools{gap:10px}
+}
