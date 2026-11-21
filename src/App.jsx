@@ -186,6 +186,13 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   .sector{margin:10px 0 4px;color:#0b5e9e;font-weight:700;font-size:12px}
   .sector-row td{background:#e8f4fc!important;color:#075b9e;font-weight:800;font-size:10px;padding:7px 8px}
   .sector-row span{float:right;font-weight:600;color:#668096}
+  .pdf-sector-row td{background:#e8f4fc!important;color:#075b9e;font-weight:800;font-size:9px;letter-spacing:.2px;padding:7px 8px;border-top:1.5px solid #8ebbd9}
+  .pdf-sector-row span{float:right;font-size:8px;color:#668096;font-weight:700}
+  .attendance-date-table{width:100%;table-layout:fixed;border-collapse:collapse}
+  .attendance-date-table thead{display:table-header-group}
+  .attendance-date-table th,.attendance-date-table td{overflow-wrap:anywhere;word-break:normal}
+  .attendance-date-table td.name{text-align:left}
+
   .sector-block{width:100%;margin:0 0 13px;break-inside:auto}
   .sector-block .sector{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 0;padding:7px 9px;border:1px solid #a9cbe1;border-bottom:0;border-radius:6px 6px 0 0;background:#eaf5fc;color:#075b9e;font-size:10px;font-weight:800;letter-spacing:.25px}
   .sector-block .sector span{font-size:8px;color:#54738b;font-weight:700;white-space:nowrap}
