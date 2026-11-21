@@ -188,10 +188,17 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   .sector-row span{float:right;font-weight:600;color:#668096}
   .pdf-sector-row td{background:#e8f4fc!important;color:#075b9e;font-weight:800;font-size:9px;letter-spacing:.2px;padding:7px 8px;border-top:1.5px solid #8ebbd9}
   .pdf-sector-row span{float:right;font-size:8px;color:#668096;font-weight:700}
-  .attendance-date-table{width:100%;table-layout:fixed;border-collapse:collapse}
+  .attendance-date-table{display:table;width:100%!important;max-width:100%;table-layout:fixed!important;border-collapse:collapse;border-spacing:0;margin:0 0 12px}
+  .attendance-date-table col:nth-child(1){width:15%}
+  .attendance-date-table col:nth-child(2){width:55%}
+  .attendance-date-table col:nth-child(3){width:30%}
   .attendance-date-table thead{display:table-header-group}
-  .attendance-date-table th,.attendance-date-table td{overflow-wrap:anywhere;word-break:normal}
-  .attendance-date-table td.name{text-align:left}
+  .attendance-date-table tbody{display:table-row-group}
+  .attendance-date-table tr{break-inside:avoid;page-break-inside:avoid}
+  .attendance-date-table th,.attendance-date-table td{box-sizing:border-box;overflow-wrap:anywhere;word-break:normal}
+  .attendance-date-table td.name{text-align:left;padding-left:7px}
+  .attendance-date-table .pdf-sector-row{break-after:avoid;page-break-after:avoid}
+  .attendance-date-table .pdf-sector-row td{width:100%;text-align:left;border:1px solid #9fc4dc}
 
   .sector-block{width:100%;margin:0 0 13px;break-inside:auto}
   .sector-block .sector{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 0;padding:7px 9px;border:1px solid #a9cbe1;border-bottom:0;border-radius:6px 6px 0 0;background:#eaf5fc;color:#075b9e;font-size:10px;font-weight:800;letter-spacing:.25px}
