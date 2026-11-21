@@ -188,7 +188,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   .sector-row span{float:right;font-weight:600;color:#668096}
   .pdf-sector-row td{background:#e8f4fc!important;color:#075b9e;font-weight:800;font-size:9px;letter-spacing:.2px;padding:7px 8px;border-top:1.5px solid #8ebbd9}
   .pdf-sector-row span{float:right;font-size:8px;color:#668096;font-weight:700}
-  .attendance-date-table{display:table;width:100%!important;max-width:100%;table-layout:fixed!important;border-collapse:collapse;border-spacing:0;margin:0 0 12px}
+  .attendance-date-table{display:table;width:100%!important;min-width:100%!important;max-width:100%!important;table-layout:fixed!important;border-collapse:collapse;border-spacing:0;margin:0 0 12px}.attendance-date-table col:nth-child(1){width:15%!important}.attendance-date-table col:nth-child(2){width:55%!important}.attendance-date-table col:nth-child(3){width:30%!important}.attendance-date-table th:nth-child(1),.attendance-date-table td:nth-child(1){width:15%!important}.attendance-date-table th:nth-child(2),.attendance-date-table td:nth-child(2){width:55%!important}.attendance-date-table th:nth-child(3),.attendance-date-table td:nth-child(3){width:30%!important}
   .attendance-date-table col:nth-child(1){width:15%}
   .attendance-date-table col:nth-child(2){width:55%}
   .attendance-date-table col:nth-child(3){width:30%}
