@@ -307,7 +307,35 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   openReportPDF('Rekap Absensi Pertanggal Pengajian',`${event.title||'Pengajian'} · ${date}`,summary+body,`rekap-absensi-${event.event_date||'pengajian'}.pdf`,false);
  }
  async function makeQR(item){const value=JSON.stringify({type:'sodikuna-attendance',agenda_id:item.id,token:item.qr_token||item.id});setQr(await QRCode.toDataURL(value,{width:280,margin:2}));}
- async function printMemberCard(person){
+ async function printMemberCardsBatch(list,label){
+  if(!list?.length){setError('Tidak ada jamaah untuk dicetak.');return}
+  const safe=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const cards=[];
+  for(const person of list){
+    const qr=await QRCode.toDataURL('sodikuna:member:'+person.id,{width:400,margin:1,errorCorrectionLevel:'H'});
+    cards.push({person,qr});
+  }
+  const w=window.open('','_blank','width=1100,height=900');
+  if(!w){setError('Izinkan pop-up untuk mencetak kartu.');return}
+  const htmlCards=cards.map(({person,qr})=>`<div class="card"><div class="pattern"></div><div class="logo"><img src="${location.origin}/logo-sodikuna.png"></div><div class="title">Majelis Ta’lim Sodikuna</div><div class="sub">Kartu Anggota Jamaah</div><div class="data"><div><b>Nama</b><span>${safe(person.name)}</span></div><div><b>No. Anggota</b><span>${safe(person.member_no)}</span></div><div><b>Sektor</b><span>${safe(person.sector)}</span></div></div><div class="qrbox"><img src="${qr}"></div><div class="memberid">ID: ${safe(person.member_no)}</div><div class="bottom"></div></div>`).join('');
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Kartu Anggota - ${safe(label)}</title><style>
+  @page{size:A4 portrait;margin:8mm}
+  *{box-sizing:border-box}html,body{margin:0;font-family:Arial,sans-serif;color:#06255e}
+  .sheet{display:grid;grid-template-columns:85.6mm 85.6mm;grid-template-rows:53.98mm 53.98mm 53.98mm;gap:5mm;justify-content:center;align-content:start}
+  .card{width:85.6mm;height:53.98mm;position:relative;overflow:hidden;border:.45mm solid #0872c8;border-radius:3mm;background:radial-gradient(ellipse at 45% 42%,#fff 0,#f8fcff 54%,#c5e8ff 100%);print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .pattern{position:absolute;top:0;left:0;right:0;height:18mm;opacity:.11;background-image:repeating-linear-gradient(45deg,transparent 0 2mm,#0879c9 2.15mm 2.45mm,transparent 2.6mm 4mm),repeating-linear-gradient(-45deg,transparent 0 2mm,#0879c9 2.15mm 2.45mm,transparent 2.6mm 4mm)}
+  .logo{position:absolute;top:3mm;left:3mm;width:13mm;height:13mm;border:.7mm solid #0752b4;border-radius:50%;background:white;display:grid;place-items:center;z-index:2}.logo img{width:11.5mm;height:11.5mm;object-fit:contain}
+  .title{position:absolute;top:4.2mm;left:18mm;font-size:4.7mm;font-weight:900;white-space:nowrap;color:#07215c}.sub{position:absolute;top:12.5mm;left:18mm;background:#0874ce;color:white;padding:1mm 2mm;border-radius:6mm;font-size:2.6mm;font-weight:bold}
+  .data{position:absolute;left:4mm;top:22mm;width:47mm;z-index:3}.data div{height:6.3mm;display:grid;grid-template-columns:16mm 2mm 1fr;align-items:center;border-bottom:.25mm solid #9dc4e4;font-size:2.9mm}.data b{font-weight:bold}.data span{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .qrbox{position:absolute;right:4mm;top:7.5mm;width:28mm;height:28mm;padding:1mm;background:white;border:.5mm solid #0757a8;border-radius:2mm;z-index:4}.qrbox img{width:100%;height:100%;display:block}
+  .memberid{position:absolute;right:5mm;top:37mm;z-index:5;padding:1mm 2mm;background:#0754b5;color:#fff;border-radius:5mm;font-size:3mm;font-weight:800;min-width:26mm;text-align:center}
+  .bottom{position:absolute;left:0;right:0;bottom:0;height:6mm;background:linear-gradient(180deg,#f5d137 0 30%,#0983d7 30% 65%,#0752b4 65%);z-index:2}
+  @media print{.sheet{break-inside:avoid;page-break-inside:avoid}}
+  @media screen{body{background:#e8edf3;padding:12mm}.sheet{margin:auto}.card{box-shadow:0 2mm 5mm #0002}}
+  </style></head><body><div class="sheet">${htmlCards}</div><script>window.onload=()=>setTimeout(()=>window.print(),500)<\/script></body></html>`);
+  w.document.close();
+}
+async function printMemberCard(person){
   const value='sodikuna:member:'+person.id;
   const code=await QRCode.toDataURL(value,{width:900,margin:2,errorCorrectionLevel:'H'});
   const safe=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
