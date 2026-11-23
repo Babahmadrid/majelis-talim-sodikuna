@@ -4,7 +4,8 @@ function corsHeaders(origin: string | null) {
   const hostname = origin ? new URL(origin).hostname : "";
   const allowed = origin === "https://mt-sodikuna.netlify.app" ||
     hostname === "majelis-talim-sodikuna-yd3e.netlify.app" ||
-    hostname.endsWith("--majelis-talim-sodikuna-yd3e.netlify.app");
+    hostname.endsWith("--majelis-talim-sodikuna-yd3e.netlify.app") ||
+    hostname === "animated-piroskhi-9b4114.netlify.app";
   return {
     ...(allowed && origin ? { "Access-Control-Allow-Origin": origin } : {}),
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
