@@ -346,7 +346,6 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   </div><script>const logo=document.querySelector('.logo');logo.onload=()=>setTimeout(()=>window.print(),350);logo.onerror=()=>setTimeout(()=>window.print(),350);setTimeout(()=>window.print(),1400)<\/script></body></html>`);
   w.document.close();
  }
- }
 
  if(!db)return <SetupScreen/>;
  if(!session)return <Login onSubmit={signIn} onPinSubmit={signInJamaah} pin={pinInput} setPin={setPinInput} error={error}/>;
