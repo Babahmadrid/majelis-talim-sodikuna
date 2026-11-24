@@ -472,7 +472,6 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError}){
   {tab==='quran'?<>
     <section className="quran-page-heading">
       <div className="quran-heading-kicker">AL-QUR'ANUL KARIM</div>
-      <div className="quran-surah-title-ar" lang="ar" dir="rtl">سُورَةُ الرَّحْمَٰن</div>
       <h3>Surah Ar-Rahman</h3>
       <p>Surah ke-55 <span>•</span> 78 Ayat <span>•</span> Juz 27</p>
     </section>
