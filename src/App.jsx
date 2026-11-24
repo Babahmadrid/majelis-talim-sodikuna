@@ -355,45 +355,44 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   const members=jamaah.filter(m=>m.sector===sector).sort((a,b)=>String(a.member_no||'').localeCompare(String(b.member_no||''),undefined,{numeric:true}));
   if(!members.length){setNotice('Sektor ini belum memiliki anggota.');return}
   try{
-    setNotice('Membuat PDF kartu anggota...');
+    setNotice('Membuat PDF kartu anggota per sektor...');
     const {jsPDF}=await import('jspdf');
-    const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-    const qrCards=await Promise.all(members.map(async person=>({person,qr:await QRCode.toDataURL('sodikuna:member:'+person.id,{width:400,margin:2,errorCorrectionLevel:'H'})})));
-    const pageW=210,pageH=297,margin=5,gapX=2.5,gapY=2.5,cardW=(pageW-margin*2-gapX*2)/3,cardH=(pageH-margin*2-gapY*2)/3;
-    const clip=(v,max)=>{let str=String(v??'-');return str.length>max?str.slice(0,max-1)+'…':str};
-    const drawPersonIcon=(cx,cy)=>{doc.setDrawColor(0,92,186);doc.setLineWidth(.55);doc.circle(cx,cy-1.6,1.4,'S');doc.roundedRect(cx-2.2,cy+.4,4.4,3.3,1,1,'S')};
-    const drawIdIcon=(cx,cy)=>{doc.setDrawColor(0,92,186);doc.setLineWidth(.55);doc.roundedRect(cx-3.8,cy-2.6,7.6,5.2,.7,.7,'S');doc.circle(cx-1.8,cy-.8,.85,'S');doc.line(cx-2.8,cy+1,cx-.8,cy+1);doc.line(cx+.1,cy-1.3,cx+2.6,cy-1.3);doc.line(cx+.1,cy+.2,cx+2.6,cy+.2)}
-    const drawGroupIcon=(cx,cy)=>{doc.setDrawColor(0,92,186);doc.setLineWidth(.55);[-2.5,0,2.5].forEach(dx=>doc.circle(cx+dx,cy-1.7,1,'S'));doc.roundedRect(cx-4,cy+.2,8,3.2,1.2,1.2,'S')};
+    const cardW=74,cardH=105,doc=new jsPDF({orientation:'portrait',unit:'mm',format:[cardW,cardH]});
+    const qrCards=await Promise.all(members.map(async person=>({person,qr:await QRCode.toDataURL('sodikuna:member:'+person.id,{width:520,margin:2,errorCorrectionLevel:'H'})})));
+    let logoData=null;try{const response=await fetch('/logo-sodikuna.png');if(response.ok){const blob=await response.blob();logoData=await new Promise(resolve=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>resolve(null);reader.readAsDataURL(blob)})}}catch{}
+    const safeText=(v,max=30)=>{let t=String(v??'-');return t.length>max?t.slice(0,max-1)+'…':t};
     qrCards.forEach(({person,qr},idx)=>{
-      if(idx>0&&idx%9===0)doc.addPage();
-      const slot=idx%9,row=Math.floor(slot/3),col=slot%3,x=margin+col*(cardW+gapX),y=margin+row*(cardH+gapY);
-      // Final reference-inspired blue ID card
-      doc.setFillColor(250,253,255);doc.setDrawColor(0,72,168);doc.setLineWidth(1.2);doc.roundedRect(x,y,cardW,cardH,4,4,'FD');
-      doc.setDrawColor(255,211,42);doc.setLineWidth(.55);doc.roundedRect(x+1.6,y+1.6,cardW-3.2,cardH-3.2,3.2,3.2,'S');
-      // Header title only: no logo or decorative icon
-      doc.setFillColor(0,66,166);doc.roundedRect(x+2.2,y+2.2,cardW-4.4,24,3.2,3.2,'F');
-      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(6.4);
-      doc.text("MAJELIS TA'LIM SODIKUNA",x+cardW/2,y+11,{align:'center'});
-      doc.setFontSize(5.6);doc.text("SUKABUMI",x+cardW/2,y+18,{align:'center'});
-      // Header underline accent
-      doc.setDrawColor(255,211,42);doc.setLineWidth(.7);doc.line(x+3,y+28,x+cardW-3,y+28);
-      // Bold field labels with white value panels
-      const rowYs=[34,43,52],labels=['NAMA :','NO. ANGGOTA :','SEKTOR :'],vals=[person.name,person.member_no,person.sector];
-      rowYs.forEach((yy,k)=>{
-        const labelW=23,valueX=x+labelW+3,valueW=cardW-labelW-6;
-        doc.setFillColor(0,72,168);doc.roundedRect(x+3,y+yy-5.3,labelW,8.4,2,2,'F');
-        doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(k===1?4.8:5.8);doc.text(labels[k],x+labelW/2+3,y+yy,{align:'center'});
-        doc.setFillColor(255,255,255);doc.setDrawColor(0,72,168);doc.setLineWidth(.55);doc.roundedRect(valueX,y+yy-5.3,valueW,8.4,2,2,'FD');
-        doc.setTextColor(12,30,54);doc.setFont('helvetica','bold');doc.setFontSize(6.1);
-        doc.text(clip(vals[k],k===0?18:16),valueX+2,y+yy,{maxWidth:valueW-4});
+      if(idx>0)doc.addPage([cardW,cardH],'portrait');
+      // Blue-white ID card inspired by the provided reference
+      doc.setFillColor(229,246,255);doc.rect(0,0,cardW,cardH,'F');
+      doc.setFillColor(0,81,180);doc.roundedRect(1.5,1.5,cardW-3,cardH-3,5,5,'F');
+      doc.setFillColor(16,145,231);doc.roundedRect(2.5,2.5,cardW-5,cardH-5,4,4,'F');
+      doc.setDrawColor(255,215,48);doc.setLineWidth(.8);doc.roundedRect(3.5,3.5,cardW-7,cardH-7,3.5,3.5,'S');
+      // header decorative pattern
+      doc.setFillColor(0,55,146);doc.circle(cardW/2,19,15,'F');
+      doc.setFillColor(255,255,255);doc.circle(cardW/2,19,10.8,'F');
+      if(logoData)try{doc.addImage(logoData,'PNG',cardW/2-9,10,18,18)}catch{}
+      doc.setTextColor(5,48,132);doc.setFont('helvetica','bold');doc.setFontSize(7.4);
+      doc.text('Majelis Ta’lim Sodikuna',cardW/2,34,{align:'center'});
+      doc.setFillColor(0,74,172);doc.roundedRect(11,36,cardW-22,7,3.5,3.5,'F');
+      doc.setTextColor(255,255,255);doc.setFontSize(9);doc.text('Kartu Anggota Jamaah',cardW/2,41,{align:'center'});
+      const labels=['Nama','No. Anggota','Sektor'],values=[person.name,person.member_no,person.sector];
+      const y0=48;
+      labels.forEach((label,k)=>{
+        const y=y0+k*6.6;
+        doc.setTextColor(0,63,155);doc.setFont('helvetica','bold');doc.setFontSize(6.8);doc.text(label,9,y);
+        doc.setTextColor(20,25,35);doc.setFontSize(7.2);doc.text(':',28,y);
+        doc.setFont('helvetica','bold');doc.setFontSize(7.4);doc.text(safeText(values[k],24),31,y,{maxWidth:34});
+        doc.setDrawColor(99,177,226);doc.setLineWidth(.25);doc.line(8,y+1.8,cardW-8,y+1.8);
       });
-      // Large, clean QR area; no label or decorative lines crossing the QR
-      const qrSize=34,qrY=y+57;
-      doc.setFillColor(255,255,255);doc.setDrawColor(0,72,168);doc.setLineWidth(1.2);doc.roundedRect(x+cardW/2-qrSize/2-1.8,qrY-1.8,qrSize+3.6,qrSize+3.6,3.5,3.5,'FD');
-      doc.addImage(qr,'PNG',x+cardW/2-qrSize/2,qrY,qrSize,qrSize);
+      const qrSize=47,qrX=(cardW-qrSize)/2,qrY=68;
+      doc.setFillColor(255,255,255);doc.setDrawColor(0,72,168);doc.setLineWidth(1);doc.roundedRect(qrX-2,qrY-2,qrSize+4,qrSize+4,3,3,'FD');
+      doc.addImage(qr,'PNG',qrX,qrY,qrSize,qrSize);
+      doc.setFillColor(0,72,168);doc.roundedRect(22,98,30,5,2.5,2.5,'F');
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text('ID: '+safeText(person.member_no,12),cardW/2,101.5,{align:'center'});
     });
     doc.save('ID-Card-Sektor-'+String(sector).replace(/[^a-z0-9_-]/gi,'-')+'.pdf');
-    setNotice('PDF ID Card sektor berhasil dibuat dan diunduh.');
+    setNotice('PDF ID Card sektor berhasil dibuat dengan satu kartu per halaman.');
   }catch(err){console.error('PDF ID card error:',err);setError('PDF ID Card gagal dibuat: '+(err?.message||err))}
  }
 
