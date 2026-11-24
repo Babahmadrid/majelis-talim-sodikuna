@@ -295,7 +295,7 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
 .face-fullpage .face-status-line{position:absolute;z-index:7;left:14px;right:14px;bottom:22px;margin:0;padding:12px 14px;border-radius:13px;background:#06182dcc;color:#fff}
 .face-fullpage .face-notification-card{position:absolute;z-index:8;left:16px;right:16px;top:50%;transform:translateY(-50%);padding:16px;border-radius:17px;background:#d9efffee;border:1px solid #a9d9ff;box-shadow:0 12px 32px #0005;color:#0752a5;display:grid;gap:9px;backdrop-filter:blur(8px)}
 .face-notification-card>b{font-size:13px;letter-spacing:1px}
-.face-notification-card span{display:flex;justify-content:space-between;gap:12px;padding:8px 10px;border-radius:9px;background:#ffffffb8}
+.face-notification-card>span{display:flex;justify-content:space-between;gap:12px;padding:8px 10px;border-radius:9px;background:#ffffffb8}
 .face-notification-card small{font-size:12px;font-weight:700;color:#426b91}
 .face-notification-card strong{font-size:14px;color:#0752a5;text-align:right}
 .face-fullpage .face-privacy-note{position:absolute;z-index:7;left:14px;right:14px;bottom:4px;color:#e4f2ff;text-align:center}
