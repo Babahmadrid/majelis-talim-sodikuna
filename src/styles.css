@@ -1601,8 +1601,8 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 
 /* Arabic reading typography: load dependable Arabic font fallbacks for display */
 
-.devotional-arabic{font-family:'Noto Naskh Arabic','Amiri',serif!important;font-size:clamp(25px,3.5vw,34px)!important;line-height:2.35!important;direction:rtl;text-align:right;letter-spacing:0!important;word-spacing:.05em;unicode-bidi:plaintext;white-space:pre-wrap;overflow-wrap:anywhere;padding:18px 8px 22px!important;color:#101010!important}
-.devotional-detail-card .devotional-arabic{font-size:clamp(28px,4vw,36px)!important;white-space:pre-wrap;overflow-wrap:anywhere}
+.devotional-arabic{font-family:'Noto Naskh Arabic','Amiri',serif!important;font-size:clamp(25px,3.5vw,34px);line-height:2.35;direction:rtl;text-align:right;letter-spacing:0!important;word-spacing:.05em;unicode-bidi:plaintext;white-space:pre-wrap;overflow-wrap:anywhere;padding:18px 8px 22px!important;color:#101010!important}
+.devotional-detail-card .devotional-arabic{font-size:clamp(28px,4vw,36px);white-space:pre-wrap;overflow-wrap:anywhere}
 @media print{.attendance-date-table{table-layout:fixed!important;width:100%!important}.attendance-date-table col:nth-child(1){width:15%!important}.attendance-date-table col:nth-child(2){width:55%!important}.attendance-date-table col:nth-child(3){width:30%!important}.attendance-date-table th,.attendance-date-table td{padding:5px 4px!important;font-size:9px!important;line-height:1.3!important}.attendance-date-table td.status-cell{text-align:center!important;white-space:normal!important}}
 .qr-reader-mount{min-height:250px;max-height:min(62vh,520px);aspect-ratio:4/3;overflow:hidden;display:block;background:#06182c;border-radius:17px}
 .qr-reader-mount video{width:100%!important;height:100%!important;object-fit:cover!important;border-radius:17px}
@@ -1663,7 +1663,7 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 @media(max-width:900px){.app-shell .sidebar.open{z-index:10000!important}.app-shell .zigzag-picker,.app-shell .zigzag-picker.is-open{z-index:100!important}.app-shell .zigzag-picker-options{z-index:101!important}}
 
 
-/* Default Arabic line spacing; adjustable from the reader toolbar. */
+/* Reader controls own Arabic font size and line spacing; keep CSS defaults non-important. */
 .devotional-detail-card .devotional-arabic,
 .quran-surah .quran-full-text,
 .quran-full-text {
