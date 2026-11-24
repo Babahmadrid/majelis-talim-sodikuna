@@ -456,7 +456,7 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError}){
    <div className="devotional-detail-heading"><span>{folderLabels[item.category]||'Dzikir Harian'}</span><h2>{item.title}</h2></div>
    <div className="devotional-tools devotional-tools-unified devotional-detail-tools">
     <label className="quran-font-tools"><span>Ukuran huruf</span><button aria-label="Perkecil huruf" onClick={()=>setFontSize(v=>Math.max(18,v-2))}>A−</button><b>{fontSize}px</b><button aria-label="Perbesar huruf" onClick={()=>setFontSize(v=>Math.min(52,v+2))}>A+</button><button onClick={()=>{setFontSize(18);setReaderWidth(100);setReaderAlign('justify');setArabicLineSpacing(1.7)}}>Atur ulang</button></label>
-    <label className="text-align-control">Spasi baris Arab <input type="range" min="1.2" max="2.0" step="0.1" value={arabicLineSpacing} onChange={e=>setArabicLineSpacing(Number(e.target.value))}/><b>{arabicLineSpacing.toFixed(1)}</b></label>
+    
     
    </div>
    <article className="devotional-card devotional-detail-card">
