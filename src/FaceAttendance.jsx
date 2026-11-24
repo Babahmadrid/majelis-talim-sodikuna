@@ -164,8 +164,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     setStatus('Memuat model pengenalan wajah ke perangkat...');
     const module = await import('@vladmandic/human');
     const Human = module.default || module.Human;
-    const human = new Human({
-      backend: 'webgl',
+    const config = {
       modelBasePath: MODEL_BASE,
       cacheSensitivity: 0.01,
       face: {
@@ -181,9 +180,19 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
       body: { enabled: false },
       hand: { enabled: false },
       object: { enabled: false },
-    });
-    await human.load();
-    await human.warmup();
+    };
+    let human;
+    try {
+      human = new Human({ ...config, backend: 'webgl' });
+      await human.load();
+      await human.warmup();
+    } catch (webglError) {
+      try { human?.dispose?.(); } catch {}
+      setStatus('Grafik HP tidak mendukung model penuh. Mencoba mode kompatibilitas...');
+      human = new Human({ ...config, backend: 'cpu' });
+      await human.load();
+      await human.warmup();
+    }
     humanRef.current = human;
     return human;
   }
