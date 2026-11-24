@@ -1747,3 +1747,11 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .toolbar:has(.sector-picker) .file-btn{width:100%;min-height:48px;white-space:normal;line-height:1.25}
  .sector-picker-menu{width:100%;max-height:min(260px,50vh);left:0;right:auto}
 }
+
+/* Ensure sector dropdown is above the CSV export dropdown on mobile */
+@media(max-width:900px){
+ .app-shell .sector-picker.is-open{z-index:9505!important;position:relative!important}
+ .app-shell .sector-picker-menu{z-index:9506!important}
+ .app-shell .export-menu,.app-shell .export-menu.open{z-index:9000!important}
+ .app-shell .export-menu-options{z-index:9001!important}
+}
