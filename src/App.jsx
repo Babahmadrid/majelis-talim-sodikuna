@@ -288,10 +288,12 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
  function printAttendanceDate(agendaId){
   const event=agenda.find(a=>a.id===agendaId);if(!event){setError('Pilih tanggal pengajian terlebih dahulu.');return}
   const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const records=attendance.filter(x=>x.agenda_id===agendaId);let rows='';const counts={hadir:0,izin:0,sakit:0,alpa:0,belum:0};
+  const records=attendance.filter(x=>x.agenda_id===agendaId);
+  const counts={hadir:0,izin:0,sakit:0,alpa:0,belum:0};
+  let rows='';
   for(const sector of sectors){
    const members=jamaah.filter(j=>j.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));if(!members.length)continue;
-   rows+=`<tr class="pdf-sector-row"><td colspan="3">SEKTOR: ${esc(sector)} <span>${members.length} jamaah</span></td></tr>`;
+   rows+=`<tr class="pdf-sector-row"><td colspan="3">SEKTOR: ${esc(sector)} <span>${members.length} jamaah</span></td></tr><tr class="pdf-column-head"><th class="center">NO. ANGGOTA</th><th>NAMA JAMAAH</th><th class="center">STATUS KEHADIRAN</th></tr>`;
    members.forEach(m=>{
     const rec=records.find(x=>x.jamaah_id===m.id);const status=String(rec?.status||'belum').toLowerCase();
     counts[status]=(counts[status]||0)+1;
@@ -300,9 +302,11 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
    });
   }
   const date=event.event_date?new Date(event.event_date+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'}):'-';
-  const summary=`<div class="summary"><div><b>${counts.hadir}</b><span>HADIR</span></div><div><b>${counts.izin}</b><span>IZIN</span></div><div><b>${counts.sakit}</b><span>SAKIT</span></div><div><b>${counts.alpa}</b><span>ALPA</span></div><div><b>${counts.belum}</b><span>BELUM DICATAT</span></div></div>`;
-  const table=`<table class="attendance-date-table"><colgroup><col style="width:15%"><col style="width:55%"><col style="width:30%"></colgroup><thead><tr><th class="center">NO. ANGGOTA</th><th>NAMA JAMAAH</th><th class="center">STATUS KEHADIRAN</th></tr></thead><tbody>${rows||'<tr><td colspan="3" class="center">Belum ada data jamaah</td></tr>'}</tbody></table>`;
-  openReportPDF('Rekap Absensi Pertanggal Pengajian',`${event.title||'Pengajian'} · ${date}`,summary+table,`rekap-absensi-${event.event_date||'pengajian'}.pdf`,false);
+  const total=jamaah.length;
+  const summary=`<div class="summary overall-summary"><div><b>${counts.hadir}</b><span>JAMAAH HADIR</span></div><div><b>${counts.izin}</b><span>IZIN</span></div><div><b>${counts.sakit}</b><span>SAKIT</span></div><div><b>${counts.alpa}</b><span>TANPA KETERANGAN</span></div><div><b>${total}</b><span>TOTAL JAMAAH</span></div></div>`;
+  const table=`<table class="attendance-date-table"><colgroup><col style="width:15%"><col style="width:55%"><col style="width:30%"></colgroup><tbody>${rows||'<tr><td colspan="3" class="center">Belum ada data jamaah</td></tr>'}</tbody></table>`;
+  const extraStyle='<style>.pdf-column-head th{background:#0b5e9e!important;color:#fff!important;font-weight:700!important}.overall-summary{margin-top:18px;break-inside:avoid;page-break-inside:avoid}.overall-summary div{padding:7px 3px!important}.overall-summary b{font-size:13px!important}.overall-summary span{font-size:7px!important}</style>';
+  openReportPDF('Rekap Absensi Pertanggal Pengajian',`${event.title||'Pengajian'} · ${date}`,extraStyle+table+summary,`rekap-absensi-${event.event_date||'pengajian'}.pdf`,false);
  }
  async function makeQR(item){const value=JSON.stringify({type:'sodikuna-attendance',agenda_id:item.id,token:item.qr_token||item.id});setQr(await QRCode.toDataURL(value,{width:280,margin:2}));}
  async function printMemberCard(person){
