@@ -1672,3 +1672,7 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 /* Admin actions on each devotional list item */
 .devotional-list-actions{display:flex;gap:7px;justify-content:flex-end;padding:8px 12px 12px;flex-wrap:wrap}
 .devotional-list-actions .small-btn{min-height:34px}
+
+/* Quran Ar-Rahman: match the Arabic styling of Dzikir/Do'a while keeping reader controls functional. */
+.quran-surah .quran-full-text.devotional-arabic{font-family:'Noto Naskh Arabic','Amiri',serif!important;font-weight:600;color:#101010!important;padding:18px 8px 22px!important;white-space:pre-wrap;overflow-wrap:anywhere;letter-spacing:0!important;word-spacing:.05em;direction:rtl;}
+.quran-surah .quran-full-text.devotional-arabic{font-size:inherit!important;line-height:inherit!important;}
