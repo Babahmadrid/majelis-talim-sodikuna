@@ -371,14 +371,23 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
       doc.setFillColor(92,198,255);doc.roundedRect(x+0.8,y+0.8,cardW-1.6,cardH-1.6,3.3,3.3,'F'); // bright rim
       doc.setFillColor(12,126,222);doc.roundedRect(x+1.5,y+1.5,cardW-3,cardH-3,3,3,'F');
       doc.setFillColor(226,247,255);doc.roundedRect(x+3,y+3,cardW-6,cardH-6,2,2,'F');
-      // Header panel: lighter azure with glossy top edge; no circles/triangles
-      doc.setFillColor(16,139,235);doc.roundedRect(x+3,y+3,cardW-6,23,2,2,'F');
-      doc.setFillColor(95,205,255);doc.roundedRect(x+4,y+4,cardW-8,1.2,1,1,'F'); // shine
-      doc.setDrawColor(255,218,65);doc.setLineWidth(.5);doc.line(x+3,y+26,x+cardW-3,y+26);
-      if(logoData)try{doc.addImage(logoData,'PNG',x+cardW/2-7.5,y+4.2,15,15)}catch{}
-      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.3);
-      doc.text("MAJELIS TA'LIM SODIKUNA",x+cardW/2,y+21.5,{align:'center'});
-      doc.setFontSize(7.0);doc.text('CARINGIN SUKABUMI',x+cardW/2,y+24.5,{align:'center'});
+      // Header baru bernuansa masjid: pola geometri, siluet kubah, logo dan teks.
+      doc.setFillColor(0,92,194);doc.roundedRect(x+3,y+3,cardW-6,23,2,2,'F');
+      doc.setFillColor(4,137,228);doc.roundedRect(x+3.6,y+3.6,cardW-7.2,21.8,1.7,1.7,'F');
+      // Pola bintang/diamond halus di latar header.
+      doc.setDrawColor(72,183,255);doc.setLineWidth(.25);
+      for(let px=x+5;px<x+cardW-5;px+=7){for(let py=y+5;py<y+18;py+=6){doc.line(px,py-1.3,px+1.3,py);doc.line(px+1.3,py,px,py+1.3);doc.line(px,py+1.3,px-1.3,py);doc.line(px-1.3,py,px,py-1.3);}}
+      // Siluet kubah dan menara sederhana di belakang logo.
+      doc.setFillColor(3,74,158);
+      doc.ellipse(x+cardW/2,y+17.5,12,6,'F');
+      doc.rect(x+cardW/2-12,y+17.5,24,4,'F');
+      doc.ellipse(x+cardW/2-19,y+18,6,3.5,'F');doc.rect(x+cardW/2-25,y+18,12,3,'F');
+      doc.ellipse(x+cardW/2+19,y+18,6,3.5,'F');doc.rect(x+cardW/2+13,y+18,12,3,'F');
+      doc.setDrawColor(255,222,68);doc.setLineWidth(.6);doc.line(x+3,y+26,x+cardW-3,y+26);
+      if(logoData)try{doc.addImage(logoData,'PNG',x+cardW/2-8,y+4.1,16,16)}catch{}
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.0);
+      doc.text("MAJELIS TA'LIM SODIKUNA",x+cardW/2,y+21.2,{align:'center'});
+      doc.setFontSize(6.8);doc.text('CARINGIN SUKABUMI',x+cardW/2,y+24.1,{align:'center'});
       doc.setFillColor(18,133,225);doc.roundedRect(x+8,y+28,cardW-16,5.5,2.5,2.5,'F');
       doc.setDrawColor(90,190,255);doc.setLineWidth(.3);doc.line(x+10,y+28.6,x+cardW-10,y+28.6);
       doc.setTextColor(255,255,255);doc.setFontSize(6.7);doc.text('KARTU ANGGOTA JAMAAH',x+cardW/2,y+32,{align:'center'});
