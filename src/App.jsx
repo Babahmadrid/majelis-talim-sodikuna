@@ -479,14 +479,15 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError}){
     <div className="quran-reader-settings quran-reader-settings-compact">
       <div className="quran-settings-title"><span>Pengaturan bacaan</span><small>Sesuaikan kenyamanan membaca</small></div>
       <div className="devotional-tools quran-tools">
-        <label className="quran-font-tools"><span>Ukuran huruf</span><button aria-label="Perkecil huruf" onClick={()=>setFontSize(v=>Math.max(18,v-2))}>A−</button><b>{fontSize}px</b><button aria-label="Perbesar huruf" onClick={()=>setFontSize(v=>Math.min(52,v+2))}>A+</button><button onClick={()=>{setFontSize(29);setReaderAlign('justify')}}>Atur ulang</button></label>
+        <label className="quran-font-tools"><span>Ukuran huruf</span><button aria-label="Perkecil huruf" onClick={()=>setFontSize(v=>Math.max(18,v-2))}>A−</button><b>{fontSize}px</b><button aria-label="Perbesar huruf" onClick={()=>setFontSize(v=>Math.min(52,v+2))}>A+</button><button onClick={()=>{setFontSize(29);setReaderAlign('justify');setReaderWidth(100);setArabicLineSpacing(1.7)}}>Atur ulang</button></label>
         <label className="text-align-control quran-width-control"><span>Lebar bacaan khusus</span><input type="range" min="70" max="100" step="5" value={readerWidth} onChange={e=>setReaderWidth(Number(e.target.value))}/><b>{readerWidth}%</b></label>
+        <label className="text-align-control"><span>Spasi baris Arab</span><input type="range" min="1.2" max="2.5" step="0.1" value={arabicLineSpacing} onChange={e=>setArabicLineSpacing(Number(e.target.value))}/><b>{arabicLineSpacing.toFixed(1)}</b></label>
         <label className="text-align-control"><span>Perataan</span><select value={readerAlign} onChange={e=>setReaderAlign(e.target.value)}><option value="right">Rata kanan</option><option value="center">Rata tengah</option><option value="left">Rata kiri</option><option value="justify">Rata kiri-kanan</option></select></label>
       </div>
     </div>
     <article className="devotional-card quran-surah quran-custom-mode">
       <div className="quran-frame-top"><span className="quran-frame-ornament">۞</span><span className="quran-frame-label">سُورَةُ الرَّحْمَٰن</span><span className="quran-frame-ornament">۞</span></div>
-      <div className="quran-full-text" dir="rtl" lang="ar" style={{fontSize:fontSize+'px',textAlign:readerAlign,maxWidth:readerWidth+'%',marginInline:'auto'}}>{AR_RAHMAN_TEXT.replace(/^بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ\\n\\n/,'')}</div>
+      <div className="quran-full-text" dir="rtl" lang="ar" style={{fontFamily:'Noto Naskh Arabic, Amiri, serif',fontSize:fontSize+'px',lineHeight:arabicLineSpacing,letterSpacing:'normal',textAlign:readerAlign,maxWidth:readerWidth+'%',marginInline:'auto'}}>{AR_RAHMAN_TEXT.replace(/^بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ\\n\\n/,'')}</div>
       <div className="quran-frame-bottom"><span>القرآن الكريم</span><span>٥٥ · ٧٨</span></div>
       <p className="quran-source">Surah Ar-Rahman · 78 ayat</p>
     </article>
