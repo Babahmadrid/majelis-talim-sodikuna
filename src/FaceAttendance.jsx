@@ -219,7 +219,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         videoRef.current.srcObject = stream;
         await videoRef.current.play();
         await loadModel();
-        if (!cancelled) setStatus(mode === 'enroll' ? 'Arahkan wajah jamaah ke kamera untuk pendaftaran.' : 'Kamera aktif. Posisikan satu wajah di tengah kamera.');
+        if (!cancelled) setStatus(mode === 'enroll' ? 'Kamera aktif untuk pendaftaran.' : 'Kamera aktif.');
       } catch (e) {
         if (!cancelled) { setError(e.message || 'Kamera atau model wajah gagal dimuat.'); setOpen(false); }
       }
@@ -239,16 +239,6 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     if (!video || video.videoWidth < 1 || video.videoHeight < 1) {
       return { ok: false, message: 'Menunggu kamera siap...' };
     }
-    const box = face?.box;
-    if (Array.isArray(box) && box.length >= 4) {
-      const [x, y, width, height] = box.map(Number);
-      const cx = (x + width / 2) / video.videoWidth;
-      const cy = (y + height / 2) / video.videoHeight;
-      const faceWidth = width / video.videoWidth;
-      const faceHeight = height / video.videoHeight;
-      if (cx < 0.28 || cx > 0.72 || cy < 0.25 || cy > 0.75) {
-        return { ok: false, message: 'Posisikan wajah di tengah panduan.' };
-      }
       if (faceWidth < 0.18 || faceHeight < 0.22) {
         return { ok: false, message: 'Dekatkan wajah sedikit ke kamera.' };
       }
@@ -288,7 +278,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
       const faces = result.face || [];
       if (faces.length !== 1) {
         setFaceDetected(false);
-        setCameraQuality({ ok: false, message: faces.length > 1 ? 'Hanya satu jamaah boleh berada di depan kamera.' : 'Wajah belum terdeteksi. Dekatkan wajah ke kamera.' });
+        setCameraQuality({ ok: false, message: faces.length > 1 ? 'Terdeteksi lebih dari satu wajah.' : 'Wajah belum terdeteksi.' });
         setStatus(faces.length > 1 ? 'Hanya satu jamaah boleh berada di depan kamera.' : 'Wajah belum terdeteksi. Dekatkan wajah ke kamera.');
         return;
       }
@@ -301,7 +291,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
       }
       if (mode === 'match') {
         setFaceDetected(true);
-        setStatus('Wajah terlihat. Silakan pilih identitas Anda dan konfirmasi kehadiran.');
+        setStatus('Wajah terdeteksi.');
         return;
       }
       if (!faces[0].embedding) throw new Error('Model tidak menghasilkan template wajah yang valid.');
@@ -437,7 +427,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         {mode === 'enroll' && consentSaved && <div className="face-consent-saved"><b>✓ Data pendaftaran tersimpan sementara</b><span>Identitas dan persetujuan sudah disiapkan. Silakan daftarkan wajah di kamera.</span><button type="button" onClick={() => {setConsentSaved(false);setStatus('Silakan periksa kembali data pendaftaran.');}}>Ubah data</button></div>}
         <div className="face-camera-stage"><video ref={videoRef} playsInline muted autoPlay/><div className="face-camera-guide"/><div className={`face-camera-quality ${cameraQuality.ok ? 'ready' : 'checking'}`}>{cameraQuality.ok ? '● KAMERA SIAP' : '● DETEKSI KAMERA'}<span>{faceDetected ? 'Wajah terlihat di kamera.' : 'Pastikan wajah terlihat jelas dan pencahayaan cukup.'}</span></div></div>
         <div className="face-status-line">{working && <LoaderCircle size={16} className="face-spinner"/>}{status}</div>
-        {faceDetected && mode === 'match' && <div className="face-notification-card"><b>WAJAH TERDETEKSI</b><span>Pilih identitas Anda sendiri untuk mencatat kehadiran.</span><label className="face-attendance-member-label">Identitas jamaah</label><select value={attendanceMemberId} onChange={e => {setAttendanceMemberId(e.target.value);setConfirmAttendance(false);}}><option value="">-- Pilih jamaah --</option>{active.map(person => <option key={person.id} value={person.id}>{person.member_no} · {person.name} · {person.sector || '-'}</option>)}</select>{attendanceMemberId && <button type="button" className="face-capture-button" disabled={working} onClick={() => setConfirmAttendance(true)}>Konfirmasi kehadiran</button>}</div>}
+        {faceDetected && mode === 'match' && <div className="face-notification-card"><b>WAJAH TERDETEKSI</b><span>Pilih identitas Anda sendiri untuk mencatat kehadiran.</span><label className="face-attendance-member-label">Identitas jamaah</label><select className="face-attendance-member-select" value={attendanceMemberId} onChange={e => {setAttendanceMemberId(e.target.value);setConfirmAttendance(false);}}><option value="">Pilih nama jamaah</option>{activeSectors.map(sector => <optgroup key={sector} label={sector}>{active.filter(person=>person.sector===sector).sort((a,b)=>a.name.localeCompare(b.name,'id')).map(person=><option key={person.id} value={person.id}>{person.member_no} · {person.name}</option>)}</optgroup>)}</select>{attendanceMemberId && <button type="button" className="face-capture-button" disabled={working} onClick={() => setConfirmAttendance(true)}>Konfirmasi kehadiran</button>}</div>}
         {confirmAttendance && mode === 'match' && attendanceMemberId && <div className="face-confirm-attendance-card" role="dialog" aria-modal="true"><b>Konfirmasi kehadiran</b><p>{(() => {const person=active.find(item=>item.id===attendanceMemberId);return person ? `${person.name} · ${person.member_no} · ${person.sector || '-'}` : 'Anggota tidak ditemukan';})()}</p><small>Pastikan identitas yang dipilih adalah identitas Anda.</small><button type="button" className="face-capture-button" disabled={working} onClick={async () => {const person=active.find(item=>item.id===attendanceMemberId);if(!person){setError('Identitas jamaah tidak ditemukan.');return;}setConfirmAttendance(false);await markPresent(person,'face');setStatus('Kehadiran berhasil dikirim.');setFaceDetected(false);setAttendanceMemberId('');}}>KONFIRMASI & SIMPAN KEHADIRAN</button><button type="button" className="face-cancel-confirm" onClick={() => setConfirmAttendance(false)}>Batal</button></div>}
         {recognized && mode === 'match' && <div className="face-notification-card"><b>HASIL PEMINDAIAN</b><span><small>Nama:</small><strong>{recognized.name}</strong></span><span><small>No anggota:</small><strong>{recognized.member_no}</strong></span><span><small>Sektor:</small><strong>{recognized.sector || '-'}</strong></span></div>}
         {error && <div className="alert error">{error}</div>}
