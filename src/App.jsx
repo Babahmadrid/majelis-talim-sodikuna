@@ -349,39 +349,34 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
  async function printSectorMemberCards(sector){
   const members=jamaah.filter(m=>m.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));
   if(!members.length){setNotice('Sektor ini belum memiliki anggota.');return}
-  const w=window.open('','_blank','width=900,height=1200');
-  if(!w){setError('Izinkan pop-up untuk mencetak kartu per sektor.');return}
-  w.document.write('<!doctype html><html><head><title>Menyiapkan kartu sektor...</title></head><body>Menyiapkan kartu anggota sektor...</body></html>');
-  const cards=await Promise.all(members.map(async person=>({person,code:await QRCode.toDataURL('sodikuna:member:'+person.id,{width:620,margin:1,errorCorrectionLevel:'H'})})));
-  const esc=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Kartu Jamaah ${esc(sector)}</title><style>
-  @page{size:A4 portrait;margin:7mm}
-  *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;print-color-adjust:exact;-webkit-print-color-adjust:exact}
-  .sheet{width:196mm;height:283mm;display:grid;grid-template-columns:repeat(3,61mm);grid-template-rows:repeat(3,87mm);gap:3mm;align-content:start;justify-content:center;page-break-after:always}.slot{width:61mm;height:87mm;overflow:hidden;position:relative}.card{width:74mm;height:105mm;position:relative;overflow:hidden;border:.5mm solid #0872c8;border-radius:5mm;margin:0;background:radial-gradient(ellipse at 50% 49%,#fff 0,#f8fcff 46%,#c5e8ff 100%);color:#061d58;transform:scale(.824);transform-origin:top left}
-  .pattern{position:absolute;inset:0 0 auto;height:32mm;opacity:.18;background-image:repeating-linear-gradient(45deg,transparent 0 2mm,#0879c9 2.15mm 2.45mm,transparent 2.6mm 4mm),repeating-linear-gradient(-45deg,transparent 0 2mm,#0879c9 2.15mm 2.45mm,transparent 2.6mm 4mm)}
-  .logo{position:absolute;top:4mm;left:31.5mm;width:11mm;height:11mm;object-fit:contain;border-radius:50%;background:white}
-  .title{position:absolute;top:16mm;left:2mm;right:2mm;text-align:center;font-weight:900;font-size:5mm;color:#071b59}
-  .sub{position:absolute;top:23mm;left:9mm;right:9mm;text-align:center;padding:1.4mm;border-radius:8mm;color:#fff;font-size:4mm;font-weight:bold;background:#0752b4}
-  .details{position:absolute;top:35mm;left:5mm;right:5mm}
-  .detail{height:7mm;display:grid;grid-template-columns:7mm 19mm 3mm 1fr;align-items:center;border-bottom:.25mm solid #91b7d7;font-size:3.2mm}
-  .detail b{white-space:nowrap}.value{font-size:3.8mm;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .qr{position:absolute;top:54mm;left:6mm;width:62mm;height:42mm;padding:1mm;background:white;border:.6mm solid #0757a8;border-radius:3mm;display:grid;place-items:center}
-  .qr img{width:100%;height:100%;object-fit:contain}
-  .id{position:absolute;top:99mm;left:26mm;min-width:22mm;text-align:center;padding:1mm 2mm;border-radius:8mm;color:#fff;background:#0752b4;font-size:4mm;font-weight:900}
-  .wave{position:absolute;bottom:0;width:100%;height:8mm;background:linear-gradient(180deg,#f5d137 0 25%,#0781d8 25% 65%,#0050ad 65%);border-top:1mm solid white}
-  @media screen{body{background:#e9edf3;padding:5mm}.sheet{background:white;margin:0 auto 5mm;padding:2mm}.card{box-shadow:0 1mm 3mm #0002}}
-  </style></head><body>${Array.from({length:Math.ceil(cards.length/9)},(_,page)=>`<div class="sheet">${cards.slice(page*9,page*9+9).map(({person,code})=>`<div class="slot"><article class="card"><div class="pattern"></div><img class="logo" src="${new URL('/logo-sodikuna.png',location.href).href}"><div class="title">Majelis Ta’lim<br>Sodikuna</div><div class="sub">Kartu Anggota Jamaah</div><div class="details"><div class="detail"><b>Nama</b><span>:</span><span class="value">${esc(person.name)}</span></div><div class="detail"><b>No. Anggota</b><span>:</span><span class="value">${esc(person.member_no)}</span></div><div class="detail"><b>Sektor</b><span>:</span><span class="value">${esc(person.sector)}</span></div></div><div class="qr"><img src="${code}"></div><div class="id">ID: ${esc(person.member_no)}</div><div class="wave"></div></article></div>`).join('')}</div>`).join('')}</div></body></html>`);
-  w.document.close();
-  // Mobile browsers often block automatic print calls from popup documents.
-  // Keep a visible print/download-to-PDF action and attempt auto-print after assets settle.
-  const printBtn=w.document.createElement('button');
-  printBtn.textContent='Cetak / Simpan sebagai PDF';printBtn.id='sector-print-button';
-  printBtn.style.cssText='position:fixed;z-index:99999;top:12px;left:12px;padding:12px 18px;background:#0752b4;color:white;border:0;border-radius:8px;font:700 16px Arial;cursor:pointer';const printCss=w.document.createElement('style');printCss.textContent='@media print{#sector-print-button{display:none!important}.sheet:last-of-type{page-break-after:auto!important}}';w.document.head.appendChild(printCss);
-  printBtn.onclick=()=>{try{w.focus();w.print()}catch(e){printBtn.textContent='Gagal membuka dialog cetak';}};
-  w.document.body.prepend(printBtn);
-  setTimeout(()=>{try{w.focus();w.print()}catch(e){printBtn.textContent='Tekan tombol untuk mencetak PDF'}},1500);
- }
-
+  try{
+    setNotice('Membuat PDF kartu anggota...');
+    const {jsPDF}=await import('jspdf');
+    const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    const qrCards=await Promise.all(members.map(async person=>({person,qr:await QRCode.toDataURL('sodikuna:member:'+person.id,{width:600,margin:1,errorCorrectionLevel:'H'})})));
+    let logoData=null;
+    try{const resp=await fetch('/logo-sodikuna.png');if(resp.ok){const blob=await resp.blob();logoData=await new Promise(resolve=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>resolve(null);reader.readAsDataURL(blob)})}}catch{}
+    const pageW=210,pageH=297,margin=7,gap=3,cardW=(pageW-margin*2-gap*2)/3,cardH=(pageH-margin*2-gap*2)/3;
+    qrCards.forEach(({person,qr},idx)=>{
+      if(idx>0&&idx%9===0)doc.addPage();
+      const slot=idx%9,row=Math.floor(slot/3),col=slot%3,x=margin+col*(cardW+gap),y=margin+row*(cardH+gap);
+      doc.setDrawColor(8,114,200);doc.setLineWidth(.45);doc.setFillColor(245,251,255);doc.roundedRect(x,y,cardW,cardH,3,3,'FD');
+      doc.setFillColor(7,82,180);doc.roundedRect(x+1,y+1,cardW-2,21,2,2,'F');
+      if(logoData){try{doc.addImage(logoData,'PNG',x+cardW/2-5,y+3,10,10)}catch{}}
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text("MAJELIS TA'LIM SODIKUNA",x+cardW/2,y+16,{align:'center'});
+      doc.setTextColor(7,29,89);doc.setFontSize(8);doc.text('KARTU ANGGOTA JAMAAH',x+cardW/2,y+26,{align:'center'});
+      doc.setDrawColor(145,183,215);doc.line(x+4,y+29,x+cardW-4,y+29);
+      doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text('Nama',x+5,y+36);doc.text('No. Anggota',x+5,y+44);doc.text('Sektor',x+5,y+52);
+      doc.setFont('helvetica','normal');doc.setFontSize(8);
+      const clip=(v,max=24)=>{let str=String(v??'-');return str.length>max?str.slice(0,max-1)+'…':str};
+      doc.text(': '+clip(person.name,26),x+22,y+36);doc.text(': '+clip(person.member_no,26),x+22,y+44);doc.text(': '+clip(person.sector,26),x+22,y+52);
+      const qrSize=Math.min(cardW-14,37);doc.addImage(qr,'PNG',x+(cardW-qrSize)/2,y+55,qrSize,qrSize);
+      doc.setFillColor(7,82,180);doc.roundedRect(x+cardW/2-14,y+cardH-12,28,7,3,3,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text('ID: '+clip(person.member_no,20),x+cardW/2,y+cardH-7,{align:'center'});
+      doc.setDrawColor(245,209,55);doc.setLineWidth(1.1);doc.line(x+2,y+cardH-2,x+cardW-2,y+cardH-2);
+    });
+    doc.save('ID-Card-Sektor-'+String(sector).replace(/[^a-z0-9_-]/gi,'-')+'.pdf');
+    setNotice('PDF ID Card sektor berhasil dibuat dan diunduh.');
+  }catch(err){console.error('PDF ID card error:',err);setError('PDF ID Card gagal dibuat: '+(err?.message||err))}
  }
 
  if(!db)return <SetupScreen/>;
