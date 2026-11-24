@@ -1647,3 +1647,14 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .quran-surah{
   background:#fff!important;
 }
+
+/* Compact sector folder cards on attendance page */
+@media(max-width:520px){
+ .sector-folder-head{min-height:64px!important;padding:8px 10px!important;gap:7px!important}
+ .folder-icon,.folder-icon svg{width:30px!important;height:30px!important}
+ .sector-folder-info{gap:2px!important}
+ .sector-folder-info b{font-size:13px!important;line-height:1.15}
+ .sector-folder-info small{font-size:9px!important;line-height:1.15}
+ .sector-percent{min-width:48px!important;font-size:13px!important;padding:5px 8px!important}
+ .sector-chevron{width:18px!important;height:18px!important}
+}
