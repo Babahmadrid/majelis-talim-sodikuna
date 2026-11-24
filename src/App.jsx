@@ -320,13 +320,11 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   @page{size:74mm 105mm;margin:0}
   *{box-sizing:border-box}html,body{margin:0;width:74mm;height:105mm;font-family:Arial,Helvetica,sans-serif}
   body{print-color-adjust:exact;-webkit-print-color-adjust:exact}
-  .card{width:74mm;height:105mm;position:relative;overflow:hidden;border:.45mm solid #0872c8;border-radius:4.5mm;background:radial-gradient(ellipse at 50% 49%,#fff 0,#f8fcff 46%,#c5e8ff 100%);color:#061d58}
-  .islamic{position:absolute;inset:0 0 auto;height:25mm;opacity:.18;background-image:repeating-linear-gradient(45deg,transparent 0 2mm,#0879c9 2.15mm 2.45mm,transparent 2.6mm 4mm),repeating-linear-gradient(-45deg,transparent 0 2mm,#0879c9 2.15mm 2.45mm,transparent 2.6mm 4mm);mask-image:linear-gradient(#000,transparent)}
-  .arch{position:absolute;top:1mm;left:1mm;width:72mm;height:36mm;border:1.1mm solid #f6d43c;border-bottom:0;border-radius:27mm 27mm 0 0}
-  .logo-wrap{position:absolute;top:4mm;left:31.5mm;width:11mm;height:11mm;border:1mm solid #062b75;border-radius:50%;background:#fff;display:grid;place-items:center;z-index:4;box-shadow:0 0 0 .8mm #6dc8fa}
+  .card{width:74mm;height:105mm;position:relative;overflow:hidden;border:.65mm solid #168ce7;border-radius:4.5mm;background:linear-gradient(145deg,#f8fdff 0%,#dff4ff 45%,#bfe9ff 100%);color:#063c83;box-shadow:inset 0 0 0 1mm #91d9ff,inset 0 0 0 1.6mm #168ce7,inset 0 0 2.4mm #fff}
+  .islamic,.arch,.mosque{display:none!important}
+  .logo-wrap{position:absolute;top:4mm;left:31.5mm;width:11mm;height:11mm;border:1mm solid #0b65c0;border-radius:50%;background:#fff;display:grid;place-items:center;z-index:4;box-shadow:0 0 0 .8mm #7ed5ff,0 0 2mm #4abaff}
   .logo{width:9mm;height:9mm;object-fit:contain;border-radius:50%}
-  .mosque{position:absolute;top:15mm;left:0;width:74mm;height:11mm;opacity:.38;z-index:1}
-  .title{position:absolute;top:14mm;left:1mm;right:1mm;text-align:center;font-weight:900;color:#071b59;font-size:4mm;line-height:1.02;letter-spacing:-.25mm;z-index:2}
+  .title{position:absolute;top:16mm;left:2mm;right:2mm;text-align:center;font-weight:900;color:#fff;font-size:4.3mm;line-height:1.12;letter-spacing:0;z-index:2;text-transform:uppercase;text-shadow:0 .4mm 1.1mm #003c91}
   .subtitle{position:absolute;top:23mm;left:7mm;right:7mm;text-align:center;padding:1.25mm .5mm;border-radius:8mm;color:white;font-size:3.4mm;font-weight:800;background:linear-gradient(180deg,#168ce7,#0050b7);box-shadow:0 .5mm 1mm #003d8b55;z-index:3}
   .details{position:absolute;top:36mm;left:4.8mm;right:4.8mm;z-index:3}
   .detail{height:6.0mm;display:grid;grid-template-columns:5.3mm 15.5mm 2mm 1fr;align-items:center;border-bottom:.25mm solid #91b7d7;font-size:2.7mm;color:#09285f}
@@ -341,7 +339,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   </style></head><body><div class="card"><div class="islamic"></div><div class="arch"></div>
   <div class="logo-wrap"><img class="logo" src="${location.origin}/logo-sodikuna.png" alt="Logo Yayasan Sodikuna"></div>
   <svg class="mosque" viewBox="0 0 540 110" preserveAspectRatio="none"><g fill="#1686d5"><path d="M0 110V77Q36 34 72 77V110M54 110V66Q108 5 162 66V110M144 110V84Q181 43 218 84V110M322 110V84Q359 43 396 84V110M378 110V66Q432 5 486 66V110M468 110V77Q504 34 540 77V110"/></g><g fill="#0870c9"><path d="M99 64V31Q108 17 117 31V64M414 64V31Q423 17 432 31V64"/></g><path d="M0 106H540" stroke="#fff" stroke-width="5"/></svg>
-  <div class="title">Majelis Ta’lim<br>Sodikuna</div><div class="subtitle">Kartu Anggota Jamaah</div>
+  <div class="title">MAJELIS TA'LIM SODIKUNA<br>CARINGIN SUKABUMI</div><div class="subtitle">Kartu Anggota Jamaah</div>
   <div class="details">
   <div class="detail"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="7" r="5"/><path d="M2 22v-2a8 8 0 0 1 8-8h4a8 8 0 0 1 8 8v2z"/></svg><span class="label">Nama</span><span class="colon">:</span><span class="value">${safe(person.name)}</span></div>
   <div class="detail"><svg class="ico" viewBox="0 0 24 24"><rect x="1" y="3" width="22" height="18" rx="3" fill="none" stroke="#0870c9" stroke-width="2"/><circle cx="8" cy="10" r="3"/><path d="M3 18q1-5 5-5t5 5M15 8h6M15 12h6M15 16h5" fill="none" stroke="#0870c9" stroke-width="1.8"/></svg><span class="label">No. Anggota</span><span class="colon">:</span><span class="value">${safe(person.member_no)}</span></div>
