@@ -238,37 +238,43 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     try {
       const result = await humanRef.current.detect(videoRef.current);
       const faces = result.face || [];
-      if (faces.length !== 1 || !faces[0].embedding) {
+      if (faces.length !== 1) {
+        setFaceDetected(false);
         setStatus(faces.length > 1 ? 'Hanya satu jamaah boleh berada di depan kamera.' : 'Wajah belum terdeteksi. Dekatkan wajah ke kamera.');
         return;
       }
+      if (mode === 'match') {
+        setFaceDetected(true);
+        setStatus('Wajah terdeteksi. Petugas harus memilih dan mengonfirmasi identitas secara manual sebelum absensi disimpan.');
+        return;
+      }
+      if (!faces[0].embedding) throw new Error('Model tidak menghasilkan template wajah yang valid.');
       const embedding = normalize(faces[0].embedding);
-      if (mode === 'enroll') {
-        if (!memberId) throw new Error('Pilih nama jamaah yang akan didaftarkan.');
-        if (!consentSaved) throw new Error('Simpan data jamaah dan persetujuan terlebih dahulu.');
-        if (!consentConfirmed) throw new Error('Persetujuan jamaah atau orang tua/wali wajib dikonfirmasi.');
-        if (consentType === 'parent_or_guardian' && !guardianName.trim()) throw new Error('Nama orang tua/wali wajib diisi.');
-        const { error: invokeError } = await db.functions.invoke('face-biometric', {
-          body: {
-            action: 'enroll',
-            jamaah_id: memberId,
-            embedding,
-            consent_subject: consentType,
-            guardian_name: consentType === 'parent_or_guardian' ? guardianName.trim() : null,
-            consent_version: 'sodikuna-face-consent-v1',
-            consent_confirmed: true,
-          },
-        });
-        if (invokeError) throw invokeError;
-        setStatus('Pendaftaran wajah berhasil. Template biometrik sudah tersimpan.');
-        setError('');
-        playFaceEnrollmentSuccessAudio();
-        setAlreadyEnrolled(true);
-        setConsentConfirmed(false);
-        setConsentSaved(false);
-        setMemberId('');
-        setGuardianName('');
-      }{
+      if (!memberId) throw new Error('Pilih nama jamaah yang akan didaftarkan.');
+      if (!consentSaved) throw new Error('Simpan data jamaah dan persetujuan terlebih dahulu.');
+      if (!consentConfirmed) throw new Error('Persetujuan jamaah atau orang tua/wali wajib dikonfirmasi.');
+      if (consentType === 'parent_or_guardian' && !guardianName.trim()) throw new Error('Nama orang tua/wali wajib diisi.');
+      const { error: invokeError } = await db.functions.invoke('face-biometric', {
+        body: {
+          action: 'enroll',
+          jamaah_id: memberId,
+          embedding,
+          consent_subject: consentType,
+          guardian_name: consentType === 'parent_or_guardian' ? guardianName.trim() : null,
+          consent_version: 'sodikuna-face-consent-v1',
+          consent_confirmed: true,
+        },
+      });
+      if (invokeError) throw invokeError;
+      setStatus('Pendaftaran wajah berhasil. Template biometrik sudah tersimpan.');
+      setError('');
+      playFaceEnrollmentSuccessAudio();
+      setAlreadyEnrolled(true);
+      setConsentConfirmed(false);
+      setConsentSaved(false);
+      setMemberId('');
+      setGuardianName('');
+    } catch (e) {
       let detail = e?.message || 'Proses pengenalan wajah gagal.';
       try {
         const response = e?.context;
