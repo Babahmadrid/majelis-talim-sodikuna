@@ -354,26 +354,31 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
     setNotice('Membuat PDF kartu anggota...');
     const {jsPDF}=await import('jspdf');
     const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-    const qrCards=await Promise.all(members.map(async person=>({person,qr:await QRCode.toDataURL('sodikuna:member:'+person.id,{width:600,margin:1,errorCorrectionLevel:'H'})})));
+    const qrCards=await Promise.all(members.map(async person=>({person,qr:await QRCode.toDataURL('sodikuna:member:'+person.id,{width:500,margin:1,errorCorrectionLevel:'H'})})));
     let logoData=null;
     try{const resp=await fetch('/logo-sodikuna.png');if(resp.ok){const blob=await resp.blob();logoData=await new Promise(resolve=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>resolve(null);reader.readAsDataURL(blob)})}}catch{}
-    const pageW=210,pageH=297,margin=7,gap=3,cardW=(pageW-margin*2-gap*2)/3,cardH=(pageH-margin*2-gap*2)/3;
+    const pageW=210,pageH=297,margin=6,gapX=3,gapY=3,cardW=(pageW-margin*2-gapX*2)/3,cardH=(pageH-margin*2-gapY*2)/3;
+    const clip=(v,max=18)=>{let str=String(v??'-');return str.length>max?str.slice(0,max-1)+'…':str};
     qrCards.forEach(({person,qr},idx)=>{
       if(idx>0&&idx%9===0)doc.addPage();
-      const slot=idx%9,row=Math.floor(slot/3),col=slot%3,x=margin+col*(cardW+gap),y=margin+row*(cardH+gap);
-      doc.setDrawColor(8,114,200);doc.setLineWidth(.45);doc.setFillColor(245,251,255);doc.roundedRect(x,y,cardW,cardH,3,3,'FD');
-      doc.setFillColor(7,82,180);doc.roundedRect(x+1,y+1,cardW-2,21,2,2,'F');
-      if(logoData){try{doc.addImage(logoData,'PNG',x+cardW/2-5,y+3,10,10)}catch{}}
-      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text("MAJELIS TA'LIM SODIKUNA",x+cardW/2,y+16,{align:'center'});
-      doc.setTextColor(7,29,89);doc.setFontSize(8);doc.text('KARTU ANGGOTA JAMAAH',x+cardW/2,y+26,{align:'center'});
-      doc.setDrawColor(145,183,215);doc.line(x+4,y+29,x+cardW-4,y+29);
-      doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text('Nama',x+5,y+36);doc.text('No. Anggota',x+5,y+44);doc.text('Sektor',x+5,y+52);
-      doc.setFont('helvetica','normal');doc.setFontSize(8);
-      const clip=(v,max=24)=>{let str=String(v??'-');return str.length>max?str.slice(0,max-1)+'…':str};
-      doc.text(': '+clip(person.name,26),x+22,y+36);doc.text(': '+clip(person.member_no,26),x+22,y+44);doc.text(': '+clip(person.sector,26),x+22,y+52);
-      const qrSize=Math.min(cardW-14,37);doc.addImage(qr,'PNG',x+(cardW-qrSize)/2,y+55,qrSize,qrSize);
-      doc.setFillColor(7,82,180);doc.roundedRect(x+cardW/2-14,y+cardH-12,28,7,3,3,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text('ID: '+clip(person.member_no,20),x+cardW/2,y+cardH-7,{align:'center'});
-      doc.setDrawColor(245,209,55);doc.setLineWidth(1.1);doc.line(x+2,y+cardH-2,x+cardW-2,y+cardH-2);
+      const slot=idx%9,row=Math.floor(slot/3),col=slot%3,x=margin+col*(cardW+gapX),y=margin+row*(cardH+gapY);
+      // blue framed card, mosque-inspired layered header and wave footer
+      doc.setDrawColor(0,115,205);doc.setLineWidth(.6);doc.setFillColor(239,248,255);doc.roundedRect(x,y,cardW,cardH,3,3,'FD');
+      doc.setDrawColor(255,255,255);doc.setLineWidth(.35);doc.roundedRect(x+1.2,y+1.2,cardW-2.4,cardH-2.4,2.5,2.5,'S');
+      doc.setFillColor(0,91,190);doc.roundedRect(x+1.5,y+1.5,cardW-3,22,2.5,2.5,'F');
+      doc.setFillColor(18,159,239);doc.triangle(x+2,y+18,x+cardW-2,y+18,x+cardW/2,y+25,'F');
+      if(logoData){try{doc.addImage(logoData,'PNG',x+cardW/2-4.2,y+3,8.4,8.4)}catch{}}
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.2);doc.text("MAJELIS TA'LIM SODIKUNA",x+cardW/2,y+16,{align:'center'});
+      doc.setTextColor(0,54,126);doc.setFontSize(7.2);doc.text('KARTU ANGGOTA JAMAAH',x+cardW/2,y+27,{align:'center'});
+      doc.setDrawColor(37,149,220);doc.setLineWidth(.5);doc.line(x+4,y+29,x+cardW-4,y+29);
+      doc.setTextColor(0,53,120);doc.setFont('helvetica','bold');doc.setFontSize(6.6);
+      doc.text('Nama',x+4,y+36);doc.text('No. Anggota',x+4,y+43);doc.text('Sektor',x+4,y+50);
+      doc.setFont('helvetica','normal');doc.setFontSize(6.4);doc.setTextColor(15,30,55);
+      doc.text(': '+clip(person.name,15),x+18,y+36);doc.text(': '+clip(person.member_no,15),x+18,y+43);doc.text(': '+clip(person.sector,15),x+18,y+50);
+      const qrSize=24;doc.setDrawColor(0,88,180);doc.setLineWidth(.8);doc.setFillColor(255,255,255);doc.roundedRect(x+cardW/2-qrSize/2-1.2,y+53,qrSize+2.4,qrSize+2.4,2,2,'FD');
+      doc.addImage(qr,'PNG',x+cardW/2-qrSize/2,y+54.2,qrSize,qrSize);
+      doc.setFillColor(0,84,182);doc.roundedRect(x+cardW/2-13,y+cardH-10,26,6,3,3,'F');doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(6.8);doc.text('ID: '+clip(person.member_no,12),x+cardW/2,y+cardH-5.8,{align:'center'});
+      doc.setDrawColor(255,213,44);doc.setLineWidth(1.1);doc.line(x+2,y+cardH-1.7,x+cardW-2,y+cardH-1.7);
     });
     doc.save('ID-Card-Sektor-'+String(sector).replace(/[^a-z0-9_-]/gi,'-')+'.pdf');
     setNotice('PDF ID Card sektor berhasil dibuat dan diunduh.');
