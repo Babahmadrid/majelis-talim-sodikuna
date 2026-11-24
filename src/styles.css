@@ -1607,3 +1607,26 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .qr-reader-mount{min-height:250px;max-height:min(62vh,520px);aspect-ratio:4/3;overflow:hidden;display:block;background:#06182c;border-radius:17px}
 .qr-reader-mount video{width:100%!important;height:100%!important;object-fit:cover!important;border-radius:17px}
 .qr-reader-mount canvas{display:none!important}
+
+
+/* User-requested Arabic reading style: clean white surface and no underlines */
+.devotional-detail-card,
+.devotional-detail-card .devotional-arabic,
+.devotional-detail-card .devotional-latin,
+.devotional-detail-card .devotional-meaning{
+  background:#fff!important;
+  text-decoration:none!important;
+  border-bottom:0!important;
+  box-shadow:none!important;
+}
+.devotional-detail-card .devotional-arabic{
+  color:#111!important;
+  border:0!important;
+  background:#fff!important;
+  text-decoration:none!important;
+}
+.devotional-detail-card a,
+.devotional-detail-card a *,
+.devotional-detail-card .devotional-arabic a{
+  text-decoration:none!important;
+}
