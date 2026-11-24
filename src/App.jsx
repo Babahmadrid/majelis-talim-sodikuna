@@ -346,6 +346,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   <div class="wave"><svg viewBox="0 0 540 110" preserveAspectRatio="none"><path d="M0 14Q120 48 245 63T540 8V110H0Z" fill="#f5d137" stroke="#fff" stroke-width="4"/><path d="M0 38Q125 75 270 79T540 29V110H0Z" fill="#0781d8" stroke="#fff" stroke-width="4"/><path d="M0 70Q180 105 360 92T540 55V110H0Z" fill="#0050ad"/></svg></div>
   </div><script>window.onload=()=>setTimeout(()=>window.print(),600);</script></body></html>`);
   w.document.close();
+ }
  async function printSectorMemberCards(sector){
   const members=jamaah.filter(m=>m.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));
   if(!members.length){setNotice('Sektor ini belum memiliki anggota.');return}
