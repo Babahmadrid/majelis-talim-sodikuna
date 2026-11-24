@@ -369,13 +369,13 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
       doc.setFillColor(0,79,175);doc.roundedRect(x+1,y+1,cardW-2,cardH-2,3,3,'F');
       doc.setFillColor(22,147,231);doc.roundedRect(x+2,y+2,cardW-4,cardH-4,2.5,2.5,'F');
       doc.setFillColor(228,246,255);doc.roundedRect(x+3,y+3,cardW-6,cardH-6,2,2,'F');
-      // Islamic arch header with mosque silhouettes
+      // Clean header: remove decorative circles/triangles; enlarge organization title
       doc.setFillColor(0,83,177);doc.roundedRect(x+3,y+3,cardW-6,23,2,2,'F');
-      doc.setFillColor(17,150,229);doc.circle(x+11,y+20,8,'F');doc.circle(x+52,y+20,8,'F');
-      doc.setFillColor(0,65,150);doc.triangle(x+8,y+14,x+11,y+8,x+14,y+14,'F');doc.triangle(x+49,y+14,x+52,y+8,x+55,y+14,'F');
       doc.setDrawColor(255,215,50);doc.setLineWidth(.5);doc.line(x+3,y+26,x+cardW-3,y+26);
-      if(logoData)try{doc.addImage(logoData,'PNG',x+cardW/2-7.5,y+4.5,15,15)}catch{}
-      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(6.1);doc.text('MAJELIS TA’LIM SODIKUNA',x+cardW/2,y+23,{align:'center'});
+      if(logoData)try{doc.addImage(logoData,'PNG',x+cardW/2-7.5,y+4.2,15,15)}catch{}
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.3);
+      doc.text("MAJELIS TA'LIM SODIKUNA",x+cardW/2,y+21.5,{align:'center'});
+      doc.setFontSize(7.0);doc.text('CARINGIN SUKABUMI',x+cardW/2,y+24.5,{align:'center'});
       doc.setFillColor(0,72,168);doc.roundedRect(x+8,y+28,cardW-16,5.5,2.5,2.5,'F');
       doc.setTextColor(255,255,255);doc.setFontSize(6.7);doc.text('KARTU ANGGOTA JAMAAH',x+cardW/2,y+32,{align:'center'});
       const labels=['Nama','No. Anggota','Sektor'],values=[person.name,person.member_no,person.sector];
