@@ -364,7 +364,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
     const drawGroupIcon=(cx,cy)=>{doc.setFillColor(0,92,186);doc.circle(cx,cy-2,1.8,'F');doc.circle(cx-3.5,cy-1.3,1.5,'F');doc.circle(cx+3.5,cy-1.3,1.5,'F');doc.ellipse(cx,cy+2.6,3.3,2,'F');doc.ellipse(cx-4,cy+2.5,2.3,1.6,'F');doc.ellipse(cx+4,cy+2.5,2.3,1.6,'F')};
     qrCards.forEach(({person,qr},idx)=>{
       if(idx>0&&idx%9===0)doc.addPage();
-      const slot=idx%9,row=Math.floor(slot/3),col=slot%3,x=margin+col*(cardW+gapX),y=margin+row*(cardH+gapY;
+      const slot=idx%9,row=Math.floor(slot/3),col=slot%3,x=margin+col*(cardW+gapX),y=margin+row*(cardH+gapY);
       // pale blue card with layered border and Islamic arch header
       doc.setFillColor(239,248,255);doc.setDrawColor(0,112,198);doc.setLineWidth(.65);doc.roundedRect(x,y,cardW,cardH,3,3,'FD');
       doc.setDrawColor(255,255,255);doc.setLineWidth(.35);doc.roundedRect(x+1.2,y+1.2,cardW-2.4,cardH-2.4,2.4,2.4,'S');
