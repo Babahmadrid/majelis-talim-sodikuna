@@ -365,34 +365,37 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
     qrCards.forEach(({person,qr},idx)=>{
       if(idx>0&&idx%9===0)doc.addPage();
       const slot=idx%9,row=Math.floor(slot/3),col=slot%3,x=margin+col*(cardW+gapX),y=margin+row*(cardH+gapY);
-      // pale blue card with layered border and Islamic arch header
-      doc.setFillColor(239,248,255);doc.setDrawColor(0,112,198);doc.setLineWidth(.65);doc.roundedRect(x,y,cardW,cardH,3,3,'FD');
-      doc.setDrawColor(255,255,255);doc.setLineWidth(.35);doc.roundedRect(x+1.2,y+1.2,cardW-2.4,cardH-2.4,2.4,2.4,'S');
-      doc.setFillColor(0,76,174);doc.roundedRect(x+1.4,y+1.4,cardW-2.8,20,2.5,2.5,'F');
-      // Dome silhouettes in header
-      // Refined mosque-inspired header: slim minarets and centered dome
-      doc.setFillColor(20,145,225);doc.rect(x+4,y+8,1.6,10,'F');doc.circle(x+4.8,y+7.5,.9,'F');doc.rect(x+cardW-5.6,y+8,1.6,10,'F');doc.circle(x+cardW-4.8,y+7.5,.9,'F');
-      doc.setFillColor(20,145,225);doc.ellipse(x+cardW/2,y+13.5,5.3,3.8,'F');doc.rect(x+cardW/2-5.3,y+13.5,10.6,4.3,'F');
-      if(logoData){try{doc.addImage(logoData,'PNG',x+cardW/2-4.7,y+2,9.4,9.4)}catch{}}
-      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(6.4);doc.text("MAJELIS TA'LIM SODIKUNA",x+cardW/2,y+18,{align:'center'});
-      doc.setFillColor(0,88,188);doc.roundedRect(x+5,y+23,cardW-10,7,3.5,3.5,'F');
-      doc.setTextColor(255,255,255);doc.setFontSize(6.2);doc.text('KARTU ANGGOTA JAMAAH',x+cardW/2,y+27.6,{align:'center'});
-      const rowYs=[36,44,52],icons=[drawPersonIcon,drawIdIcon,drawGroupIcon],labels=['Nama','No. Anggota','Sektor'],vals=[person.name,person.member_no,person.sector];
+      // Final reference-inspired blue ID card
+      doc.setFillColor(250,253,255);doc.setDrawColor(0,72,168);doc.setLineWidth(1.2);doc.roundedRect(x,y,cardW,cardH,4,4,'FD');
+      doc.setDrawColor(255,211,42);doc.setLineWidth(.55);doc.roundedRect(x+1.6,y+1.6,cardW-3.2,cardH-3.2,3.2,3.2,'S');
+      // Deep-blue horizontal logo/title banner
+      doc.setFillColor(0,66,166);doc.roundedRect(x+2.2,y+2.2,cardW-4.4,23,3.2,3.2,'F');
+      if(logoData){try{doc.addImage(logoData,'PNG',x+4,y+5,14,14)}catch{}}
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.1);doc.text("MAJELIS TA'LIM",x+cardW*.67,y+10,{align:'center'});
+      doc.setFontSize(8.2);doc.text("SODIKUNA",x+cardW*.67,y+15.5,{align:'center'});
+      doc.setFontSize(5.6);doc.text("SUKABUMI",x+cardW*.67,y+20,{align:'center'});
+      // Blue and gold curved accent under the banner
+      doc.setFillColor(0,153,225);doc.ellipse(x+cardW/2,y+25,cardW/2-2,2.2,'F');
+      doc.setDrawColor(255,211,42);doc.setLineWidth(.8);doc.line(x+3,y+27,x+cardW-3,y+27);
+      // Data rows: bold blue label blocks with white value panels
+      const rowYs=[34,44,54],labels=['NAMA','NO. ANGGOTA','SEKTOR'],vals=[person.name,person.member_no,person.sector];
       rowYs.forEach((yy,k)=>{
-        icons[k](x+7, y+yy-1.8);
-        doc.setTextColor(0,58,128);doc.setFont('helvetica','bold');doc.setFontSize(6.4);doc.text(labels[k],x+14,y+yy);
-        doc.setTextColor(18,32,55);doc.setFont('helvetica','bold');doc.setFontSize(5.6);doc.text(':',x+30,y+yy);
-        doc.setFont('helvetica','normal');doc.setFontSize(5.6);doc.text(clip(vals[k],16),x+33,y+yy);
-        doc.setDrawColor(108,185,224);doc.setLineWidth(.22);doc.line(x+14,y+yy+2.1,x+cardW-4,y+yy+2.1);
+        const labelW=22,valueX=x+labelW+3,valueW=cardW-labelW-6;
+        doc.setFillColor(0,72,168);doc.roundedRect(x+3,y+yy-5.3,labelW,8.4,2,2,'F');
+        doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(k===1?5.2:6.2);doc.text(labels[k],x+labelW/2+3,y+yy,{align:'center'});
+        doc.setFillColor(255,255,255);doc.setDrawColor(0,72,168);doc.setLineWidth(.55);doc.roundedRect(valueX,y+yy-5.3,valueW,8.4,2,2,'FD');
+        doc.setTextColor(12,30,54);doc.setFont('helvetica','bold');doc.setFontSize(6.2);
+        doc.text(clip(vals[k],k===0?18:16),valueX+2,y+yy,{maxWidth:valueW-4});
       });
-      const qrSize=26,qrY=y+56;
-      doc.setFillColor(255,255,255);doc.setDrawColor(0,88,180);doc.setLineWidth(1);doc.roundedRect(x+cardW/2-qrSize/2-1.3,qrY-1.3,qrSize+2.6,qrSize+2.6,2.5,2.5,'FD');
+      // QR in white field with thick blue border
+      const qrSize=27,qrY=y+65;
+      doc.setFillColor(255,255,255);doc.setDrawColor(0,72,168);doc.setLineWidth(1.3);doc.roundedRect(x+cardW/2-qrSize/2-2,qrY-2,qrSize+4,qrSize+4,3.5,3.5,'FD');
       doc.addImage(qr,'PNG',x+cardW/2-qrSize/2,qrY,qrSize,qrSize);
-      // footer waves, gold accent, and ID pill kept below QR
-      doc.setDrawColor(18,155,230);doc.setLineWidth(1.2);doc.line(x+2,y+cardH-5,x+cardW-2,y+cardH-5);
-      doc.setDrawColor(255,210,38);doc.setLineWidth(.8);doc.line(x+2,y+cardH-3.5,x+cardW-2,y+cardH-3.5);
-      doc.setFillColor(0,84,182);doc.roundedRect(x+cardW/2-13,y+cardH-10,26,6,3,3,'F');
-      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.text('ID: '+clip(person.member_no,12),x+cardW/2,y+cardH-5.8,{align:'center'});
+      // Footer label and wave bands
+      doc.setFillColor(0,66,166);doc.roundedRect(x+cardW/2-13,y+cardH-8,26,5.5,2.8,2.8,'F');
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(5.6);doc.text('QR SODIKUNA',x+cardW/2,y+cardH-4.2,{align:'center'});
+      doc.setDrawColor(0,154,226);doc.setLineWidth(1.2);doc.line(x+2,y+cardH-11,x+cardW-2,y+cardH-11);
+      doc.setDrawColor(255,211,42);doc.setLineWidth(.7);doc.line(x+2,y+cardH-9.5,x+cardW-2,y+cardH-9.5);
     });
     doc.save('ID-Card-Sektor-'+String(sector).replace(/[^a-z0-9_-]/gi,'-')+'.pdf');
     setNotice('PDF ID Card sektor berhasil dibuat dan diunduh.');
