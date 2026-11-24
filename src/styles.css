@@ -1682,3 +1682,7 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 
 /* Asmaul Husna reader: suppress all entrance/size transition effects. */
 .asma-grid,.asma-grid *,.asma-card,.asma-card .asma-arabic{animation:none!important;transition-property:none!important;transition-duration:0s!important;transform:none!important;}
+
+
+/* Keep Asmaul Husna Arabic font identical to the devotional reading font; avoid auto/fallback styling differences. */
+.asma-grid .asma-card .asma-arabic{font-family:'Noto Naskh Arabic','Amiri',serif!important;font-weight:600!important;font-size:inherit!important;line-height:1.9!important;letter-spacing:0!important;word-spacing:0!important;font-variant:normal!important;font-feature-settings:normal!important;}
