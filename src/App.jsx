@@ -319,7 +319,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   body{print-color-adjust:exact;-webkit-print-color-adjust:exact}
   .card{width:74mm;height:105mm;position:relative;overflow:hidden;border:.45mm solid #0872c8;border-radius:4.5mm;background:radial-gradient(ellipse at 50% 49%,#fff 0,#f8fcff 46%,#c5e8ff 100%);color:#061d58}
   .islamic{position:absolute;inset:0 0 auto;height:25mm;opacity:.18;background-image:repeating-linear-gradient(45deg,transparent 0 2mm,#0879c9 2.15mm 2.45mm,transparent 2.6mm 4mm),repeating-linear-gradient(-45deg,transparent 0 2mm,#0879c9 2.15mm 2.45mm,transparent 2.6mm 4mm);mask-image:linear-gradient(#000,transparent)}
-  .arch{position:absolute;top:1mm;left:1mm;width:52mm;height:36mm;border:1.1mm solid #f6d43c;border-bottom:0;border-radius:27mm 27mm 0 0}
+  .arch{position:absolute;top:1mm;left:1mm;width:72mm;height:36mm;border:1.1mm solid #f6d43c;border-bottom:0;border-radius:27mm 27mm 0 0}
   .logo-wrap{position:absolute;top:4mm;left:31.5mm;width:11mm;height:11mm;border:1mm solid #062b75;border-radius:50%;background:#fff;display:grid;place-items:center;z-index:4;box-shadow:0 0 0 .8mm #6dc8fa}
   .logo{width:9mm;height:9mm;object-fit:contain;border-radius:50%}
   .mosque{position:absolute;top:15mm;left:0;width:74mm;height:11mm;opacity:.38;z-index:1}
