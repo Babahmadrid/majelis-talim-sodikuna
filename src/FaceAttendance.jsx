@@ -32,6 +32,11 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const [working, setWorking] = useState(false);
   const [error, setError] = useState('');
   const [recognized, setRecognized] = useState(null);
+  const [faceDetected, setFaceDetected] = useState(false);
+  const [cameraQuality, setCameraQuality] = useState({ ok: false, message: 'Menyiapkan kamera...' });
+  const [attendanceMemberId, setAttendanceMemberId] = useState('');
+  const [attendanceSectorOpen, setAttendanceSectorOpen] = useState('');
+  const [confirmAttendance, setConfirmAttendance] = useState(false);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const humanRef = useRef(null);
@@ -113,31 +118,34 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   }
 
   function playFaceAudio(file, fallbackText) {
+    let fallbackUsed = false;
+    const fallback = () => {
+      if (fallbackUsed) return;
+      fallbackUsed = true;
+      if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') return;
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(fallbackText);
+        utterance.lang = 'id-ID';
+        utter.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+      } catch (error) {
+        console.warn('Suara cadangan tidak tersedia:', error);
+      }
+    };
     try {
       const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
       const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/' + file);
       audio.preload = 'auto';
       audio.volume = 1;
-      audio.play().catch(err => {
-        console.warn('Audio wajah tidak dapat diputar:', err);
-        if ('speechSynthesis' in window) {
-          window.speechSynthesis.cancel();
-          const utterance = new SpeechSynthesisUtterance(fallbackText);
-          utterance.lang = 'id-ID';
-          utterance.rate = 0.95;
-          window.speechSynthesis.speak(utterance);
-        }
-      });
-    } catch (err) {
-      console.warn('Audio wajah gagal dimuat:', err);
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(fallbackText);
-        utterance.lang = 'id-ID';
-        window.speechSynthesis.speak(utterance);
-      }
+      audio.onerror = fallback;
+      const result = audio.play();
+      if (result && typeof result.catch === 'function') result.catch(fallback);
+    } catch (error) {
+      console.warn('Audio wajah gagal dimuat:', error);
+      fallback();
     }
   }
-
   function playFaceEnrollmentSuccessAudio() {
     playFaceAudio('wajah-terdaftar.mp3', 'Pendaftaran wajah berhasil.');
   }
@@ -164,8 +172,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     setStatus('Memuat model pengenalan wajah ke perangkat...');
     const module = await import('@vladmandic/human');
     const Human = module.default || module.Human;
-    const human = new Human({
-      backend: 'webgl',
+    const config = {
       modelBasePath: MODEL_BASE,
       cacheSensitivity: 0.01,
       face: {
@@ -181,9 +188,19 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
       body: { enabled: false },
       hand: { enabled: false },
       object: { enabled: false },
-    });
-    await human.load();
-    await human.warmup();
+    };
+    let human;
+    try {
+      human = new Human({ ...config, backend: 'webgl' });
+      await human.load();
+      await human.warmup();
+    } catch (webglError) {
+      try { human?.dispose?.(); } catch {}
+      setStatus('Grafik HP tidak mendukung model penuh. Mencoba mode kompatibilitas...');
+      human = new Human({ ...config, backend: 'cpu' });
+      await human.load();
+      await human.warmup();
+    }
     humanRef.current = human;
     return human;
   }
@@ -196,14 +213,14 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         setError('');
         if (mode === 'match' && !selected) throw new Error('Pilih agenda kegiatan terlebih dahulu.');
         if (!navigator.mediaDevices?.getUserMedia) throw new Error('Kamera membutuhkan HTTPS dan izin kamera dari Chrome.');
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30, max: 30 } }, audio: false });
         if (cancelled) { stream.getTracks().forEach(track => track.stop()); return; }
         streamRef.current = stream;
         if (!videoRef.current) throw new Error('Kamera belum siap.');
         videoRef.current.srcObject = stream;
         await videoRef.current.play();
         await loadModel();
-        if (!cancelled) setStatus(mode === 'enroll' ? 'Arahkan wajah jamaah ke kamera untuk pendaftaran.' : 'Kamera aktif. Posisikan satu wajah di tengah kamera.');
+        if (!cancelled) setStatus(mode === 'enroll' ? 'Kamera aktif untuk pendaftaran.' : 'Kamera aktif.');
       } catch (e) {
         if (!cancelled) { setError(e.message || 'Kamera atau model wajah gagal dimuat.'); setOpen(false); }
       }
@@ -218,6 +235,34 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     };
   }, [open, selected, mode]);
 
+  function assessFrame(face) {
+    const video = videoRef.current;
+    if (!video || video.videoWidth < 1 || video.videoHeight < 1) {
+      return { ok: false, message: 'Menunggu kamera siap...' };
+    }
+    // Basic exposure check on a small center crop; this is image-quality feedback only.
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 32;
+      canvas.height = 32;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      let total = 0;
+      let count = 0;
+      for (let i = 0; i < pixels.length; i += 4) {
+        total += (pixels[i] * 0.299 + pixels[i + 1] * 0.587 + pixels[i + 2] * 0.114);
+        count++;
+      }
+      const brightness = total / count;
+      if (brightness < 48) return { ok: false, message: 'Gambar terlalu gelap. Cari tempat yang lebih terang.' };
+      if (brightness > 218) return { ok: false, message: 'Gambar terlalu terang. Hindari cahaya langsung.' };
+    } catch {
+      // If pixel access is unavailable, continue without exposure feedback.
+    }
+    return { ok: true, message: 'Kualitas gambar cukup.' };
+  }
+
   async function processFace() {
     if (busyRef.current || !videoRef.current || !humanRef.current || working) return;
     busyRef.current = true;
@@ -225,57 +270,50 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     try {
       const result = await humanRef.current.detect(videoRef.current);
       const faces = result.face || [];
-      if (faces.length !== 1 || !faces[0].embedding) {
+      if (faces.length !== 1) {
+        setFaceDetected(false);
+        setCameraQuality({ ok: false, message: faces.length > 1 ? 'Terdeteksi lebih dari satu wajah.' : 'Wajah belum terdeteksi.' });
         setStatus(faces.length > 1 ? 'Hanya satu jamaah boleh berada di depan kamera.' : 'Wajah belum terdeteksi. Dekatkan wajah ke kamera.');
         return;
       }
-      const embedding = normalize(faces[0].embedding);
-      if (mode === 'enroll') {
-        if (!memberId) throw new Error('Pilih nama jamaah yang akan didaftarkan.');
-        if (!consentSaved) throw new Error('Simpan data jamaah dan persetujuan terlebih dahulu.');
-        if (!consentConfirmed) throw new Error('Persetujuan jamaah atau orang tua/wali wajib dikonfirmasi.');
-        if (consentType === 'parent_or_guardian' && !guardianName.trim()) throw new Error('Nama orang tua/wali wajib diisi.');
-        const { error: invokeError } = await db.functions.invoke('face-biometric', {
-          body: {
-            action: 'enroll',
-            jamaah_id: memberId,
-            embedding,
-            consent_subject: consentType,
-            guardian_name: consentType === 'parent_or_guardian' ? guardianName.trim() : null,
-            consent_version: 'sodikuna-face-consent-v1',
-            consent_confirmed: true,
-          },
-        });
-        if (invokeError) throw invokeError;
-        setStatus('Pendaftaran wajah berhasil. Template biometrik sudah tersimpan.');
-        setError('');
-        playFaceEnrollmentSuccessAudio();
-        setAlreadyEnrolled(true);
-        setConsentConfirmed(false);
-        setConsentSaved(false);
-        setMemberId('');
-        setGuardianName('');
-      } else {
-        setStatus('Mencocokkan wajah dengan template terdaftar...');
-        const { data, error: invokeError } = await db.functions.invoke('face-biometric', {
-          body: { action: 'match', jamaah_id: active[0]?.id, embedding },
-        });
-        if (invokeError) throw invokeError;
-        if (!data?.matched || !data?.jamaah_id) {
-          setStatus('Wajah belum terdaftar pada data jamaah.');
-          if (Date.now() - lastUnknownAudioRef.current > 6000) {
-            lastUnknownAudioRef.current = Date.now();
-            playUnknownFaceAudio();
-          }
-        } else {
-          const person = active.find(item => item.id === data.jamaah_id);
-          if (!person) throw new Error('Wajah cocok, tetapi jamaah tidak aktif atau tidak ditemukan.');
-          setRecognized(person);
-          setStatus('Dikenali: ' + person.name + '. Memeriksa kehadiran agenda...');
-          await markPresent(person, 'face');
-          setStatus('Pemeriksaan selesai untuk ' + person.name + '.');
-        }
+      const frameCheck = assessFrame(faces[0]);
+      setCameraQuality(frameCheck);
+      if (!frameCheck.ok) {
+        setFaceDetected(false);
+        setStatus(frameCheck.message);
+        return;
       }
+      if (mode === 'match') {
+        setFaceDetected(true);
+        setStatus('Wajah terdeteksi.');
+        return;
+      }
+      if (!faces[0].embedding) throw new Error('Model tidak menghasilkan template wajah yang valid.');
+      const embedding = normalize(faces[0].embedding);
+      if (!memberId) throw new Error('Pilih nama jamaah yang akan didaftarkan.');
+      if (!consentSaved) throw new Error('Simpan data jamaah dan persetujuan terlebih dahulu.');
+      if (!consentConfirmed) throw new Error('Persetujuan jamaah atau orang tua/wali wajib dikonfirmasi.');
+      if (consentType === 'parent_or_guardian' && !guardianName.trim()) throw new Error('Nama orang tua/wali wajib diisi.');
+      const { error: invokeError } = await db.functions.invoke('face-biometric', {
+        body: {
+          action: 'enroll',
+          jamaah_id: memberId,
+          embedding,
+          consent_subject: consentType,
+          guardian_name: consentType === 'parent_or_guardian' ? guardianName.trim() : null,
+          consent_version: 'sodikuna-face-consent-v1',
+          consent_confirmed: true,
+        },
+      });
+      if (invokeError) throw invokeError;
+      setStatus('Pendaftaran wajah berhasil. Template biometrik sudah tersimpan.');
+      setError('');
+      playFaceEnrollmentSuccessAudio();
+      setAlreadyEnrolled(true);
+      setConsentConfirmed(false);
+      setConsentSaved(false);
+      setMemberId('');
+      setGuardianName('');
     } catch (e) {
       let detail = e?.message || 'Proses pengenalan wajah gagal.';
       try {
@@ -321,7 +359,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   if (!isAdmin) return null;
   return (
     <div className="face-attendance">
-      {!hideTrigger && <button type="button" className="attendance-mode face-mode-ready" disabled={!selected} onClick={() => { setMode('match'); setOpen(true); setError(''); setRecognized(null); }}>
+      {!hideTrigger && <button type="button" className="attendance-mode face-mode-ready" disabled={!selected} onClick={() => { setMode('match'); setOpen(true); setError(''); setRecognized(null); setFaceDetected(false); }}>
         <ScanFace size={25} />
         <span><b>Scan Wajah</b><small>Pengenalan otomatis melalui kamera HP petugas</small></span>
       </button>}
@@ -331,7 +369,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
           <button type="button" onClick={() => { setOpen(false); onClose?.(); }} aria-label="Tutup"><X size={19}/></button>
         </div>
         {!initialMemberId && <div className="face-mode-tabs">
-          <button type="button" className={mode === 'match' ? 'active' : ''} onClick={() => { setMode('match'); setError(''); setConsentSaved(false); }}>Scan Absensi</button>
+          <button type="button" className={mode === 'match' ? 'active' : ''} onClick={() => { setMode('match'); setError(''); setConsentSaved(false); setFaceDetected(false); }}>Scan Absensi</button>
           <button type="button" className={mode === 'enroll' ? 'active' : ''} onClick={() => { try { window.speechSynthesis?.resume(); } catch {} setMode('enroll'); setError(''); setConsentSaved(false); }}>Daftarkan Wajah</button>
         </div>}
         {mode === 'enroll' && !consentSaved && <div className="face-enroll-form">
@@ -381,8 +419,10 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
           }}>{savingConsent ? <><LoaderCircle size={16} className="face-spinner"/> Menyimpan data...</> : 'Simpan data'}</button>}
         </div>}
         {mode === 'enroll' && consentSaved && <div className="face-consent-saved"><b>✓ Data pendaftaran tersimpan sementara</b><span>Identitas dan persetujuan sudah disiapkan. Silakan daftarkan wajah di kamera.</span><button type="button" onClick={() => {setConsentSaved(false);setStatus('Silakan periksa kembali data pendaftaran.');}}>Ubah data</button></div>}
-        <div className="face-camera-stage"><video ref={videoRef} playsInline muted autoPlay/><div className="face-camera-guide"/></div>
+        <div className="face-camera-stage"><video ref={videoRef} playsInline muted autoPlay/><div className="face-camera-guide"/><div className={`face-camera-quality ${cameraQuality.ok ? 'ready' : 'checking'}`}>{cameraQuality.ok ? '● KAMERA SIAP' : '● DETEKSI KAMERA'}<span>{faceDetected ? 'Wajah terlihat di kamera.' : 'Pastikan wajah terlihat jelas dan pencahayaan cukup.'}</span></div></div>
         <div className="face-status-line">{working && <LoaderCircle size={16} className="face-spinner"/>}{status}</div>
+        {faceDetected && mode === 'match' && <div className="face-notification-card face-identity-unverified"><b>WAJAH TERDETEKSI</b><span>Deteksi kamera belum memastikan identitas jamaah. Absensi wajah belum dapat disimpan melalui pemilihan nama manual.</span><small>Gunakan Absensi Manual Admin untuk mencatat jamaah lain.</small></div>}
+        
         {recognized && mode === 'match' && <div className="face-notification-card"><b>HASIL PEMINDAIAN</b><span><small>Nama:</small><strong>{recognized.name}</strong></span><span><small>No anggota:</small><strong>{recognized.member_no}</strong></span><span><small>Sektor:</small><strong>{recognized.sector || '-'}</strong></span></div>}
         {error && <div className="alert error">{error}</div>}
         {mode === 'enroll' && <button type="button" className="face-capture-button" disabled={working || alreadyEnrolled} onClick={processFace}><Camera size={17}/>Ambil dan daftarkan wajah</button>}
