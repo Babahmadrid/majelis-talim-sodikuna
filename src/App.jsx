@@ -359,9 +359,9 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
     try{const resp=await fetch('/logo-sodikuna.png');if(resp.ok){const blob=await resp.blob();logoData=await new Promise(resolve=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>resolve(null);reader.readAsDataURL(blob)})}}catch{}
     const pageW=210,pageH=297,margin=5,gapX=2.5,gapY=2.5,cardW=(pageW-margin*2-gapX*2)/3,cardH=(pageH-margin*2-gapY*2)/3;
     const clip=(v,max)=>{let str=String(v??'-');return str.length>max?str.slice(0,max-1)+'…':str};
-    const drawPersonIcon=(cx,cy)=>{doc.setFillColor(0,92,186);doc.circle(cx,cy-1.8,2.1,'F');doc.ellipse(cx,cy+3.5,5.2,2.8,'F')};
-    const drawIdIcon=(cx,cy)=>{doc.setDrawColor(0,92,186);doc.setLineWidth(.7);doc.roundedRect(cx-5,cy-3.5,10,7,1,1,'S');doc.setFillColor(0,92,186);doc.circle(cx-2.6,cy-1,1.2,'F');doc.roundedRect(cx-4,cy+1,2.8,1.1,.3,.3,'F');doc.roundedRect(cx+.2,cy-2.2,3.2,1,.3,.3,'F');doc.roundedRect(cx+.2,cy-.2,3.2,1,.3,.3,'F')};
-    const drawGroupIcon=(cx,cy)=>{doc.setFillColor(0,92,186);doc.circle(cx,cy-2,1.8,'F');doc.circle(cx-3.5,cy-1.3,1.5,'F');doc.circle(cx+3.5,cy-1.3,1.5,'F');doc.ellipse(cx,cy+2.6,3.3,2,'F');doc.ellipse(cx-4,cy+2.5,2.3,1.6,'F');doc.ellipse(cx+4,cy+2.5,2.3,1.6,'F')};
+    const drawPersonIcon=(cx,cy)=>{doc.setDrawColor(0,92,186);doc.setLineWidth(.55);doc.circle(cx,cy-1.6,1.4,'S');doc.roundedRect(cx-2.2,cy+.4,4.4,3.3,1,1,'S')};
+    const drawIdIcon=(cx,cy)=>{doc.setDrawColor(0,92,186);doc.setLineWidth(.55);doc.roundedRect(cx-3.8,cy-2.6,7.6,5.2,.7,.7,'S');doc.circle(cx-1.8,cy-.8,.85,'S');doc.line(cx-2.8,cy+1,cx-.8,cy+1);doc.line(cx+.1,cy-1.3,cx+2.6,cy-1.3);doc.line(cx+.1,cy+.2,cx+2.6,cy+.2)}
+    const drawGroupIcon=(cx,cy)=>{doc.setDrawColor(0,92,186);doc.setLineWidth(.55);[-2.5,0,2.5].forEach(dx=>doc.circle(cx+dx,cy-1.7,1,'S'));doc.roundedRect(cx-4,cy+.2,8,3.2,1.2,1.2,'S')};
     qrCards.forEach(({person,qr},idx)=>{
       if(idx>0&&idx%9===0)doc.addPage();
       const slot=idx%9,row=Math.floor(slot/3),col=slot%3,x=margin+col*(cardW+gapX),y=margin+row*(cardH+gapY);
@@ -370,17 +370,17 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
       doc.setDrawColor(255,255,255);doc.setLineWidth(.35);doc.roundedRect(x+1.2,y+1.2,cardW-2.4,cardH-2.4,2.4,2.4,'S');
       doc.setFillColor(0,76,174);doc.roundedRect(x+1.4,y+1.4,cardW-2.8,20,2.5,2.5,'F');
       // Dome silhouettes in header
-      doc.setFillColor(19,149,226);doc.ellipse(x+9,y+16,5.2,3.5,'F');doc.rect(x+4,y+16,10,4,'F');
-      doc.ellipse(x+cardW-9,y+16,5.2,3.5,'F');doc.rect(x+cardW-14,y+16,10,4,'F');
-      doc.setFillColor(255,211,48);doc.triangle(x+cardW/2-1.2,y+1.5,x+cardW/2+1.2,y+1.5,x+cardW/2,y+4,'F');
-      if(logoData){try{doc.addImage(logoData,'PNG',x+cardW/2-4.2,y+3,8.4,8.4)}catch{}}
-      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(6.5);doc.text("MAJELIS TA'LIM SODIKUNA",x+cardW/2,y+16,{align:'center'});
+      // Refined mosque-inspired header: slim minarets and centered dome
+      doc.setFillColor(20,145,225);doc.rect(x+4,y+8,1.6,10,'F');doc.circle(x+4.8,y+7.5,.9,'F');doc.rect(x+cardW-5.6,y+8,1.6,10,'F');doc.circle(x+cardW-4.8,y+7.5,.9,'F');
+      doc.setFillColor(20,145,225);doc.ellipse(x+cardW/2,y+13.5,5.3,3.8,'F');doc.rect(x+cardW/2-5.3,y+13.5,10.6,4.3,'F');
+      if(logoData){try{doc.addImage(logoData,'PNG',x+cardW/2-4.7,y+2,9.4,9.4)}catch{}}
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(6.4);doc.text("MAJELIS TA'LIM SODIKUNA",x+cardW/2,y+18,{align:'center'});
       doc.setFillColor(0,88,188);doc.roundedRect(x+5,y+23,cardW-10,7,3.5,3.5,'F');
       doc.setTextColor(255,255,255);doc.setFontSize(6.2);doc.text('KARTU ANGGOTA JAMAAH',x+cardW/2,y+27.6,{align:'center'});
       const rowYs=[36,44,52],icons=[drawPersonIcon,drawIdIcon,drawGroupIcon],labels=['Nama','No. Anggota','Sektor'],vals=[person.name,person.member_no,person.sector];
       rowYs.forEach((yy,k)=>{
         icons[k](x+7, y+yy-1.8);
-        doc.setTextColor(0,58,128);doc.setFont('helvetica','bold');doc.setFontSize(5.8);doc.text(labels[k],x+14,y+yy);
+        doc.setTextColor(0,58,128);doc.setFont('helvetica','bold');doc.setFontSize(6.4);doc.text(labels[k],x+14,y+yy);
         doc.setTextColor(18,32,55);doc.setFont('helvetica','bold');doc.setFontSize(5.6);doc.text(':',x+30,y+yy);
         doc.setFont('helvetica','normal');doc.setFontSize(5.6);doc.text(clip(vals[k],16),x+33,y+yy);
         doc.setDrawColor(108,185,224);doc.setLineWidth(.22);doc.line(x+14,y+yy+2.1,x+cardW-4,y+yy+2.1);
