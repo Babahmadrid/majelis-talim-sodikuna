@@ -192,6 +192,12 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     let cancelled = false;
     async function start() {
       if (!open) return;
+      // Safer attendance flow after a false-positive incident: no biometric auto-identification.
+      if (mode === 'match') {
+        setError('Absensi wajah dinonaktifkan sementara. Gunakan QR kartu anggota atau konfirmasi manual untuk memastikan identitas.');
+        setStatus('Verifikasi kehadiran melalui QR atau petugas. Kamera wajah tidak digunakan untuk mencatat absensi.');
+        return;
+      }
       try {
         setError('');
         if (mode === 'match' && !selected) throw new Error('Pilih agenda kegiatan terlebih dahulu.');
@@ -303,9 +309,9 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   }
 
   useEffect(() => {
-    // Pendaftaran wajah hanya dijalankan setelah petugas menekan tombol.
-    // Pemindaian otomatis hanya aktif pada mode absensi, bukan saat form pendaftaran.
+    // Auto-matching is intentionally disabled after false-positive attendance reports.
     if (!open || mode !== 'match') return;
+    return;
     let frame = 0;
     const tick = timestamp => {
       if (timestamp - lastRunRef.current > 1300 && !busyRef.current) {
