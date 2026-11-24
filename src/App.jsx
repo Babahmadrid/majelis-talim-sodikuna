@@ -355,8 +355,6 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
     const {jsPDF}=await import('jspdf');
     const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
     const qrCards=await Promise.all(members.map(async person=>({person,qr:await QRCode.toDataURL('sodikuna:member:'+person.id,{width:400,margin:2,errorCorrectionLevel:'H'})})));
-    let logoData=null;
-    try{const resp=await fetch('/logo-sodikuna.png');if(resp.ok){const blob=await resp.blob();logoData=await new Promise(resolve=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>resolve(null);reader.readAsDataURL(blob)})}}catch{}
     const pageW=210,pageH=297,margin=5,gapX=2.5,gapY=2.5,cardW=(pageW-margin*2-gapX*2)/3,cardH=(pageH-margin*2-gapY*2)/3;
     const clip=(v,max)=>{let str=String(v??'-');return str.length>max?str.slice(0,max-1)+'…':str};
     const drawPersonIcon=(cx,cy)=>{doc.setDrawColor(0,92,186);doc.setLineWidth(.55);doc.circle(cx,cy-1.6,1.4,'S');doc.roundedRect(cx-2.2,cy+.4,4.4,3.3,1,1,'S')};
@@ -368,34 +366,27 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
       // Final reference-inspired blue ID card
       doc.setFillColor(250,253,255);doc.setDrawColor(0,72,168);doc.setLineWidth(1.2);doc.roundedRect(x,y,cardW,cardH,4,4,'FD');
       doc.setDrawColor(255,211,42);doc.setLineWidth(.55);doc.roundedRect(x+1.6,y+1.6,cardW-3.2,cardH-3.2,3.2,3.2,'S');
-      // Deep-blue horizontal logo/title banner
-      doc.setFillColor(0,66,166);doc.roundedRect(x+2.2,y+2.2,cardW-4.4,23,3.2,3.2,'F');
-      if(logoData){try{doc.addImage(logoData,'PNG',x+4,y+5,14,14)}catch{}}
-      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.1);doc.text("MAJELIS TA'LIM",x+cardW*.67,y+10,{align:'center'});
-      doc.setFontSize(8.2);doc.text("SODIKUNA",x+cardW*.67,y+15.5,{align:'center'});
-      doc.setFontSize(5.6);doc.text("SUKABUMI",x+cardW*.67,y+20,{align:'center'});
-      // Blue and gold curved accent under the banner
-      doc.setFillColor(0,153,225);doc.ellipse(x+cardW/2,y+25,cardW/2-2,2.2,'F');
-      doc.setDrawColor(255,211,42);doc.setLineWidth(.8);doc.line(x+3,y+27,x+cardW-3,y+27);
-      // Data rows: bold blue label blocks with white value panels
-      const rowYs=[34,44,54],labels=['NAMA','NO. ANGGOTA','SEKTOR'],vals=[person.name,person.member_no,person.sector];
+      // Header title only: no logo or decorative icon
+      doc.setFillColor(0,66,166);doc.roundedRect(x+2.2,y+2.2,cardW-4.4,24,3.2,3.2,'F');
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(6.4);
+      doc.text("MAJELIS TA'LIM SODIKUNA",x+cardW/2,y+11,{align:'center'});
+      doc.setFontSize(5.6);doc.text("SUKABUMI",x+cardW/2,y+18,{align:'center'});
+      // Header underline accent
+      doc.setDrawColor(255,211,42);doc.setLineWidth(.7);doc.line(x+3,y+28,x+cardW-3,y+28);
+      // Bold field labels with white value panels
+      const rowYs=[35,45,55],labels=['NAMA :','NO. ANGGOTA :','SEKTOR :'],vals=[person.name,person.member_no,person.sector];
       rowYs.forEach((yy,k)=>{
-        const labelW=22,valueX=x+labelW+3,valueW=cardW-labelW-6;
+        const labelW=23,valueX=x+labelW+3,valueW=cardW-labelW-6;
         doc.setFillColor(0,72,168);doc.roundedRect(x+3,y+yy-5.3,labelW,8.4,2,2,'F');
-        doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(k===1?5.2:6.2);doc.text(labels[k],x+labelW/2+3,y+yy,{align:'center'});
+        doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(k===1?4.8:5.8);doc.text(labels[k],x+labelW/2+3,y+yy,{align:'center'});
         doc.setFillColor(255,255,255);doc.setDrawColor(0,72,168);doc.setLineWidth(.55);doc.roundedRect(valueX,y+yy-5.3,valueW,8.4,2,2,'FD');
-        doc.setTextColor(12,30,54);doc.setFont('helvetica','bold');doc.setFontSize(6.2);
+        doc.setTextColor(12,30,54);doc.setFont('helvetica','bold');doc.setFontSize(6.1);
         doc.text(clip(vals[k],k===0?18:16),valueX+2,y+yy,{maxWidth:valueW-4});
       });
-      // QR in white field with thick blue border
-      const qrSize=27,qrY=y+65;
-      doc.setFillColor(255,255,255);doc.setDrawColor(0,72,168);doc.setLineWidth(1.3);doc.roundedRect(x+cardW/2-qrSize/2-2,qrY-2,qrSize+4,qrSize+4,3.5,3.5,'FD');
+      // Large, clean QR area; no label or decorative lines crossing the QR
+      const qrSize=34,qrY=y+59;
+      doc.setFillColor(255,255,255);doc.setDrawColor(0,72,168);doc.setLineWidth(1.2);doc.roundedRect(x+cardW/2-qrSize/2-1.8,qrY-1.8,qrSize+3.6,qrSize+3.6,3.5,3.5,'FD');
       doc.addImage(qr,'PNG',x+cardW/2-qrSize/2,qrY,qrSize,qrSize);
-      // Footer label and wave bands
-      doc.setFillColor(0,66,166);doc.roundedRect(x+cardW/2-13,y+cardH-8,26,5.5,2.8,2.8,'F');
-      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(5.6);doc.text('QR SODIKUNA',x+cardW/2,y+cardH-4.2,{align:'center'});
-      doc.setDrawColor(0,154,226);doc.setLineWidth(1.2);doc.line(x+2,y+cardH-11,x+cardW-2,y+cardH-11);
-      doc.setDrawColor(255,211,42);doc.setLineWidth(.7);doc.line(x+2,y+cardH-9.5,x+cardW-2,y+cardH-9.5);
     });
     doc.save('ID-Card-Sektor-'+String(sector).replace(/[^a-z0-9_-]/gi,'-')+'.pdf');
     setNotice('PDF ID Card sektor berhasil dibuat dan diunduh.');
