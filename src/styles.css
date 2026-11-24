@@ -1676,3 +1676,6 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 /* Quran Ar-Rahman: match the Arabic styling of Dzikir/Do'a while keeping reader controls functional. */
 .quran-surah .quran-full-text.devotional-arabic{font-family:'Noto Naskh Arabic','Amiri',serif!important;font-weight:600;color:#101010!important;padding:18px 8px 22px!important;white-space:pre-wrap;overflow-wrap:anywhere;letter-spacing:0!important;word-spacing:.05em;direction:rtl;}
 .quran-surah .quran-full-text.devotional-arabic{font-size:22px;line-height:1.7;}
+
+/* Avoid splash-like transitions when opening Asmaul Husna; keep typography stable. */
+.asma-grid,.asma-grid .asma-card,.asma-grid .asma-arabic{animation:none!important;transition:none!important;transform:none!important;}
