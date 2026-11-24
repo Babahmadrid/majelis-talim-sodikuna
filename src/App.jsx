@@ -456,8 +456,8 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError}){
    <div className="devotional-detail-heading"><span>{folderLabels[item.category]||'Dzikir Harian'}</span><h2>{item.title}</h2></div>
    <div className="devotional-tools devotional-tools-unified devotional-detail-tools">
     <label className="quran-font-tools"><span>Ukuran huruf</span><button aria-label="Perkecil huruf" onClick={()=>setFontSize(v=>Math.max(18,v-2))}>A−</button><b>{fontSize}px</b><button aria-label="Perbesar huruf" onClick={()=>setFontSize(v=>Math.min(52,v+2))}>A+</button><button onClick={()=>{setFontSize(18);setReaderWidth(100);setReaderAlign('justify');setArabicLineSpacing(1.7)}}>Atur ulang</button></label>
-    <label className="text-align-control">Lebar khusus <input type="range" min="70" max="100" step="5" value={readerWidth} onChange={e=>setReaderWidth(Number(e.target.value))}/><b>{readerWidth}%</b></label><label className="text-align-control">Spasi baris Arab <input type="range" min="1.2" max="2.0" step="0.1" value={arabicLineSpacing} onChange={e=>setArabicLineSpacing(Number(e.target.value))}/><b>{arabicLineSpacing.toFixed(1)}</b></label>
-    <label className="text-align-control">Perataan <select value={readerAlign} onChange={e=>setReaderAlign(e.target.value)}><option value="left">Kiri</option><option value="right">Kanan</option><option value="center">Tengah</option><option value="justify">Rata kiri-kanan</option></select></label>
+    <label className="text-align-control">Spasi baris Arab <input type="range" min="1.2" max="2.0" step="0.1" value={arabicLineSpacing} onChange={e=>setArabicLineSpacing(Number(e.target.value))}/><b>{arabicLineSpacing.toFixed(1)}</b></label>
+    
    </div>
    <article className="devotional-card devotional-detail-card">
     {item.arabic&&<div className="devotional-arabic" dir="rtl" lang="ar" style={{fontFamily:'Amiri, Noto Naskh Arabic, Scheherazade New, serif',fontSize:fontSize+'px',lineHeight:arabicLineSpacing,letterSpacing:'normal',textAlign:readerAlign,maxWidth:readerWidth+'%',marginInline:'auto',whiteSpace:'pre-wrap'}}>{item.arabic}</div>}
@@ -488,9 +488,9 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError}){
       <div className="quran-settings-title"><span>Pengaturan bacaan</span><small>Sesuaikan kenyamanan membaca</small></div>
       <div className="devotional-tools quran-tools">
         <label className="quran-font-tools"><span>Ukuran huruf</span><button aria-label="Perkecil huruf" onClick={()=>setQuranFontSize(v=>Math.max(14,v-2))}>A−</button><b>{quranFontSize}px</b><button aria-label="Perbesar huruf" onClick={()=>setQuranFontSize(v=>Math.min(48,v+2))}>A+</button><button onClick={()=>{setQuranFontSize(22);setQuranAlign('justify');setQuranWidth(100);setQuranLineSpacing(1.7)}}>Atur ulang</button></label>
-        <label className="text-align-control quran-width-control"><span>Lebar bacaan khusus</span><input type="range" min="70" max="100" step="5" value={quranWidth} onChange={e=>setQuranWidth(Number(e.target.value))}/><b>{quranWidth}%</b></label>
+        
         <label className="text-align-control"><span>Spasi baris Arab</span><input type="range" min="1.2" max="2.0" step="0.1" value={quranLineSpacing} onChange={e=>setQuranLineSpacing(Number(e.target.value))}/><b>{quranLineSpacing.toFixed(1)}</b></label>
-        <label className="text-align-control"><span>Perataan</span><select value={quranAlign} onChange={e=>setQuranAlign(e.target.value)}><option value="right">Rata kanan</option><option value="center">Rata tengah</option><option value="left">Rata kiri</option><option value="justify">Rata kiri-kanan</option></select></label>
+        
       </div>
     </div>
     <article className="devotional-card quran-surah quran-custom-mode">
