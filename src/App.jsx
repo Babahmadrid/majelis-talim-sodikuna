@@ -347,9 +347,10 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
  async function printSectorMemberCards(sector){
   const members=jamaah.filter(m=>m.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));
   if(!members.length){setNotice('Sektor ini belum memiliki anggota.');return}
-  const cards=await Promise.all(members.map(async person=>({person,code:await QRCode.toDataURL('sodikuna:member:'+person.id,{width:620,margin:1,errorCorrectionLevel:'H'})})));
   const w=window.open('','_blank','width=900,height=1200');
   if(!w){setError('Izinkan pop-up untuk mencetak kartu per sektor.');return}
+  w.document.write('<!doctype html><html><head><title>Menyiapkan kartu sektor...</title></head><body>Menyiapkan kartu anggota sektor...</body></html>');
+  const cards=await Promise.all(members.map(async person=>({person,code:await QRCode.toDataURL('sodikuna:member:'+person.id,{width:620,margin:1,errorCorrectionLevel:'H'})})));
   const esc=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Kartu Jamaah ${esc(sector)}</title><style>
   @page{size:74mm 105mm;margin:0}
