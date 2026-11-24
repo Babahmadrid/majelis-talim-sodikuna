@@ -9,7 +9,7 @@ import {LayoutDashboard,CalendarDays,Users,ClipboardCheck,Wallet, Megaphone,Imag
 const supabaseUrl=import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey=import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY||import.meta.env.VITE_SUPABASE_ANON_KEY;
 const db=supabaseUrl&&supabaseKey?createClient(supabaseUrl,supabaseKey):null;
-const menus=[['Dashboard',LayoutDashboard],['Agenda',CalendarDays],['Data Jamaah',Users],['Materi & Artikel',BookOpen],['Absensi',ClipboardCheck],['Keuangan',Wallet],['Pengumuman',Megaphone],['Dokumentasi',Images],['Laporan',ChartNoAxesCombined],['Pengaturan',Settings]];
+const menus=[['Dashboard',LayoutDashboard],['Agenda',CalendarDays],['Data Jamaah',Users],['Materi & Artikel',BookOpen],['Dzikir & Doa',Sunrise],['Absensi',ClipboardCheck],['Keuangan',Wallet],['Pengumuman',Megaphone],['Dokumentasi',Images],['Laporan',ChartNoAxesCombined],['Pengaturan',Settings]];
 const parseWelcomeSlides=v=>{if(Array.isArray(v))return v;if(typeof v==='string'){try{const parsed=JSON.parse(v);return Array.isArray(parsed)?parsed:[]}catch{return []}}return []};
 const money=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n||0));
 const dateID=d=>d?new Date(d+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'}):'-';
