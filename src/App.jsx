@@ -364,19 +364,22 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
     const cardW=63,cardH=88,gapX=3,gapY=3,cols=3,rows=3;
     const pageW=210,pageH=297,startX=(pageW-(cols*cardW+(cols-1)*gapX))/2,startY=(pageH-(rows*cardH+(rows-1)*gapY))/2;
     const drawCard=(person,qr,x,y)=>{
-      // Classic Islamic blue-and-gold card, inspired by selected reference #1
-      doc.setFillColor(236,248,255);doc.roundedRect(x,y,cardW,cardH,3.5,3.5,'F');
-      doc.setFillColor(0,79,175);doc.roundedRect(x+1,y+1,cardW-2,cardH-2,3,3,'F');
-      doc.setFillColor(22,147,231);doc.roundedRect(x+2,y+2,cardW-4,cardH-4,2.5,2.5,'F');
-      doc.setFillColor(228,246,255);doc.roundedRect(x+3,y+3,cardW-6,cardH-6,2,2,'F');
-      // Clean header: remove decorative circles/triangles; enlarge organization title
-      doc.setFillColor(0,83,177);doc.roundedRect(x+3,y+3,cardW-6,23,2,2,'F');
-      doc.setDrawColor(255,215,50);doc.setLineWidth(.5);doc.line(x+3,y+26,x+cardW-3,y+26);
+      // Classic Islamic card with lighter blue and layered glossy 3D edges
+      doc.setFillColor(205,239,255);doc.roundedRect(x-0.4,y-0.4,cardW+0.8,cardH+0.8,4,4,'F'); // soft outer glow
+      doc.setFillColor(27,116,220);doc.roundedRect(x,y,cardW,cardH,3.5,3.5,'F'); // offset shadow base
+      doc.setFillColor(92,198,255);doc.roundedRect(x+0.8,y+0.8,cardW-1.6,cardH-1.6,3.3,3.3,'F'); // bright rim
+      doc.setFillColor(12,126,222);doc.roundedRect(x+1.5,y+1.5,cardW-3,cardH-3,3,3,'F');
+      doc.setFillColor(226,247,255);doc.roundedRect(x+3,y+3,cardW-6,cardH-6,2,2,'F');
+      // Header panel: lighter azure with glossy top edge; no circles/triangles
+      doc.setFillColor(16,139,235);doc.roundedRect(x+3,y+3,cardW-6,23,2,2,'F');
+      doc.setFillColor(95,205,255);doc.roundedRect(x+4,y+4,cardW-8,1.2,1,1,'F'); // shine
+      doc.setDrawColor(255,218,65);doc.setLineWidth(.5);doc.line(x+3,y+26,x+cardW-3,y+26);
       if(logoData)try{doc.addImage(logoData,'PNG',x+cardW/2-7.5,y+4.2,15,15)}catch{}
       doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.3);
       doc.text("MAJELIS TA'LIM SODIKUNA",x+cardW/2,y+21.5,{align:'center'});
       doc.setFontSize(7.0);doc.text('CARINGIN SUKABUMI',x+cardW/2,y+24.5,{align:'center'});
-      doc.setFillColor(0,72,168);doc.roundedRect(x+8,y+28,cardW-16,5.5,2.5,2.5,'F');
+      doc.setFillColor(18,133,225);doc.roundedRect(x+8,y+28,cardW-16,5.5,2.5,2.5,'F');
+      doc.setDrawColor(90,190,255);doc.setLineWidth(.3);doc.line(x+10,y+28.6,x+cardW-10,y+28.6);
       doc.setTextColor(255,255,255);doc.setFontSize(6.7);doc.text('KARTU ANGGOTA JAMAAH',x+cardW/2,y+32,{align:'center'});
       const labels=['Nama','No. Anggota','Sektor'],values=[person.name,person.member_no,person.sector];
       labels.forEach((label,k)=>{
@@ -387,11 +390,11 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
         doc.setDrawColor(118,187,228);doc.setLineWidth(.2);doc.line(x+5,yy+1.2,x+cardW-5,yy+1.2);
       });
       const qrSize=29,qrX=x+(cardW-qrSize)/2,qrY=y+53;
-      doc.setFillColor(255,255,255);doc.setDrawColor(0,74,171);doc.setLineWidth(.6);doc.roundedRect(qrX-1.2,qrY-1.2,qrSize+2.4,qrSize+2.4,1.5,1.5,'FD');
+      doc.setFillColor(255,255,255);doc.setDrawColor(54,171,247);doc.setLineWidth(1.1);doc.roundedRect(qrX-1.8,qrY-1.8,qrSize+3.6,qrSize+3.6,2,2,'S');doc.setDrawColor(15,119,218);doc.setLineWidth(.6);doc.roundedRect(qrX-1.2,qrY-1.2,qrSize+2.4,qrSize+2.4,1.5,1.5,'FD');
       doc.addImage(qr,'PNG',qrX,qrY,qrSize,qrSize);
-      doc.setFillColor(0,74,172);doc.roundedRect(x+17,y+83,cardW-34,4,2,2,'F');
+      doc.setFillColor(13,127,220);doc.roundedRect(x+17,y+83,cardW-34,4,2,2,'F');doc.setDrawColor(94,202,255);doc.setLineWidth(.3);doc.line(x+18,y+83.4,x+cardW-18,y+83.4);
       doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(6.6);doc.text('ID: '+safeText(person.member_no,12),x+cardW/2,y+86,{align:'center'});
-      doc.setDrawColor(255,215,50);doc.setLineWidth(.4);doc.roundedRect(x+2.5,y+2.5,cardW-5,cardH-5,2.5,2.5,'S');
+      doc.setDrawColor(255,215,50);doc.setLineWidth(.4);doc.roundedRect(x+2.5,y+2.5,cardW-5,cardH-5,2.5,2.5,'S');doc.setDrawColor(140,224,255);doc.setLineWidth(.25);doc.roundedRect(x+3.1,y+3.1,cardW-6.2,cardH-6.2,2.2,2.2,'S');
     };
     qrCards.forEach(({person,qr},idx)=>{
       const pageIdx=Math.floor(idx/(cols*rows)),cellIdx=idx%(cols*rows);
