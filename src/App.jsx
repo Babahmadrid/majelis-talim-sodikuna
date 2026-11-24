@@ -198,6 +198,9 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   .attendance-date-table tr{break-inside:avoid;page-break-inside:avoid}
   .attendance-date-table th,.attendance-date-table td{box-sizing:border-box;overflow-wrap:anywhere;word-break:normal}
   .attendance-date-table td.name{text-align:left;padding-left:7px}
+  .attendance-date-table th:nth-child(1),.attendance-date-table td:nth-child(1){text-align:center;white-space:nowrap}
+  .attendance-date-table th:nth-child(2),.attendance-date-table td:nth-child(2){text-align:left}
+  .attendance-date-table th:nth-child(3),.attendance-date-table td:nth-child(3){text-align:center;white-space:normal;overflow-wrap:anywhere;word-break:break-word;line-height:1.25}
   .attendance-date-table .pdf-sector-row{break-after:avoid;page-break-after:avoid}
   .attendance-date-table .pdf-sector-row td{width:100%;text-align:left;border:1px solid #9fc4dc}
 
