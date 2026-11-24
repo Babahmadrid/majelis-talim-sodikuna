@@ -1726,3 +1726,11 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .sector-picker-menu button{display:block;width:100%;border:0;border-radius:9px;background:transparent;text-align:left;padding:9px 10px;font-size:13px;color:#315b7c;line-height:1.25}
 .sector-picker-menu button.selected{background:linear-gradient(135deg,#d8f0ff,#c5e6fb);color:#075ba5;font-weight:800}
 .sector-picker-menu button:active{background:#c5e6fb}
+
+/* Dashboard header: live date/time and compact prayer button on mobile */
+.live-clock{display:flex;flex-direction:column;align-items:flex-end;gap:2px;white-space:nowrap;color:#e5f4ff;line-height:1.1}
+.live-clock small{font-size:8px;letter-spacing:.07em;font-weight:800;opacity:.9}
+.live-clock b{font-size:10px;font-weight:700}
+.live-clock strong{font-size:12px;font-weight:900;letter-spacing:.02em}
+@media(max-width:900px){.top-actions{gap:7px;flex-shrink:1;min-width:0}.live-clock{align-items:flex-end;flex-shrink:0}.prayer-header-btn{padding:0 10px;gap:5px;min-height:40px;font-size:11px;flex-shrink:0}}
+@media(max-width:520px){.topbar{gap:4px;overflow:visible}.topbar>div:first-of-type{min-width:0}.topbar .eyebrow{font-size:8px;letter-spacing:.7px}.topbar h1{font-size:17px;white-space:nowrap}.top-actions{margin-left:auto;gap:5px;max-width:calc(100vw - 170px)}.live-clock small{font-size:7px}.live-clock b{font-size:9px}.live-clock strong{font-size:11px}.prayer-header-btn{padding:0 8px;min-height:36px;font-size:10px;margin-right:-5px}.prayer-header-btn .prayer-header-icon{font-size:17px}}
