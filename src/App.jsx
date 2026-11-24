@@ -314,25 +314,25 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   const w=window.open('','_blank','width=720,height=1100');
   if(!w){setError('Izinkan pop-up untuk mencetak kartu.');return}
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Kartu Anggota Jamaah</title><style>
-  @page{size:54mm 85.6mm;margin:0}
-  *{box-sizing:border-box}html,body{margin:0;width:54mm;height:85.6mm;font-family:Arial,Helvetica,sans-serif}
+  @page{size:74mm 105mm;margin:0}
+  *{box-sizing:border-box}html,body{margin:0;width:74mm;height:105mm;font-family:Arial,Helvetica,sans-serif}
   body{print-color-adjust:exact;-webkit-print-color-adjust:exact}
-  .card{width:54mm;height:85.6mm;position:relative;overflow:hidden;border:.45mm solid #0872c8;border-radius:4.5mm;background:radial-gradient(ellipse at 50% 49%,#fff 0,#f8fcff 46%,#c5e8ff 100%);color:#061d58}
+  .card{width:74mm;height:105mm;position:relative;overflow:hidden;border:.45mm solid #0872c8;border-radius:4.5mm;background:radial-gradient(ellipse at 50% 49%,#fff 0,#f8fcff 46%,#c5e8ff 100%);color:#061d58}
   .islamic{position:absolute;inset:0 0 auto;height:25mm;opacity:.18;background-image:repeating-linear-gradient(45deg,transparent 0 2mm,#0879c9 2.15mm 2.45mm,transparent 2.6mm 4mm),repeating-linear-gradient(-45deg,transparent 0 2mm,#0879c9 2.15mm 2.45mm,transparent 2.6mm 4mm);mask-image:linear-gradient(#000,transparent)}
   .arch{position:absolute;top:1mm;left:1mm;width:52mm;height:36mm;border:1.1mm solid #f6d43c;border-bottom:0;border-radius:27mm 27mm 0 0}
-  .logo-wrap{position:absolute;top:4mm;left:21.5mm;width:11mm;height:11mm;border:1mm solid #062b75;border-radius:50%;background:#fff;display:grid;place-items:center;z-index:4;box-shadow:0 0 0 .8mm #6dc8fa}
+  .logo-wrap{position:absolute;top:4mm;left:31.5mm;width:11mm;height:11mm;border:1mm solid #062b75;border-radius:50%;background:#fff;display:grid;place-items:center;z-index:4;box-shadow:0 0 0 .8mm #6dc8fa}
   .logo{width:9mm;height:9mm;object-fit:contain;border-radius:50%}
-  .mosque{position:absolute;top:15mm;left:0;width:54mm;height:11mm;opacity:.38;z-index:1}
+  .mosque{position:absolute;top:15mm;left:0;width:74mm;height:11mm;opacity:.38;z-index:1}
   .title{position:absolute;top:14mm;left:1mm;right:1mm;text-align:center;font-weight:900;color:#071b59;font-size:4mm;line-height:1.02;letter-spacing:-.25mm;z-index:2}
   .subtitle{position:absolute;top:23mm;left:7mm;right:7mm;text-align:center;padding:1.25mm .5mm;border-radius:8mm;color:white;font-size:3.4mm;font-weight:800;background:linear-gradient(180deg,#168ce7,#0050b7);box-shadow:0 .5mm 1mm #003d8b55;z-index:3}
-  .details{position:absolute;top:31mm;left:3.6mm;right:3.6mm;z-index:3}
+  .details{position:absolute;top:36mm;left:4.8mm;right:4.8mm;z-index:3}
   .detail{height:6.0mm;display:grid;grid-template-columns:5.3mm 15.5mm 2mm 1fr;align-items:center;border-bottom:.25mm solid #91b7d7;font-size:2.7mm;color:#09285f}
   .detail:last-child{border-bottom:0}.ico{width:4.3mm;height:4.3mm;fill:#0870c9}
   .label{font-weight:700;white-space:nowrap}.colon{font-weight:700;text-align:center}
   .value{font-size:3mm;font-weight:800;color:#080d1b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .qr-frame{position:absolute;left:5mm;top:48mm;width:44mm;height:32mm;padding:1mm;background:white;border:.55mm solid #0757a8;border-radius:2.6mm;z-index:5}
+  .qr-frame{position:absolute;left:6mm;top:54mm;width:62mm;height:42mm;padding:1mm;background:white;border:.55mm solid #0757a8;border-radius:2.6mm;z-index:5}
   .qr{width:100%;height:100%;display:block}
-  .id{position:absolute;left:16mm;top:80mm;z-index:7;min-width:21.6mm;text-align:center;padding:.8mm 1.6mm;border-radius:8mm;color:#fff;background:linear-gradient(#168de8,#0048a8);font-size:3.4mm;font-weight:800}
+  .id{position:absolute;left:26mm;top:99mm;z-index:7;min-width:21.6mm;text-align:center;padding:.8mm 1.6mm;border-radius:8mm;color:#fff;background:linear-gradient(#168de8,#0048a8);font-size:3.4mm;font-weight:800}
   .wave{position:absolute;left:-.5mm;right:-.5mm;bottom:-.5mm;height:7mm;z-index:2}.wave svg{width:100%;height:100%}
   @media screen{body{display:grid;place-items:center;background:#e9edf3;width:100vw;height:100vh}.card{box-shadow:0 4mm 8mm #0003}}
   </style></head><body><div class="card"><div class="islamic"></div><div class="arch"></div>
