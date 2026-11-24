@@ -1765,3 +1765,21 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .face-notification-card .face-attendance-member-select optgroup{font-size:11px;font-weight:700;color:#14568c}
 .face-notification-card .face-attendance-member-select option{font-size:11px;font-weight:500;color:#173b60}
 .face-notification-card .face-attendance-member-label{font-size:10px!important;letter-spacing:.04em;font-weight:700;color:#647e97}
+
+/* Modern sector-folder picker for selecting a jamaah after face scan */
+.face-sector-folder-picker{display:flex;flex-direction:column;gap:5px;width:100%;max-height:220px;overflow:auto;padding:2px}
+.face-attendance-sector-folder{overflow:hidden;border:1px solid #d6e5f3;border-radius:11px;background:#f8fbff}
+.face-attendance-sector-folder-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:7px;padding:7px 9px;border:0;background:linear-gradient(110deg,#e8f5ff,#f8fcff);color:#1b527f;text-align:left}
+.face-attendance-sector-folder-head.open{background:linear-gradient(110deg,#d9edff,#eff8ff)}
+.face-folder-emoji{font-size:14px;color:#2886c7}
+.face-sector-folder-title{display:flex;flex:1;min-width:0;flex-direction:column;gap:1px}
+.face-sector-folder-title b{font-size:11px;line-height:1.2;font-weight:750}
+.face-sector-folder-title small{font-size:8px;color:#7390a9}
+.face-sector-folder-chevron{font-size:16px;color:#4385b2}
+.face-attendance-sector-members{display:flex;flex-direction:column;gap:2px;padding:4px;background:#fff}
+.face-attendance-sector-member{width:100%;min-height:30px;display:flex;align-items:center;gap:6px;padding:5px 7px;border:1px solid transparent;border-radius:7px;background:#f7faff;color:#214b6c;text-align:left;font-size:10px;line-height:1.15}
+.face-attendance-sector-member:nth-child(even){background:#fff8dc}
+.face-attendance-sector-member small{flex:0 0 26px;font-size:8px;font-weight:800;color:#4d7797}
+.face-attendance-sector-member span{flex:1;min-width:0;font-size:10px;font-weight:600;overflow-wrap:anywhere}
+.face-attendance-sector-member.selected{border-color:#5ca9e4;background:#e2f2ff!important}
+.face-attendance-sector-member b{font-size:11px;color:#1674b8}
