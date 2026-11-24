@@ -1783,3 +1783,20 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .face-attendance-sector-member span{flex:1;min-width:0;font-size:10px;font-weight:600;overflow-wrap:anywhere}
 .face-attendance-sector-member.selected{border-color:#5ca9e4;background:#e2f2ff!important}
 .face-attendance-sector-member b{font-size:11px;color:#1674b8}
+
+/* Correct two-step sector selection: full labels on sector tiles, scrollable member list */
+.face-sector-folder-picker{display:block;width:100%;max-height:none;overflow:visible;padding:0}
+.face-sector-folder-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;width:100%;max-height:220px;overflow-y:auto;padding:2px}
+.face-sector-folder-tile{position:relative;display:grid;grid-template-columns:22px 1fr auto;grid-template-rows:auto auto;align-items:center;gap:3px 7px;width:100%;min-width:0;padding:9px 10px;border:1px solid #c6deef;border-radius:11px;background:linear-gradient(135deg,#f5fbff,#e2f2ff);color:#19517b;text-align:left}
+.face-sector-folder-icon{grid-row:1/3;font-size:15px;color:#2685c4}
+.face-sector-folder-name{min-width:0;font-size:10px;line-height:1.25;font-weight:700;overflow-wrap:anywhere;white-space:normal}
+.face-sector-folder-tile small{grid-column:2;font-size:8px;color:#6887a0}
+.face-sector-folder-arrow{grid-column:3;grid-row:1/3;font-size:16px;color:#4183ad}
+.face-sector-members-card{width:100%;display:flex;flex-direction:column;gap:6px;padding:7px;border:1px solid #c7deef;border-radius:12px;background:#f6fbff}
+.face-sector-back-button{align-self:flex-start;border:1px solid #d0e3f2;border-radius:8px;background:#e5f3ff;color:#28618c;padding:5px 8px;font-size:9px;font-weight:700}
+.face-sector-members-title{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:3px 2px;color:#18527d;font-size:11px;font-weight:800;overflow-wrap:anywhere}
+.face-sector-members-title small{flex:0 0 auto;font-size:8px;color:#6c8ba5;font-weight:600}
+.face-sector-member-scroll{display:flex;flex-direction:column;gap:4px;max-height:210px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:2px}
+.face-sector-member-scroll .face-attendance-sector-member{min-height:32px;font-size:10px}
+.face-sector-member-scroll .face-attendance-sector-member span{font-size:10px}
+@media(max-width:520px){.face-sector-folder-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;max-height:215px}.face-sector-folder-tile{padding:8px 7px;grid-template-columns:18px 1fr auto;gap:3px 5px}.face-sector-folder-name{font-size:9px}.face-sector-members-card{padding:6px}.face-sector-member-scroll{max-height:190px}}
