@@ -1575,3 +1575,11 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .devotional-detail-card{padding:16px 13px}
  .devotional-detail-tools{gap:10px}
 }
+
+
+/* Arabic reading line-spacing adjustment: isolated, preserving font sizes and alignment. */
+.devotional-detail-card .devotional-arabic,
+.quran-surah .quran-full-text,
+.quran-full-text {
+  line-height: 1.7 !important;
+}
