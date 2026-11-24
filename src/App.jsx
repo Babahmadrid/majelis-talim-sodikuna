@@ -324,15 +324,15 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   .islamic,.arch,.mosque{display:none!important}
   .logo-wrap{position:absolute;top:4mm;left:31.5mm;width:11mm;height:11mm;border:1mm solid #0b65c0;border-radius:50%;background:#fff;display:grid;place-items:center;z-index:4;box-shadow:0 0 0 .8mm #7ed5ff,0 0 2mm #4abaff}
   .logo{width:9mm;height:9mm;object-fit:contain;border-radius:50%}
-  .title{position:absolute;top:16mm;left:2mm;right:2mm;text-align:center;font-weight:900;color:#fff;font-size:4.3mm;line-height:1.12;letter-spacing:0;z-index:2;text-transform:uppercase;text-shadow:0 .4mm 1.1mm #003c91}
-  .subtitle{position:absolute;top:23mm;left:7mm;right:7mm;text-align:center;padding:1.25mm .5mm;border-radius:8mm;color:white;font-size:3.4mm;font-weight:800;background:linear-gradient(180deg,#168ce7,#0050b7);box-shadow:0 .5mm 1mm #003d8b55;z-index:3}
-  .details{position:absolute;top:36mm;left:4.8mm;right:4.8mm;z-index:3}
+  .title{position:absolute;top:17mm;left:2mm;right:2mm;text-align:center;font-weight:900;color:#fff;font-size:3.5mm;line-height:1.18;letter-spacing:0;z-index:2;text-transform:uppercase;text-shadow:0 .3mm .8mm #003c91}
+  .subtitle{position:absolute;top:27mm;left:7mm;right:7mm;text-align:center;padding:1.25mm .5mm;border-radius:8mm;color:white;font-size:3.4mm;font-weight:800;background:linear-gradient(180deg,#168ce7,#0050b7);box-shadow:0 .5mm 1mm #003d8b55;z-index:3}
+  .details{position:absolute;top:39mm;left:4.8mm;right:4.8mm;z-index:3}
   .detail{height:6.0mm;display:grid;grid-template-columns:5.3mm 15.5mm 2mm 1fr;align-items:center;border-bottom:.25mm solid #91b7d7;font-size:2.7mm;color:#09285f}
   .detail:last-child{border-bottom:0}.ico{width:4.3mm;height:4.3mm;fill:#0870c9}
   .label{font-weight:700;white-space:nowrap}.colon{font-weight:700;text-align:center}
   .value{font-size:3mm;font-weight:800;color:#080d1b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .qr-frame{position:absolute;left:6mm;top:54mm;width:62mm;height:42mm;padding:1mm;background:white;border:.55mm solid #0757a8;border-radius:2.6mm;z-index:5}
-  .qr{width:100%;height:100%;display:block}
+  .qr-frame{position:absolute;left:16mm;top:53mm;width:42mm;height:42mm;padding:1mm;background:white;border:.55mm solid #0757a8;border-radius:2.6mm;z-index:5}
+  .qr{width:100%;height:100%;display:block;object-fit:contain;aspect-ratio:1/1}
   .id{position:absolute;left:26mm;top:99mm;z-index:7;min-width:21.6mm;text-align:center;padding:.8mm 1.6mm;border-radius:8mm;color:#fff;background:linear-gradient(#168de8,#0048a8);font-size:3.4mm;font-weight:800}
   .wave{position:absolute;left:-.5mm;right:-.5mm;bottom:-.5mm;height:7mm;z-index:2}.wave svg{width:100%;height:100%}
   @media screen{body{display:grid;place-items:center;background:#e9edf3;width:100vw;height:100vh}.card{box-shadow:0 4mm 8mm #0003}}
