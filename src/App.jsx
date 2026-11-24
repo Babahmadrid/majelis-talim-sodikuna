@@ -233,7 +233,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
     .muted{color:#71879a;font-size:8px}
   .footer{margin-top:18px;padding-top:7px;border-top:1px solid #d8e5ee;text-align:center;color:#71879a;font-size:8px}
   @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.no-print{display:none}}
-  </style></head><body><div class="head"><img src="/logo-sodikuna.png" onerror="this.style.display='none'"><h1>MAJELIS TA’LIM SODIKUNA</h1><p class="sub">${safe(title)} · ${safe(subtitle)}</p></div>${body}<div class="footer">Majelis Ta’lim Sodikuna Caringin Sukabumi · Dokumen dibuat dari data aplikasi</div><div class="print-actions" style="display:flex;justify-content:center;gap:8px;margin:12px 0"><button onclick="window.print()" style="padding:12px 18px;border:0;border-radius:10px;background:#0752b4;color:white;font:700 16px Arial">Cetak / Simpan PDF</button></div><script>window.onload=()=>setTimeout(()=>window.print(),900)<\/script></body></html>`);
+  </style></head><body><div class="head"><img src="/logo-sodikuna.png" onerror="this.style.display='none'"><h1>MAJELIS TA’LIM SODIKUNA</h1><p class="sub">${safe(title)} · ${safe(subtitle)}</p></div>${body}<div class="footer">Majelis Ta’lim Sodikuna Caringin Sukabumi · Dokumen dibuat dari data aplikasi</div><div class="print-actions" style="display:flex;justify-content:center;gap:8px;margin:12px 0"></div><script>window.onload=()=>setTimeout(()=>window.print(),900)<\/script></body></html>`);
   win.document.close();
  }
  function printAnnualAttendance(year=new Date().getFullYear()){
