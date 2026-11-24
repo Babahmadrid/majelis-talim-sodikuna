@@ -239,13 +239,6 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     if (!video || video.videoWidth < 1 || video.videoHeight < 1) {
       return { ok: false, message: 'Menunggu kamera siap...' };
     }
-      if (faceWidth < 0.18 || faceHeight < 0.22) {
-        return { ok: false, message: 'Dekatkan wajah sedikit ke kamera.' };
-      }
-      if (faceWidth > 0.72 || faceHeight > 0.78) {
-        return { ok: false, message: 'Mundurkan wajah sedikit dari kamera.' };
-      }
-    }
     // Basic exposure check on a small center crop; this is image-quality feedback only.
     try {
       const canvas = document.createElement('canvas');
