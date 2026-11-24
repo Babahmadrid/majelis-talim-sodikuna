@@ -32,6 +32,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const [working, setWorking] = useState(false);
   const [error, setError] = useState('');
   const [recognized, setRecognized] = useState(null);
+  const [faceDetected, setFaceDetected] = useState(false);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const humanRef = useRef(null);
@@ -204,14 +205,6 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     let cancelled = false;
     async function start() {
       if (!open) return;
-      // SAFETY: temporarily block facial-recognition attendance after a false-positive report.
-      // Do not open the camera or auto-mark attendance until the threshold/liveness pipeline is calibrated.
-      if (mode === 'match') {
-        setError('Absensi wajah sementara dinonaktifkan karena hasil pengenalan dapat salah. Gunakan QR atau absensi manual sampai sistem diperbaiki dan diuji.');
-        setStatus('Scan wajah ditangguhkan demi mencegah salah catat kehadiran.');
-        setOpen(false);
-        return;
-      }
       try {
         setError('');
         if (mode === 'match' && !selected) throw new Error('Pilih agenda kegiatan terlebih dahulu.');
@@ -275,28 +268,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         setConsentSaved(false);
         setMemberId('');
         setGuardianName('');
-      } else {
-        setStatus('Mencocokkan wajah dengan template terdaftar...');
-        const { data, error: invokeError } = await db.functions.invoke('face-biometric', {
-          body: { action: 'match', jamaah_id: active[0]?.id, embedding },
-        });
-        if (invokeError) throw invokeError;
-        if (!data?.matched || !data?.jamaah_id) {
-          setStatus('Wajah belum terdaftar pada data jamaah.');
-          if (Date.now() - lastUnknownAudioRef.current > 6000) {
-            lastUnknownAudioRef.current = Date.now();
-            playUnknownFaceAudio();
-          }
-        } else {
-          const person = active.find(item => item.id === data.jamaah_id);
-          if (!person) throw new Error('Wajah cocok, tetapi jamaah tidak aktif atau tidak ditemukan.');
-          setRecognized(person);
-          setStatus('Dikenali: ' + person.name + '. Memeriksa kehadiran agenda...');
-          await markPresent(person, 'face');
-          setStatus('Pemeriksaan selesai untuk ' + person.name + '.');
-        }
-      }
-    } catch (e) {
+      }{
       let detail = e?.message || 'Proses pengenalan wajah gagal.';
       try {
         const response = e?.context;
@@ -341,7 +313,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   if (!isAdmin) return null;
   return (
     <div className="face-attendance">
-      {!hideTrigger && <button type="button" className="attendance-mode face-mode-ready" disabled={!selected} onClick={() => { setMode('match'); setOpen(true); setError(''); setRecognized(null); }}>
+      {!hideTrigger && <button type="button" className="attendance-mode face-mode-ready" disabled={!selected} onClick={() => { setMode('match'); setOpen(true); setError(''); setRecognized(null); setFaceDetected(false); }}>
         <ScanFace size={25} />
         <span><b>Scan Wajah</b><small>Pengenalan otomatis melalui kamera HP petugas</small></span>
       </button>}
@@ -351,7 +323,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
           <button type="button" onClick={() => { setOpen(false); onClose?.(); }} aria-label="Tutup"><X size={19}/></button>
         </div>
         {!initialMemberId && <div className="face-mode-tabs">
-          <button type="button" className={mode === 'match' ? 'active' : ''} onClick={() => { setMode('match'); setError(''); setConsentSaved(false); }}>Scan Absensi</button>
+          <button type="button" className={mode === 'match' ? 'active' : ''} onClick={() => { setMode('match'); setError(''); setConsentSaved(false); setFaceDetected(false); }}>Scan Absensi</button>
           <button type="button" className={mode === 'enroll' ? 'active' : ''} onClick={() => { try { window.speechSynthesis?.resume(); } catch {} setMode('enroll'); setError(''); setConsentSaved(false); }}>Daftarkan Wajah</button>
         </div>}
         {mode === 'enroll' && !consentSaved && <div className="face-enroll-form">
@@ -403,6 +375,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         {mode === 'enroll' && consentSaved && <div className="face-consent-saved"><b>✓ Data pendaftaran tersimpan sementara</b><span>Identitas dan persetujuan sudah disiapkan. Silakan daftarkan wajah di kamera.</span><button type="button" onClick={() => {setConsentSaved(false);setStatus('Silakan periksa kembali data pendaftaran.');}}>Ubah data</button></div>}
         <div className="face-camera-stage"><video ref={videoRef} playsInline muted autoPlay/><div className="face-camera-guide"/></div>
         <div className="face-status-line">{working && <LoaderCircle size={16} className="face-spinner"/>}{status}</div>
+        {faceDetected && mode === 'match' && <div className="face-notification-card"><b>WAJAH TERDETEKSI</b><span>Identitas belum dipastikan. Petugas harus memilih anggota secara manual sebelum menyimpan absensi.</span></div>}
         {recognized && mode === 'match' && <div className="face-notification-card"><b>HASIL PEMINDAIAN</b><span><small>Nama:</small><strong>{recognized.name}</strong></span><span><small>No anggota:</small><strong>{recognized.member_no}</strong></span><span><small>Sektor:</small><strong>{recognized.sector || '-'}</strong></span></div>}
         {error && <div className="alert error">{error}</div>}
         {mode === 'enroll' && <button type="button" className="face-capture-button" disabled={working || alreadyEnrolled} onClick={processFace}><Camera size={17}/>Ambil dan daftarkan wajah</button>}
