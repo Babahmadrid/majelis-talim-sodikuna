@@ -391,11 +391,11 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
         doc.setDrawColor(118,187,228);doc.setLineWidth(.2);doc.line(x+5,yy+1.2,x+cardW-5,yy+1.2);
       });
       const qrSize=29,qrX=x+(cardW-qrSize)/2,qrY=y+53;
-      doc.setFillColor(255,255,255);doc.setDrawColor(54,171,247);doc.setLineWidth(1.1);doc.roundedRect(qrX-1.8,qrY-1.8,qrSize+3.6,qrSize+3.6,2,2,'S');doc.setDrawColor(15,119,218);doc.setLineWidth(.6);doc.roundedRect(qrX-1.2,qrY-1.2,qrSize+2.4,qrSize+2.4,1.5,1.5,'FD');
+      doc.setFillColor(255,255,255);doc.setDrawColor(54,171,247);doc.setLineWidth(.45);doc.roundedRect(qrX-1.8,qrY-1.8,qrSize+3.6,qrSize+3.6,2,2,'S');doc.setDrawColor(15,119,218);doc.setLineWidth(.3);doc.roundedRect(qrX-1.2,qrY-1.2,qrSize+2.4,qrSize+2.4,1.5,1.5,'FD');
       doc.addImage(qr,'PNG',qrX,qrY,qrSize,qrSize);
       doc.setFillColor(13,127,220);doc.roundedRect(x+17,y+83,cardW-34,4,2,2,'F');doc.setDrawColor(94,202,255);doc.setLineWidth(.3);doc.line(x+18,y+83.4,x+cardW-18,y+83.4);
       doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(6.6);doc.text('ID: '+safeText(person.member_no,12),x+cardW/2,y+86,{align:'center'});
-      doc.setDrawColor(255,215,50);doc.setLineWidth(.4);doc.roundedRect(x+2.5,y+2.5,cardW-5,cardH-5,2.5,2.5,'S');doc.setDrawColor(140,224,255);doc.setLineWidth(.25);doc.roundedRect(x+3.1,y+3.1,cardW-6.2,cardH-6.2,2.2,2.2,'S');
+      doc.setDrawColor(255,215,50);doc.setLineWidth(.25);doc.roundedRect(x+2.5,y+2.5,cardW-5,cardH-5,2.5,2.5,'S');doc.setDrawColor(140,224,255);doc.setLineWidth(.15);doc.roundedRect(x+3.1,y+3.1,cardW-6.2,cardH-6.2,2.2,2.2,'S');
     };
     qrCards.forEach(({person,qr},idx)=>{
       const pageIdx=Math.floor(idx/(cols*rows)),cellIdx=idx%(cols*rows);
