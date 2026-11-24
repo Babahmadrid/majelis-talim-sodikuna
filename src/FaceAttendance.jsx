@@ -33,6 +33,8 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const [error, setError] = useState('');
   const [recognized, setRecognized] = useState(null);
   const [faceDetected, setFaceDetected] = useState(false);
+  const [attendanceMemberId, setAttendanceMemberId] = useState('');
+  const [confirmAttendance, setConfirmAttendance] = useState(false);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const humanRef = useRef(null);
@@ -245,7 +247,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
       }
       if (mode === 'match') {
         setFaceDetected(true);
-        setStatus('Wajah terdeteksi. Petugas harus memilih dan mengonfirmasi identitas secara manual sebelum absensi disimpan.');
+        setStatus('Wajah terdeteksi. Pilih identitas jamaah secara manual, lalu konfirmasi sebelum menyimpan absensi.');
         return;
       }
       if (!faces[0].embedding) throw new Error('Model tidak menghasilkan template wajah yang valid.');
@@ -381,7 +383,8 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         {mode === 'enroll' && consentSaved && <div className="face-consent-saved"><b>✓ Data pendaftaran tersimpan sementara</b><span>Identitas dan persetujuan sudah disiapkan. Silakan daftarkan wajah di kamera.</span><button type="button" onClick={() => {setConsentSaved(false);setStatus('Silakan periksa kembali data pendaftaran.');}}>Ubah data</button></div>}
         <div className="face-camera-stage"><video ref={videoRef} playsInline muted autoPlay/><div className="face-camera-guide"/></div>
         <div className="face-status-line">{working && <LoaderCircle size={16} className="face-spinner"/>}{status}</div>
-        {faceDetected && mode === 'match' && <div className="face-notification-card"><b>WAJAH TERDETEKSI</b><span>Identitas belum dipastikan. Petugas harus memilih anggota secara manual sebelum menyimpan absensi.</span></div>}
+        {faceDetected && mode === 'match' && <div className="face-notification-card"><b>WAJAH TERDETEKSI</b><span>Deteksi wajah tidak menetapkan identitas. Petugas wajib memilih dan memeriksa anggota.</span><label className="face-attendance-member-label">Pilih identitas jamaah</label><select value={attendanceMemberId} onChange={e => {setAttendanceMemberId(e.target.value);setConfirmAttendance(false);}}><option value="">-- Pilih jamaah --</option>{active.map(person => <option key={person.id} value={person.id}>{person.member_no} · {person.name} · {person.sector || '-'}</option>)}</select>{attendanceMemberId && <button type="button" className="face-capture-button" disabled={working} onClick={() => setConfirmAttendance(true)}>Periksa identitas & lanjutkan</button>}</div>}
+        {confirmAttendance && mode === 'match' && attendanceMemberId && <div className="face-confirm-attendance-card" role="dialog" aria-modal="true"><b>Konfirmasi identitas sebelum simpan</b><p>{(() => {const person=active.find(item=>item.id===attendanceMemberId);return person ? `${person.name} · ${person.member_no} · ${person.sector || '-'}` : 'Anggota tidak ditemukan';})()}</p><small>Pastikan nama, nomor anggota, dan sektor sesuai dengan orang yang hadir.</small><button type="button" className="face-capture-button" disabled={working} onClick={async () => {const person=active.find(item=>item.id===attendanceMemberId);if(!person){setError('Identitas jamaah tidak ditemukan.');return;}setConfirmAttendance(false);await markPresent(person,'face');setStatus('Konfirmasi petugas selesai.');setFaceDetected(false);setAttendanceMemberId('');}}>KONFIRMASI & SIMPAN KEHADIRAN</button><button type="button" className="face-cancel-confirm" onClick={() => setConfirmAttendance(false)}>Batal</button></div>}
         {recognized && mode === 'match' && <div className="face-notification-card"><b>HASIL PEMINDAIAN</b><span><small>Nama:</small><strong>{recognized.name}</strong></span><span><small>No anggota:</small><strong>{recognized.member_no}</strong></span><span><small>Sektor:</small><strong>{recognized.sector || '-'}</strong></span></div>}
         {error && <div className="alert error">{error}</div>}
         {mode === 'enroll' && <button type="button" className="face-capture-button" disabled={working || alreadyEnrolled} onClick={processFace}><Camera size={17}/>Ambil dan daftarkan wajah</button>}
