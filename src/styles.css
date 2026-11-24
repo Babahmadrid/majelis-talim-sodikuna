@@ -1630,3 +1630,20 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .devotional-detail-card .devotional-arabic a{
   text-decoration:none!important;
 }
+
+/* White Arabic surfaces, including Quran Ar-Rahman reader, no underline or bottom rules */
+.devotional-detail-card .devotional-arabic,
+.quran-surah .quran-full-text,
+.quran-surah .quran-bismillah,
+.quran-surah-title-ar{
+  background:#fff!important;
+  text-decoration:none!important;
+  border-bottom:0!important;
+  box-shadow:none!important;
+}
+.devotional-detail-card .devotional-arabic{
+  padding-bottom:10px!important;
+}
+.quran-surah{
+  background:#fff!important;
+}
