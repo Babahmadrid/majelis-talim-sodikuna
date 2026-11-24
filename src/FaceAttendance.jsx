@@ -113,31 +113,34 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   }
 
   function playFaceAudio(file, fallbackText) {
+    let fallbackUsed = false;
+    const fallback = () => {
+      if (fallbackUsed) return;
+      fallbackUsed = true;
+      if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') return;
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(fallbackText);
+        utterance.lang = 'id-ID';
+        utter.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+      } catch (error) {
+        console.warn('Suara cadangan tidak tersedia:', error);
+      }
+    };
     try {
       const base = (import.meta.env.VITE_SUPABASE_URL || '').replace(/\/$/, '');
       const audio = new Audio(base + '/storage/v1/object/public/absensi-voice/' + file);
       audio.preload = 'auto';
       audio.volume = 1;
-      audio.play().catch(err => {
-        console.warn('Audio wajah tidak dapat diputar:', err);
-        if ('speechSynthesis' in window) {
-          window.speechSynthesis.cancel();
-          const utterance = new SpeechSynthesisUtterance(fallbackText);
-          utterance.lang = 'id-ID';
-          utterance.rate = 0.95;
-          window.speechSynthesis.speak(utterance);
-        }
-      });
-    } catch (err) {
-      console.warn('Audio wajah gagal dimuat:', err);
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(fallbackText);
-        utterance.lang = 'id-ID';
-        window.speechSynthesis.speak(utterance);
-      }
+      audio.onerror = fallback;
+      const result = audio.play();
+      if (result && typeof result.catch === 'function') result.catch(fallback);
+    } catch (error) {
+      console.warn('Audio wajah gagal dimuat:', error);
+      fallback();
     }
   }
-
   function playFaceEnrollmentSuccessAudio() {
     playFaceAudio('wajah-terdaftar.mp3', 'Pendaftaran wajah berhasil.');
   }
