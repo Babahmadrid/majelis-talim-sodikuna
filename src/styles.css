@@ -1669,3 +1669,6 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .quran-full-text {
   line-height: 1.7;
 }
+/* Admin actions on each devotional list item */
+.devotional-list-actions{display:flex;gap:7px;justify-content:flex-end;padding:8px 12px 12px;flex-wrap:wrap}
+.devotional-list-actions .small-btn{min-height:34px}
