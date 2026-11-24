@@ -257,9 +257,9 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
       if (brightness < 48) return { ok: false, message: 'Gambar terlalu gelap. Cari tempat yang lebih terang.' };
       if (brightness > 218) return { ok: false, message: 'Gambar terlalu terang. Hindari cahaya langsung.' };
     } catch {
-      // If pixel access is unavailable, keep the non-biometric framing checks.
+      // If pixel access is unavailable, continue without exposure feedback.
     }
-    return { ok: true, message: 'Kualitas gambar cukup. Tahan posisi sebentar.' };
+    return { ok: true, message: 'Kualitas gambar cukup.' };
   }
 
   async function processFace() {
