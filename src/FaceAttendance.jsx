@@ -33,6 +33,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   const [error, setError] = useState('');
   const [recognized, setRecognized] = useState(null);
   const [faceDetected, setFaceDetected] = useState(false);
+  const [cameraQuality, setCameraQuality] = useState({ ok: false, message: 'Menyiapkan kamera...' });
   const [attendanceMemberId, setAttendanceMemberId] = useState('');
   const [confirmAttendance, setConfirmAttendance] = useState(false);
   const videoRef = useRef(null);
@@ -211,7 +212,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
         setError('');
         if (mode === 'match' && !selected) throw new Error('Pilih agenda kegiatan terlebih dahulu.');
         if (!navigator.mediaDevices?.getUserMedia) throw new Error('Kamera membutuhkan HTTPS dan izin kamera dari Chrome.');
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30, max: 30 } }, audio: false });
         if (cancelled) { stream.getTracks().forEach(track => track.stop()); return; }
         streamRef.current = stream;
         if (!videoRef.current) throw new Error('Kamera belum siap.');
@@ -233,6 +234,51 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     };
   }, [open, selected, mode]);
 
+  function assessFrame(face) {
+    const video = videoRef.current;
+    if (!video || video.videoWidth < 1 || video.videoHeight < 1) {
+      return { ok: false, message: 'Menunggu kamera siap...' };
+    }
+    const box = face?.box;
+    if (Array.isArray(box) && box.length >= 4) {
+      const [x, y, width, height] = box.map(Number);
+      const cx = (x + width / 2) / video.videoWidth;
+      const cy = (y + height / 2) / video.videoHeight;
+      const faceWidth = width / video.videoWidth;
+      const faceHeight = height / video.videoHeight;
+      if (cx < 0.28 || cx > 0.72 || cy < 0.25 || cy > 0.75) {
+        return { ok: false, message: 'Posisikan wajah di tengah panduan.' };
+      }
+      if (faceWidth < 0.18 || faceHeight < 0.22) {
+        return { ok: false, message: 'Dekatkan wajah sedikit ke kamera.' };
+      }
+      if (faceWidth > 0.72 || faceHeight > 0.78) {
+        return { ok: false, message: 'Mundurkan wajah sedikit dari kamera.' };
+      }
+    }
+    // Basic exposure check on a small center crop; this is image-quality feedback only.
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 32;
+      canvas.height = 32;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      let total = 0;
+      let count = 0;
+      for (let i = 0; i < pixels.length; i += 4) {
+        total += (pixels[i] * 0.299 + pixels[i + 1] * 0.587 + pixels[i + 2] * 0.114);
+        count++;
+      }
+      const brightness = total / count;
+      if (brightness < 48) return { ok: false, message: 'Gambar terlalu gelap. Cari tempat yang lebih terang.' };
+      if (brightness > 218) return { ok: false, message: 'Gambar terlalu terang. Hindari cahaya langsung.' };
+    } catch {
+      // If pixel access is unavailable, keep the non-biometric framing checks.
+    }
+    return { ok: true, message: 'Kualitas gambar cukup. Tahan posisi sebentar.' };
+  }
+
   async function processFace() {
     if (busyRef.current || !videoRef.current || !humanRef.current || working) return;
     busyRef.current = true;
@@ -242,7 +288,15 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
       const faces = result.face || [];
       if (faces.length !== 1) {
         setFaceDetected(false);
+        setCameraQuality({ ok: false, message: faces.length > 1 ? 'Hanya satu jamaah boleh berada di depan kamera.' : 'Wajah belum terdeteksi. Dekatkan wajah ke kamera.' });
         setStatus(faces.length > 1 ? 'Hanya satu jamaah boleh berada di depan kamera.' : 'Wajah belum terdeteksi. Dekatkan wajah ke kamera.');
+        return;
+      }
+      const frameCheck = assessFrame(faces[0]);
+      setCameraQuality(frameCheck);
+      if (!frameCheck.ok) {
+        setFaceDetected(false);
+        setStatus(frameCheck.message);
         return;
       }
       if (mode === 'match') {
@@ -381,7 +435,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
           }}>{savingConsent ? <><LoaderCircle size={16} className="face-spinner"/> Menyimpan data...</> : 'Simpan data'}</button>}
         </div>}
         {mode === 'enroll' && consentSaved && <div className="face-consent-saved"><b>✓ Data pendaftaran tersimpan sementara</b><span>Identitas dan persetujuan sudah disiapkan. Silakan daftarkan wajah di kamera.</span><button type="button" onClick={() => {setConsentSaved(false);setStatus('Silakan periksa kembali data pendaftaran.');}}>Ubah data</button></div>}
-        <div className="face-camera-stage"><video ref={videoRef} playsInline muted autoPlay/><div className="face-camera-guide"/></div>
+        <div className="face-camera-stage"><video ref={videoRef} playsInline muted autoPlay/><div className="face-camera-guide"/><div className={`face-camera-quality ${cameraQuality.ok ? 'ready' : 'checking'}`}>{cameraQuality.ok ? '● SIAP' : '● ATUR POSISI'}<span>{cameraQuality.message}</span></div></div>
         <div className="face-status-line">{working && <LoaderCircle size={16} className="face-spinner"/>}{status}</div>
         {faceDetected && mode === 'match' && <div className="face-notification-card"><b>WAJAH TERDETEKSI</b><span>Deteksi wajah tidak menetapkan identitas. Petugas wajib memilih dan memeriksa anggota.</span><label className="face-attendance-member-label">Pilih identitas jamaah</label><select value={attendanceMemberId} onChange={e => {setAttendanceMemberId(e.target.value);setConfirmAttendance(false);}}><option value="">-- Pilih jamaah --</option>{active.map(person => <option key={person.id} value={person.id}>{person.member_no} · {person.name} · {person.sector || '-'}</option>)}</select>{attendanceMemberId && <button type="button" className="face-capture-button" disabled={working} onClick={() => setConfirmAttendance(true)}>Periksa identitas & lanjutkan</button>}</div>}
         {confirmAttendance && mode === 'match' && attendanceMemberId && <div className="face-confirm-attendance-card" role="dialog" aria-modal="true"><b>Konfirmasi identitas sebelum simpan</b><p>{(() => {const person=active.find(item=>item.id===attendanceMemberId);return person ? `${person.name} · ${person.member_no} · ${person.sector || '-'}` : 'Anggota tidak ditemukan';})()}</p><small>Pastikan nama, nomor anggota, dan sektor sesuai dengan orang yang hadir.</small><button type="button" className="face-capture-button" disabled={working} onClick={async () => {const person=active.find(item=>item.id===attendanceMemberId);if(!person){setError('Identitas jamaah tidak ditemukan.');return;}setConfirmAttendance(false);await markPresent(person,'face');setStatus('Konfirmasi petugas selesai.');setFaceDetected(false);setAttendanceMemberId('');}}>KONFIRMASI & SIMPAN KEHADIRAN</button><button type="button" className="face-cancel-confirm" onClick={() => setConfirmAttendance(false)}>Batal</button></div>}
