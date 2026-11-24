@@ -270,25 +270,6 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   const summary=`<div class="summary"><div><b>${activeSectors}</b><span>SEKTOR AKTIF</span></div><div><b>${total}</b><span>TOTAL JAMAAH</span></div></div>`;
   openReportPDF('Data Jamaah Per Sektor',`${total} jamaah terdaftar`,summary+body,'data-jamaah-sodikuna.pdf',false);
  }
- function printAttendanceDate(agendaId){
-  const event=agenda.find(a=>a.id===agendaId);if(!event){setError('Pilih tanggal pengajian terlebih dahulu.');return}
-  const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const records=attendance.filter(x=>x.agenda_id===agendaId);let rows='';const counts={hadir:0,izin:0,sakit:0,alpa:0,belum:0};
-  for(const sector of sectors){
-   const members=jamaah.filter(j=>j.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));if(!members.length)continue;
-   rows+=`<tr class="pdf-sector-row"><td colspan="3"><span>${members.length} jamaah</span>SEKTOR: ${esc(sector)}</td></tr>`;
-   members.forEach(m=>{
-    const rec=records.find(x=>x.jamaah_id===m.id);const status=String(rec?.status||'belum').toLowerCase();
-    counts[status]=(counts[status]||0)+1;
-    const statusLabel=status==='alpa'?'Tanpa keterangan':status==='belum'?'Belum dicatat':status.charAt(0).toUpperCase()+status.slice(1);
-    rows+=`<tr><td class="center no">${esc(m.member_no)}</td><td class="name">${esc(m.name)}</td><td class="center status-cell">${esc(statusLabel)}</td></tr>`;
-   });
-  }
-  const date=event.event_date?new Date(event.event_date+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'}):'-';
-  const summary=`<div class="summary"><div><b>${counts.hadir}</b><span>HADIR</span></div><div><b>${counts.izin}</b><span>IZIN</span></div><div><b>${counts.sakit}</b><span>SAKIT</span></div><div><b>${counts.alpa}</b><span>ALPA</span></div><div><b>${counts.belum}</b><span>BELUM DICATAT</span></div></div>`;
-  const table=`<table class="attendance-date-table"><colgroup><col style="width:15%"><col style="width:55%"><col style="width:30%"></colgroup><thead><tr><th class="center">NO. ANGGOTA</th><th>NAMA JAMAAH</th><th class="center">STATUS KEHADIRAN</th></tr></thead><tbody>${rows||'<tr><td colspan="3" class="center">Belum ada data jamaah</td></tr>'}</tbody></table>`;
-  openReportPDF('Rekap Absensi Pertanggal Pengajian',`${event.title||'Pengajian'} · ${date}`,summary+table,`rekap-absensi-${event.event_date||'pengajian'}.pdf`,false);
- }
  function printFinancePDF(){
   const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const fmt=v=>'Rp '+Number(v||0).toLocaleString('id-ID');
@@ -304,11 +285,22 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
  }
  function printAttendanceDate(agendaId){
   const event=agenda.find(a=>a.id===agendaId);if(!event){setError('Pilih tanggal pengajian terlebih dahulu.');return}
-  const records=attendance.filter(x=>x.agenda_id===agendaId);let body='';let total=0;const counts={hadir:0,izin:0,sakit:0,alpa:0,belum:0};
-  for(const sector of sectors){const members=jamaah.filter(j=>j.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));if(!members.length)continue;const rows=members.map(m=>{const rec=records.find(x=>x.jamaah_id===m.id);const status=String(rec?.status||'belum').toLowerCase();counts[status]=(counts[status]||0)+1;total++;return `<tr><td class="center">${m.member_no}</td><td>${m.name}</td><td>${(status==='alpa'?'Tanpa keterangan':status==='belum'?'Belum dicatat':status.charAt(0).toUpperCase()+status.slice(1))}</td></tr>`;}).join('');body+=`<div class="sector">SEKTOR: ${sector} · ${members.length} jamaah</div><table><thead><tr><th class="center">NO. ANGGOTA</th><th>NAMA JAMAAH</th><th>STATUS KEHADIRAN</th></tr></thead><tbody>${rows}</tbody></table>`;}
+  const esc=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const records=attendance.filter(x=>x.agenda_id===agendaId);let rows='';const counts={hadir:0,izin:0,sakit:0,alpa:0,belum:0};
+  for(const sector of sectors){
+   const members=jamaah.filter(j=>j.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));if(!members.length)continue;
+   rows+=`<tr class="pdf-sector-row"><td colspan="3">SEKTOR: ${esc(sector)} <span>${members.length} jamaah</span></td></tr>`;
+   members.forEach(m=>{
+    const rec=records.find(x=>x.jamaah_id===m.id);const status=String(rec?.status||'belum').toLowerCase();
+    counts[status]=(counts[status]||0)+1;
+    const label=status==='alpa'?'Tanpa keterangan':status==='belum'?'Belum dicatat':status.charAt(0).toUpperCase()+status.slice(1);
+    rows+=`<tr><td class="center no">${esc(m.member_no)}</td><td class="name">${esc(m.name)}</td><td class="center status-cell">${esc(label)}</td></tr>`;
+   });
+  }
   const date=event.event_date?new Date(event.event_date+'T00:00:00').toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'}):'-';
   const summary=`<div class="summary"><div><b>${counts.hadir}</b><span>HADIR</span></div><div><b>${counts.izin}</b><span>IZIN</span></div><div><b>${counts.sakit}</b><span>SAKIT</span></div><div><b>${counts.alpa}</b><span>ALPA</span></div><div><b>${counts.belum}</b><span>BELUM DICATAT</span></div></div>`;
-  openReportPDF('Rekap Absensi Pertanggal Pengajian',`${event.title||'Pengajian'} · ${date}`,summary+body,`rekap-absensi-${event.event_date||'pengajian'}.pdf`,false);
+  const table=`<table class="attendance-date-table"><colgroup><col style="width:15%"><col style="width:55%"><col style="width:30%"></colgroup><thead><tr><th class="center">NO. ANGGOTA</th><th>NAMA JAMAAH</th><th class="center">STATUS KEHADIRAN</th></tr></thead><tbody>${rows||'<tr><td colspan="3" class="center">Belum ada data jamaah</td></tr>'}</tbody></table>`;
+  openReportPDF('Rekap Absensi Pertanggal Pengajian',`${event.title||'Pengajian'} · ${date}`,summary+table,`rekap-absensi-${event.event_date||'pengajian'}.pdf`,false);
  }
  async function makeQR(item){const value=JSON.stringify({type:'sodikuna-attendance',agenda_id:item.id,token:item.qr_token||item.id});setQr(await QRCode.toDataURL(value,{width:280,margin:2}));}
  async function printMemberCard(person){
