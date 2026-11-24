@@ -326,7 +326,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   .detail:last-child{border-bottom:0}.ico{width:4.3mm;height:4.3mm;fill:#0870c9}
   .label{font-weight:700;white-space:nowrap}.colon{font-weight:700;text-align:center}
   .value{font-size:3mm;font-weight:800;color:#080d1b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .qr-frame{position:absolute;left:16mm;top:53mm;width:42mm;height:42mm;padding:1mm;background:white;border:.55mm solid #0757a8;border-radius:2.6mm;z-index:5}
+  .qr-frame{position:absolute;left:6mm;top:54mm;width:62mm;height:42mm;padding:1mm;background:white;border:.55mm solid #0757a8;border-radius:2.6mm;z-index:5}
   .qr{width:100%;height:100%;display:block}
   .id{position:absolute;left:26mm;top:99mm;z-index:7;min-width:21.6mm;text-align:center;padding:.8mm 1.6mm;border-radius:8mm;color:#fff;background:linear-gradient(#168de8,#0048a8);font-size:3.4mm;font-weight:800}
   .wave{position:absolute;left:-.5mm;right:-.5mm;bottom:-.5mm;height:7mm;z-index:2}.wave svg{width:100%;height:100%}
@@ -361,7 +361,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   .details{position:absolute;top:35mm;left:5mm;right:5mm}
   .detail{height:7mm;display:grid;grid-template-columns:7mm 19mm 3mm 1fr;align-items:center;border-bottom:.25mm solid #91b7d7;font-size:3.2mm}
   .detail b{white-space:nowrap}.value{font-size:3.8mm;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .qr{position:absolute;top:53mm;left:16mm;width:42mm;height:42mm;padding:1mm;background:white;border:.6mm solid #0757a8;border-radius:3mm;display:grid;place-items:center}
+  .qr{position:absolute;top:54mm;left:6mm;width:62mm;height:42mm;padding:1mm;background:white;border:.6mm solid #0757a8;border-radius:3mm;display:grid;place-items:center}
   .qr img{width:100%;height:100%;object-fit:contain}
   .id{position:absolute;top:99mm;left:26mm;min-width:22mm;text-align:center;padding:1mm 2mm;border-radius:8mm;color:#fff;background:#0752b4;font-size:4mm;font-weight:900}
   .wave{position:absolute;bottom:0;width:100%;height:8mm;background:linear-gradient(180deg,#f5d137 0 25%,#0781d8 25% 65%,#0050ad 65%);border-top:1mm solid white}
