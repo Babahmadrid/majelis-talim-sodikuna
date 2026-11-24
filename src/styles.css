@@ -1661,3 +1661,11 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 
 /* Fix stacking: the mobile navigation must stay above agenda/sector pickers. */
 @media(max-width:900px){.app-shell .sidebar.open{z-index:10000!important}.app-shell .zigzag-picker,.app-shell .zigzag-picker.is-open{z-index:100!important}.app-shell .zigzag-picker-options{z-index:101!important}}
+
+
+/* Tighten Arabic verse line spacing as requested (keep font size and alignment controls unchanged). */
+.devotional-detail-card .devotional-arabic,
+.quran-surah .quran-full-text,
+.quran-full-text {
+  line-height: 1.7 !important;
+}
