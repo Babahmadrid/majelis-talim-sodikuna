@@ -514,7 +514,7 @@ useEffect(()=>{let stopped=false,scanner=null;
      if(!person&&value.startsWith('sodikuna:member:')){const id=value.slice('sodikuna:member:'.length);person=data.activeJamaah.find(j=>j.id===id)}
      if(person)await markPresentRef.current(person,'qr');else feedback('invalid',null,'QR tidak cocok dengan nomor anggota dan sektor aktif.');
     }finally{busyRef.current=false}
-   },errorMessage=>{if(!stopped&&errorMessage&&!/NotFoundException/.test(errorMessage))setCameraError('Pemindaian: '+errorMessage)});
+   },()=>{});
   }catch(e){if(!stopped){setCameraError((e?.message||'Kamera gagal dimulai.')+' Pastikan izin kamera diberikan dan tidak digunakan aplikasi lain.');setScan(false)}}
  }
  run();
