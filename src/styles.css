@@ -1710,3 +1710,7 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .agenda-list-card .grow>b{font-size:14px!important}
  .agenda-list-card .grow p,.agenda-list-card .grow small{font-size:11px!important}
 }
+
+/* Gear indicator for sector ID-card download progress */
+.sector-download-gear.spinning{animation:sectorGearSpin 1.1s linear infinite;transform-origin:center}
+@keyframes sectorGearSpin{to{transform:rotate(360deg)}}
