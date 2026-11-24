@@ -304,11 +304,12 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
  }
  async function makeQR(item){const value=JSON.stringify({type:'sodikuna-attendance',agenda_id:item.id,token:item.qr_token||item.id});setQr(await QRCode.toDataURL(value,{width:280,margin:2}));}
  async function printMemberCard(person){
+  const w=window.open('','_blank','width=720,height=1100');
+  if(!w){setError('Izinkan pop-up untuk mencetak kartu.');return}
+  w.document.write('<!doctype html><html><head><title>Menyiapkan kartu...</title></head><body>Menyiapkan kartu anggota...</body></html>');
   const value='sodikuna:member:'+person.id;
   const code=await QRCode.toDataURL(value,{width:720,margin:1,errorCorrectionLevel:'H'});
   const safe=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const w=window.open('','_blank','width=720,height=1100');
-  if(!w){setError('Izinkan pop-up untuk mencetak kartu.');return}
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Kartu Anggota Jamaah</title><style>
   @page{size:74mm 105mm;margin:0}
   *{box-sizing:border-box}html,body{margin:0;width:74mm;height:105mm;font-family:Arial,Helvetica,sans-serif}
