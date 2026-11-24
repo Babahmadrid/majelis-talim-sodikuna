@@ -372,7 +372,14 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   @media screen{body{background:#e9edf3;padding:5mm}.sheet{background:white;margin:0 auto 5mm;padding:2mm}.card{box-shadow:0 1mm 3mm #0002}}
   </style></head><body>${Array.from({length:Math.ceil(cards.length/9)},(_,page)=>`<div class="sheet">${cards.slice(page*9,page*9+9).map(({person,code})=>`<div class="slot"><article class="card"><div class="pattern"></div><img class="logo" src="${new URL('/logo-sodikuna.png',location.href).href}"><div class="title">Majelis Ta’lim<br>Sodikuna</div><div class="sub">Kartu Anggota Jamaah</div><div class="details"><div class="detail"><b>Nama</b><span>:</span><span class="value">${esc(person.name)}</span></div><div class="detail"><b>No. Anggota</b><span>:</span><span class="value">${esc(person.member_no)}</span></div><div class="detail"><b>Sektor</b><span>:</span><span class="value">${esc(person.sector)}</span></div></div><div class="qr"><img src="${code}"></div><div class="id">ID: ${esc(person.member_no)}</div><div class="wave"></div></article></div>`).join('')}</div>`).join('')}</div></body></html>`);
   w.document.close();
-  setTimeout(()=>{try{w.focus();w.print()}catch(e){setError('PDF/print kartu tidak berhasil dibuka.')}},1200);
+  // Mobile browsers often block automatic print calls from popup documents.
+  // Keep a visible print/download-to-PDF action and attempt auto-print after assets settle.
+  const printBtn=w.document.createElement('button');
+  printBtn.textContent='Cetak / Simpan sebagai PDF';
+  printBtn.style.cssText='position:fixed;z-index:99999;top:12px;left:12px;padding:12px 18px;background:#0752b4;color:white;border:0;border-radius:8px;font:700 16px Arial;cursor:pointer';
+  printBtn.onclick=()=>{try{w.focus();w.print()}catch(e){printBtn.textContent='Gagal membuka dialog cetak';}};
+  w.document.body.prepend(printBtn);
+  setTimeout(()=>{try{w.focus();w.print()}catch(e){printBtn.textContent='Tekan tombol untuk mencetak PDF'}},1500);
  }
 
  }
