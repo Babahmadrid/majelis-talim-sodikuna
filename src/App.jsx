@@ -355,44 +355,52 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   const members=jamaah.filter(m=>m.sector===sector).sort((a,b)=>String(a.member_no||'').localeCompare(String(b.member_no||''),undefined,{numeric:true}));
   if(!members.length){setNotice('Sektor ini belum memiliki anggota.');return}
   try{
-    setNotice('Membuat PDF kartu anggota per sektor...');
+    setNotice('Menyiapkan PDF A4 berisi 9 kartu per halaman...');
     const {jsPDF}=await import('jspdf');
-    const cardW=74,cardH=105,doc=new jsPDF({orientation:'portrait',unit:'mm',format:[cardW,cardH]});
-    const qrCards=await Promise.all(members.map(async person=>({person,qr:await QRCode.toDataURL('sodikuna:member:'+person.id,{width:520,margin:2,errorCorrectionLevel:'H'})})));
+    const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    const qrCards=await Promise.all(members.map(async person=>({person,qr:await QRCode.toDataURL('sodikuna:member:'+person.id,{width:480,margin:2,errorCorrectionLevel:'H'})})));
     let logoData=null;try{const response=await fetch('/logo-sodikuna.png');if(response.ok){const blob=await response.blob();logoData=await new Promise(resolve=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>resolve(null);reader.readAsDataURL(blob)})}}catch{}
-    const safeText=(v,max=30)=>{let t=String(v??'-');return t.length>max?t.slice(0,max-1)+'…':t};
-    qrCards.forEach(({person,qr},idx)=>{
-      if(idx>0)doc.addPage([cardW,cardH],'portrait');
-      // Blue-white ID card inspired by the provided reference
-      doc.setFillColor(229,246,255);doc.rect(0,0,cardW,cardH,'F');
-      doc.setFillColor(0,81,180);doc.roundedRect(1.5,1.5,cardW-3,cardH-3,5,5,'F');
-      doc.setFillColor(16,145,231);doc.roundedRect(2.5,2.5,cardW-5,cardH-5,4,4,'F');
-      doc.setDrawColor(255,215,48);doc.setLineWidth(.8);doc.roundedRect(3.5,3.5,cardW-7,cardH-7,3.5,3.5,'S');
-      // header decorative pattern
-      doc.setFillColor(0,55,146);doc.circle(cardW/2,19,15,'F');
-      doc.setFillColor(255,255,255);doc.circle(cardW/2,19,10.8,'F');
-      if(logoData)try{doc.addImage(logoData,'PNG',cardW/2-9,10,18,18)}catch{}
-      doc.setTextColor(5,48,132);doc.setFont('helvetica','bold');doc.setFontSize(7.4);
-      doc.text('Majelis Ta’lim Sodikuna',cardW/2,34,{align:'center'});
-      doc.setFillColor(0,74,172);doc.roundedRect(11,36,cardW-22,7,3.5,3.5,'F');
-      doc.setTextColor(255,255,255);doc.setFontSize(9);doc.text('Kartu Anggota Jamaah',cardW/2,41,{align:'center'});
+    const safeText=(v,max=25)=>{let t=String(v??'-');return t.length>max?t.slice(0,max-1)+'…':t};
+    const cardW=63,cardH=88,gapX=3,gapY=3,cols=3,rows=3;
+    const pageW=210,pageH=297,startX=(pageW-(cols*cardW+(cols-1)*gapX))/2,startY=(pageH-(rows*cardH+(rows-1)*gapY))/2;
+    const drawCard=(person,qr,x,y)=>{
+      // Classic Islamic blue-and-gold card, inspired by selected reference #1
+      doc.setFillColor(236,248,255);doc.roundedRect(x,y,cardW,cardH,3.5,3.5,'F');
+      doc.setFillColor(0,79,175);doc.roundedRect(x+1,y+1,cardW-2,cardH-2,3,3,'F');
+      doc.setFillColor(22,147,231);doc.roundedRect(x+2,y+2,cardW-4,cardH-4,2.5,2.5,'F');
+      doc.setFillColor(228,246,255);doc.roundedRect(x+3,y+3,cardW-6,cardH-6,2,2,'F');
+      // Islamic arch header with mosque silhouettes
+      doc.setFillColor(0,83,177);doc.roundedRect(x+3,y+3,cardW-6,23,2,2,'F');
+      doc.setFillColor(17,150,229);doc.circle(x+11,y+20,8,'F');doc.circle(x+52,y+20,8,'F');
+      doc.setFillColor(0,65,150);doc.triangle(x+8,y+14,x+11,y+8,x+14,y+14,'F');doc.triangle(x+49,y+14,x+52,y+8,x+55,y+14,'F');
+      doc.setDrawColor(255,215,50);doc.setLineWidth(.5);doc.line(x+3,y+26,x+cardW-3,y+26);
+      if(logoData)try{doc.addImage(logoData,'PNG',x+cardW/2-7.5,y+4.5,15,15)}catch{}
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(6.1);doc.text('MAJELIS TA’LIM SODIKUNA',x+cardW/2,y+23,{align:'center'});
+      doc.setFillColor(0,72,168);doc.roundedRect(x+8,y+28,cardW-16,5.5,2.5,2.5,'F');
+      doc.setTextColor(255,255,255);doc.setFontSize(6.7);doc.text('KARTU ANGGOTA JAMAAH',x+cardW/2,y+32,{align:'center'});
       const labels=['Nama','No. Anggota','Sektor'],values=[person.name,person.member_no,person.sector];
-      const y0=48;
       labels.forEach((label,k)=>{
-        const y=y0+k*6.6;
-        doc.setTextColor(0,63,155);doc.setFont('helvetica','bold');doc.setFontSize(6.8);doc.text(label,9,y);
-        doc.setTextColor(20,25,35);doc.setFontSize(7.2);doc.text(':',28,y);
-        doc.setFont('helvetica','bold');doc.setFontSize(7.4);doc.text(safeText(values[k],24),31,y,{maxWidth:34});
-        doc.setDrawColor(99,177,226);doc.setLineWidth(.25);doc.line(8,y+1.8,cardW-8,y+1.8);
+        const yy=y+39+k*4.5;
+        doc.setTextColor(0,69,153);doc.setFont('helvetica','bold');doc.setFontSize(5.6);doc.text(label,x+5,yy);
+        doc.setTextColor(20,25,35);doc.setFontSize(5.7);doc.text(':',x+22,yy);
+        doc.setFont('helvetica','bold');doc.text(safeText(values[k],22),x+24,yy,{maxWidth:cardW-29});
+        doc.setDrawColor(118,187,228);doc.setLineWidth(.2);doc.line(x+5,yy+1.2,x+cardW-5,yy+1.2);
       });
-      const qrSize=47,qrX=(cardW-qrSize)/2,qrY=68;
-      doc.setFillColor(255,255,255);doc.setDrawColor(0,72,168);doc.setLineWidth(1);doc.roundedRect(qrX-2,qrY-2,qrSize+4,qrSize+4,3,3,'FD');
+      const qrSize=29,qrX=x+(cardW-qrSize)/2,qrY=y+53;
+      doc.setFillColor(255,255,255);doc.setDrawColor(0,74,171);doc.setLineWidth(.6);doc.roundedRect(qrX-1.2,qrY-1.2,qrSize+2.4,qrSize+2.4,1.5,1.5,'FD');
       doc.addImage(qr,'PNG',qrX,qrY,qrSize,qrSize);
-      doc.setFillColor(0,72,168);doc.roundedRect(22,98,30,5,2.5,2.5,'F');
-      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text('ID: '+safeText(person.member_no,12),cardW/2,101.5,{align:'center'});
+      doc.setFillColor(0,74,172);doc.roundedRect(x+17,y+83,cardW-34,4,2,2,'F');
+      doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(6.6);doc.text('ID: '+safeText(person.member_no,12),x+cardW/2,y+86,{align:'center'});
+      doc.setDrawColor(255,215,50);doc.setLineWidth(.4);doc.roundedRect(x+2.5,y+2.5,cardW-5,cardH-5,2.5,2.5,'S');
+    };
+    qrCards.forEach(({person,qr},idx)=>{
+      const pageIdx=Math.floor(idx/(cols*rows)),cellIdx=idx%(cols*rows);
+      if(idx>0&&cellIdx===0)doc.addPage();
+      const col=cellIdx%cols,row=Math.floor(cellIdx/cols);
+      drawCard(person,qr,startX+col*(cardW+gapX),startY+row*(cardH+gapY));
     });
-    doc.save('ID-Card-Sektor-'+String(sector).replace(/[^a-z0-9_-]/gi,'-')+'.pdf');
-    setNotice('PDF ID Card sektor berhasil dibuat dengan satu kartu per halaman.');
+    doc.save('ID-Card-Sektor-'+String(sector).replace(/[^a-z0-9_-]/gi,'-')+'-A4-9Kartu.pdf');
+    setNotice('PDF berhasil dibuat: 9 kartu per lembar A4.');
   }catch(err){console.error('PDF ID card error:',err);setError('PDF ID Card gagal dibuat: '+(err?.message||err))}
  }
 
