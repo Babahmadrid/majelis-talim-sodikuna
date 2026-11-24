@@ -347,6 +347,33 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   <div class="wave"><svg viewBox="0 0 540 110" preserveAspectRatio="none"><path d="M0 14Q120 48 245 63T540 8V110H0Z" fill="#f5d137" stroke="#fff" stroke-width="4"/><path d="M0 38Q125 75 270 79T540 29V110H0Z" fill="#0781d8" stroke="#fff" stroke-width="4"/><path d="M0 70Q180 105 360 92T540 55V110H0Z" fill="#0050ad"/></svg></div>
   </div><script>const logo=document.querySelector('.logo');logo.onload=()=>setTimeout(()=>window.print(),350);logo.onerror=()=>setTimeout(()=>window.print(),350);setTimeout(()=>window.print(),1400)<\/script></body></html>`);
   w.document.close();
+ async function printSectorMemberCards(sector){
+  const members=jamaah.filter(m=>m.sector===sector).sort((a,b)=>Number(a.member_no)-Number(b.member_no));
+  if(!members.length){setNotice('Sektor ini belum memiliki anggota.');return}
+  const cards=await Promise.all(members.map(async person=>({person,code:await QRCode.toDataURL('sodikuna:member:'+person.id,{width:620,margin:1,errorCorrectionLevel:'H'})})));
+  const w=window.open('','_blank','width=900,height=1200');
+  if(!w){setError('Izinkan pop-up untuk mencetak kartu per sektor.');return}
+  const esc=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Kartu Jamaah ${esc(sector)}</title><style>
+  @page{size:74mm 105mm;margin:0}
+  *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  .card{width:74mm;height:105mm;position:relative;overflow:hidden;border:.5mm solid #0872c8;border-radius:5mm;margin:0 auto;background:radial-gradient(ellipse at 50% 49%,#fff 0,#f8fcff 46%,#c5e8ff 100%);color:#061d58;page-break-after:always}
+  .pattern{position:absolute;inset:0 0 auto;height:32mm;opacity:.18;background-image:repeating-linear-gradient(45deg,transparent 0 2mm,#0879c9 2.15mm 2.45mm,transparent 2.6mm 4mm),repeating-linear-gradient(-45deg,transparent 0 2mm,#0879c9 2.15mm 2.45mm,transparent 2.6mm 4mm)}
+  .logo{position:absolute;top:4mm;left:31.5mm;width:11mm;height:11mm;object-fit:contain;border-radius:50%;background:white}
+  .title{position:absolute;top:16mm;left:2mm;right:2mm;text-align:center;font-weight:900;font-size:5mm;color:#071b59}
+  .sub{position:absolute;top:23mm;left:9mm;right:9mm;text-align:center;padding:1.4mm;border-radius:8mm;color:#fff;font-size:4mm;font-weight:bold;background:#0752b4}
+  .details{position:absolute;top:35mm;left:5mm;right:5mm}
+  .detail{height:7mm;display:grid;grid-template-columns:7mm 19mm 3mm 1fr;align-items:center;border-bottom:.25mm solid #91b7d7;font-size:3.2mm}
+  .detail b{white-space:nowrap}.value{font-size:3.8mm;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .qr{position:absolute;top:54mm;left:6mm;width:62mm;height:42mm;padding:1mm;background:white;border:.6mm solid #0757a8;border-radius:3mm;display:grid;place-items:center}
+  .qr img{width:100%;height:100%;object-fit:contain}
+  .id{position:absolute;top:99mm;left:26mm;min-width:22mm;text-align:center;padding:1mm 2mm;border-radius:8mm;color:#fff;background:#0752b4;font-size:4mm;font-weight:900}
+  .wave{position:absolute;bottom:0;width:100%;height:8mm;background:linear-gradient(180deg,#f5d137 0 25%,#0781d8 25% 65%,#0050ad 65%);border-top:1mm solid white}
+  @media screen{body{background:#e9edf3;padding:10mm}.card{box-shadow:0 4mm 8mm #0003}}
+  </style></head><body>${cards.map(({person,code})=>`<article class="card"><div class="pattern"></div><img class="logo" src="/logo-sodikuna.png"><div class="title">Majelis Ta’lim<br>Sodikuna</div><div class="sub">Kartu Anggota Jamaah</div><div class="details"><div class="detail"><b>Nama</b><span>:</span><span class="value">${esc(person.name)}</span></div><div class="detail"><b>No. Anggota</b><span>:</span><span class="value">${esc(person.member_no)}</span></div><div class="detail"><b>Sektor</b><span>:</span><span class="value">${esc(person.sector)}</span></div></div><div class="qr"><img src="${code}"></div><div class="id">ID: ${esc(person.member_no)}</div><div class="wave"></div></article>`).join('')}<script>window.onload=()=>setTimeout(()=>window.print(),500)<\/script></body></html>`);
+  w.document.close();
+ }
+
  }
 
  if(!db)return <SetupScreen/>;
