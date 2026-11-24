@@ -204,6 +204,14 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     let cancelled = false;
     async function start() {
       if (!open) return;
+      // SAFETY: temporarily block facial-recognition attendance after a false-positive report.
+      // Do not open the camera or auto-mark attendance until the threshold/liveness pipeline is calibrated.
+      if (mode === 'match') {
+        setError('Absensi wajah sementara dinonaktifkan karena hasil pengenalan dapat salah. Gunakan QR atau absensi manual sampai sistem diperbaiki dan diuji.');
+        setStatus('Scan wajah ditangguhkan demi mencegah salah catat kehadiran.');
+        setOpen(false);
+        return;
+      }
       try {
         setError('');
         if (mode === 'match' && !selected) throw new Error('Pilih agenda kegiatan terlebih dahulu.');
