@@ -251,7 +251,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
      const event=agendaById.get(record.agenda_id);const raw=event?.event_date||record.created_at;if(!raw)return;
      const d=new Date(raw.length===10?raw+'T00:00:00':raw);if(d.getFullYear()!==Number(year))return;
      const st=String(record.status||'').toLowerCase();
-     const label=st==='hadir'?'HADIR':st==='izin'?'IZIN':st==='sakit'?'SAKIT':st==='alpa'?'ALPA':st.toUpperCase();
+     const label=st==='hadir'?'HADIR':st==='izin'?'IZIN':st==='sakit'?'SAKIT':st==='alpa'?'TANPA KETERANGAN':st.toUpperCase();
      if(st==='hadir')totalHadir++;
      if(label&&!values[d.getMonth()].includes(label))values[d.getMonth()].push(label);
     });
