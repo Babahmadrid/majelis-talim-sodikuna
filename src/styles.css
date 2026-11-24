@@ -660,12 +660,12 @@ html,body,#root{min-height:100%;background:linear-gradient(145deg,#eaf5ff 0%,#dc
   }
   .app-shell .topbar .eyebrow{
     font-size:10px!important;
-    line-height:1.3!important;
+    line-height:2.15;
     letter-spacing:1.7px!important;
   }
   .app-shell .topbar h1{
     font-size:30px!important;
-    line-height:1.15!important;
+    line-height:2.15;
     margin:5px 0 0!important;
     white-space:nowrap!important;
   }
@@ -1190,7 +1190,7 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .devotional-tools{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:10px 12px;border:1px solid #c3def2;background:#f4faff;border-radius:14px;color:#315a7e;font-size:12px}
 .devotional-tools button{border:1px solid #a9d0ef;background:white;color:#0752b4;border-radius:9px;padding:7px 11px;font-weight:900}
 .devotional-tools b{min-width:38px;text-align:center}
-.devotional-arabic{white-space:pre-wrap;overflow-wrap:anywhere;line-height:2.05!important}
+.devotional-arabic{white-space:pre-wrap;overflow-wrap:anywhere;line-height:2.15}
 .devotional-content p{white-space:pre-wrap;overflow-wrap:anywhere}
 .devotional-content h3{white-space:pre-wrap}
 .devotional-form textarea{white-space:pre-wrap;min-height:76px}
@@ -1277,10 +1277,10 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 
 /* Sodikuna Arabic typography and reading alignment controls */
 .quran-opening-block{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:12px 8px 22px;text-align:center}
-.quran-opening-block .quran-bismillah{font-family:'Amiri Quran','Noto Naskh Arabic',serif!important;font-size:clamp(25px,5vw,36px)!important;font-weight:600!important;line-height:1.9!important;text-align:center!important;color:#111!important;margin:0!important;width:100%}
+.quran-opening-block .quran-bismillah{font-family:'Amiri Quran','Noto Naskh Arabic',serif!important;font-size:clamp(25px,5vw,36px)!important;font-weight:600!important;line-height:2.15;text-align:center!important;color:#111!important;margin:0!important;width:100%}
 .quran-full-text,.devotional-arabic,.asma-card .asma-arabic,[lang="ar"]{font-family:'Amiri Quran','Noto Naskh Arabic',serif!important;font-weight:600!important;color:#111!important}
-.quran-full-text{line-height:2.15!important}
-.devotional-arabic{line-height:2!important}
+.quran-full-text{line-height:2.15}
+.devotional-arabic{line-height:2.15}
 .asma-card .asma-arabic{color:#111!important;font-weight:600!important}
 .text-align-control{display:inline-flex;align-items:center;gap:7px;color:#294d6d;font-size:12px;font-weight:700}
 .text-align-control select{min-width:125px;padding:7px 10px;border:1px solid #b9d5eb;border-radius:10px;background:#fff;color:#173f68;font:inherit}
@@ -1335,8 +1335,8 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .quran-opening-block{position:relative;margin:0 0 13px;padding:9px 8px 12px;border:1px solid #e4c77e;border-radius:15px;background:linear-gradient(90deg,#fffdf6,#fff,#fffdf6);box-shadow:inset 0 0 0 3px #fff}
 .quran-opening-block:before,.quran-opening-block:after{content:"❧";position:absolute;top:50%;transform:translateY(-50%);color:#c39a43;font-size:18px}
 .quran-opening-block:before{left:7px}.quran-opening-block:after{right:7px}
-.quran-opening-block .quran-bismillah{font-family:'Amiri Quran','Noto Naskh Arabic',serif!important;font-size:clamp(22px,5.3vw,30px)!important;font-weight:700!important;line-height:1.85!important;text-align:center!important;color:#111!important;margin:0!important;width:100%;white-space:nowrap}
-.quran-full-text{position:relative;padding:8px 5px 13px;font-family:'Amiri Quran','Noto Naskh Arabic',serif!important;font-weight:700!important;color:#111!important;line-height:2.05!important;white-space:pre-wrap;overflow-wrap:anywhere;direction:rtl}
+.quran-opening-block .quran-bismillah{font-family:'Amiri Quran','Noto Naskh Arabic',serif!important;font-size:clamp(22px,5.3vw,30px)!important;font-weight:700!important;line-height:2.15;text-align:center!important;color:#111!important;margin:0!important;width:100%;white-space:nowrap}
+.quran-full-text{position:relative;padding:8px 5px 13px;font-family:'Amiri Quran','Noto Naskh Arabic',serif!important;font-weight:700!important;color:#111!important;line-height:2.15;white-space:pre-wrap;overflow-wrap:anywhere;direction:rtl}
 .quran-frame-bottom{margin-top:13px;padding:9px 5px 3px;border-top:1px solid #e5cb8a;font-family:'Amiri Quran','Noto Naskh Arabic',serif;font-weight:700;font-size:14px}
 .quran-source{margin:4px 0 0!important;padding:6px 0 0!important;border:0!important;text-align:center;color:#7a8da0;font-size:10px}
 .quran-mushaf-mode{min-height:0}
@@ -1603,7 +1603,7 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 
 .devotional-arabic{font-family:'Noto Naskh Arabic','Amiri',serif!important;font-size:clamp(25px,3.5vw,34px);line-height:2.35;direction:rtl;text-align:right;letter-spacing:0!important;word-spacing:.05em;unicode-bidi:plaintext;white-space:pre-wrap;overflow-wrap:anywhere;padding:18px 8px 22px!important;color:#101010!important}
 .devotional-detail-card .devotional-arabic{font-size:clamp(28px,4vw,36px);white-space:pre-wrap;overflow-wrap:anywhere}
-@media print{.attendance-date-table{table-layout:fixed!important;width:100%!important}.attendance-date-table col:nth-child(1){width:15%!important}.attendance-date-table col:nth-child(2){width:55%!important}.attendance-date-table col:nth-child(3){width:30%!important}.attendance-date-table th,.attendance-date-table td{padding:5px 4px!important;font-size:9px!important;line-height:1.3!important}.attendance-date-table td.status-cell{text-align:center!important;white-space:normal!important}}
+@media print{.attendance-date-table{table-layout:fixed!important;width:100%!important}.attendance-date-table col:nth-child(1){width:15%!important}.attendance-date-table col:nth-child(2){width:55%!important}.attendance-date-table col:nth-child(3){width:30%!important}.attendance-date-table th,.attendance-date-table td{padding:5px 4px!important;font-size:9px!important;line-height:2.15}.attendance-date-table td.status-cell{text-align:center!important;white-space:normal!important}}
 .qr-reader-mount{min-height:250px;max-height:min(62vh,520px);aspect-ratio:4/3;overflow:hidden;display:block;background:#06182c;border-radius:17px}
 .qr-reader-mount video{width:100%!important;height:100%!important;object-fit:cover!important;border-radius:17px}
 .qr-reader-mount canvas{display:none!important}
