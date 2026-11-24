@@ -1575,3 +1575,14 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .devotional-detail-card{padding:16px 13px}
  .devotional-detail-tools{gap:10px}
 }
+
+/* Requested fixes: keep mobile navigation and overlay controls above page content */
+@media(max-width:900px){
+ .app-shell .sidebar{z-index:5000!important}
+ .app-shell .sidebar.open{z-index:5000!important}
+ .app-shell .topbar{position:sticky!important;top:0!important;z-index:4000!important}
+ .app-shell .modal-backdrop,.app-shell .confirm-backdrop{z-index:8000!important}
+ .app-shell .export-menu{z-index:8001!important}
+ .app-shell .export-menu.open{z-index:8002!important}
+ .app-shell .export-menu-options{z-index:8003!important}
+}
