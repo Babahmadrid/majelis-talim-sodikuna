@@ -374,7 +374,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
       // Header underline accent
       doc.setDrawColor(255,211,42);doc.setLineWidth(.7);doc.line(x+3,y+28,x+cardW-3,y+28);
       // Bold field labels with white value panels
-      const rowYs=[35,45,55],labels=['NAMA :','NO. ANGGOTA :','SEKTOR :'],vals=[person.name,person.member_no,person.sector];
+      const rowYs=[34,43,52],labels=['NAMA :','NO. ANGGOTA :','SEKTOR :'],vals=[person.name,person.member_no,person.sector];
       rowYs.forEach((yy,k)=>{
         const labelW=23,valueX=x+labelW+3,valueW=cardW-labelW-6;
         doc.setFillColor(0,72,168);doc.roundedRect(x+3,y+yy-5.3,labelW,8.4,2,2,'F');
@@ -384,7 +384,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
         doc.text(clip(vals[k],k===0?18:16),valueX+2,y+yy,{maxWidth:valueW-4});
       });
       // Large, clean QR area; no label or decorative lines crossing the QR
-      const qrSize=34,qrY=y+59;
+      const qrSize=34,qrY=y+57;
       doc.setFillColor(255,255,255);doc.setDrawColor(0,72,168);doc.setLineWidth(1.2);doc.roundedRect(x+cardW/2-qrSize/2-1.8,qrY-1.8,qrSize+3.6,qrSize+3.6,3.5,3.5,'FD');
       doc.addImage(qr,'PNG',x+cardW/2-qrSize/2,qrY,qrSize,qrSize);
     });
