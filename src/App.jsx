@@ -324,7 +324,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   .islamic,.arch,.mosque{display:none!important}
   .logo-wrap{position:absolute;top:4mm;left:31.5mm;width:11mm;height:11mm;border:1mm solid #0b65c0;border-radius:50%;background:#fff;display:grid;place-items:center;z-index:4;box-shadow:0 0 0 .8mm #7ed5ff,0 0 2mm #4abaff}
   .logo{width:9mm;height:9mm;object-fit:contain;border-radius:50%}
-  .title{position:absolute;top:17mm;left:2mm;right:2mm;text-align:center;font-weight:900;color:#fff;font-size:3.5mm;line-height:1.18;letter-spacing:0;z-index:2;text-transform:uppercase;-webkit-text-stroke:.35mm #003b86;text-shadow:0 .3mm .8mm #003c91}
+  .title{position:absolute;top:17mm;left:2mm;right:2mm;text-align:center;font-weight:900;color:#073b78;font-size:3.8mm;line-height:1.24;letter-spacing:.08mm;z-index:2;text-transform:uppercase;-webkit-text-stroke:.08mm #ffffff;text-shadow:0 .25mm .3mm #ffffff,0 .45mm 1mm #168ce755}
   .subtitle{position:absolute;top:27mm;left:7mm;right:7mm;text-align:center;padding:1.25mm .5mm;border-radius:8mm;color:white;font-size:3.4mm;font-weight:800;background:linear-gradient(180deg,#168ce7,#0050b7);box-shadow:0 .5mm 1mm #003d8b55;z-index:3}
   .details{position:absolute;top:39mm;left:4.8mm;right:4.8mm;z-index:3}
   .detail{height:6.0mm;display:grid;grid-template-columns:5.3mm 15.5mm 2mm 1fr;align-items:center;border-bottom:.25mm solid #91b7d7;font-size:2.7mm;color:#09285f}
