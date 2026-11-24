@@ -192,6 +192,12 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
     let cancelled = false;
     async function start() {
       if (!open) return;
+      // Safer attendance flow after a false-positive incident: no biometric auto-identification.
+      if (mode === 'match') {
+        setError('Absensi wajah dinonaktifkan sementara. Gunakan QR kartu anggota atau konfirmasi manual untuk memastikan identitas.');
+        setStatus('Verifikasi kehadiran melalui QR atau petugas. Kamera wajah tidak digunakan untuk mencatat absensi.');
+        return;
+      }
       try {
         setError('');
         if (mode === 'match' && !selected) throw new Error('Pilih agenda kegiatan terlebih dahulu.');
@@ -303,9 +309,9 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
   }
 
   useEffect(() => {
-    // Pendaftaran wajah hanya dijalankan setelah petugas menekan tombol.
-    // Pemindaian otomatis hanya aktif pada mode absensi, bukan saat form pendaftaran.
+    // Auto-matching is intentionally disabled after false-positive attendance reports.
     if (!open || mode !== 'match') return;
+    return;
     let frame = 0;
     const tick = timestamp => {
       if (timestamp - lastRunRef.current > 1300 && !busyRef.current) {
@@ -381,7 +387,7 @@ export default function FaceAttendance({ db, selected, jamaah, markPresent, isAd
           }}>{savingConsent ? <><LoaderCircle size={16} className="face-spinner"/> Menyimpan data...</> : 'Simpan data'}</button>}
         </div>}
         {mode === 'enroll' && consentSaved && <div className="face-consent-saved"><b>✓ Data pendaftaran tersimpan sementara</b><span>Identitas dan persetujuan sudah disiapkan. Silakan daftarkan wajah di kamera.</span><button type="button" onClick={() => {setConsentSaved(false);setStatus('Silakan periksa kembali data pendaftaran.');}}>Ubah data</button></div>}
-        <div className="face-camera-stage"><video ref={videoRef} playsInline muted autoPlay/><div className="face-camera-guide"/></div>
+        {mode === 'enroll' ? <div className="face-camera-stage"><video ref={videoRef} playsInline muted autoPlay/><div className="face-camera-guide"/></div> : <div className="alert info">Untuk mencegah salah catat nama, absensi gunakan scan QR kartu anggota atau konfirmasi manual oleh petugas.</div>}
         <div className="face-status-line">{working && <LoaderCircle size={16} className="face-spinner"/>}{status}</div>
         {recognized && mode === 'match' && <div className="face-notification-card"><b>HASIL PEMINDAIAN</b><span><small>Nama:</small><strong>{recognized.name}</strong></span><span><small>No anggota:</small><strong>{recognized.member_no}</strong></span><span><small>Sektor:</small><strong>{recognized.sector || '-'}</strong></span></div>}
         {error && <div className="alert error">{error}</div>}
