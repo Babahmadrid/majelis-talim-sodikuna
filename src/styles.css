@@ -1586,3 +1586,14 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .app-shell .export-menu.open{z-index:8002!important}
  .app-shell .export-menu-options{z-index:8003!important}
 }
+
+/* Global overlay stacking fix: portals must sit above all page and navigation layers */
+.modal-backdrop,.prayer-modal-backdrop,.confirm-backdrop{z-index:90000!important;position:fixed!important}
+.modal-backdrop{inset:0}
+.modal,.prayer-modal,.confirm-card{position:relative;z-index:90001!important;max-height:min(90vh,calc(100dvh - 24px));overflow:auto}
+.export-menu{position:relative;z-index:9000}
+.export-menu-options{z-index:9001!important}
+.export-menu.open .export-menu-options{z-index:9002!important}
+.zigzag-picker{position:relative;z-index:9500}
+.zigzag-picker-options{position:absolute;z-index:9501!important}
+@media(max-width:900px){.sidebar.open{z-index:9800!important}.topbar{z-index:4000!important}}
