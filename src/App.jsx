@@ -487,7 +487,7 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError}){
     </div>
     <article className="devotional-card quran-surah quran-custom-mode">
       <div className="quran-frame-top"><span className="quran-frame-ornament">۞</span><span className="quran-frame-label">سُورَةُ الرَّحْمَٰن</span><span className="quran-frame-ornament">۞</span></div>
-      <div className="quran-full-text" dir="rtl" lang="ar" style={{fontFamily:'Noto Naskh Arabic, Amiri, serif',fontSize:fontSize+'px',lineHeight:arabicLineSpacing,letterSpacing:'normal',textAlign:readerAlign,maxWidth:readerWidth+'%',marginInline:'auto'}}>{AR_RAHMAN_TEXT.replace(/^بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ\\n\\n/,'')}</div>
+      <div className="quran-full-text devotional-arabic" dir="rtl" lang="ar" style={{fontFamily:'Noto Naskh Arabic, Amiri, serif',fontSize:fontSize+'px',lineHeight:arabicLineSpacing,letterSpacing:'normal',textAlign:readerAlign,maxWidth:readerWidth+'%',marginInline:'auto'}}>{AR_RAHMAN_TEXT.replace(/^بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ\\n\\n/,'')}</div>
       <div className="quran-frame-bottom"><span>القرآن الكريم</span><span>٥٥ · ٧٨</span></div>
       <p className="quran-source">Surah Ar-Rahman · 78 ayat</p>
     </article>
