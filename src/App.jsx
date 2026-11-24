@@ -375,8 +375,8 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   // Mobile browsers often block automatic print calls from popup documents.
   // Keep a visible print/download-to-PDF action and attempt auto-print after assets settle.
   const printBtn=w.document.createElement('button');
-  printBtn.textContent='Cetak / Simpan sebagai PDF';
-  printBtn.style.cssText='position:fixed;z-index:99999;top:12px;left:12px;padding:12px 18px;background:#0752b4;color:white;border:0;border-radius:8px;font:700 16px Arial;cursor:pointer';
+  printBtn.textContent='Cetak / Simpan sebagai PDF';printBtn.id='sector-print-button';
+  printBtn.style.cssText='position:fixed;z-index:99999;top:12px;left:12px;padding:12px 18px;background:#0752b4;color:white;border:0;border-radius:8px;font:700 16px Arial;cursor:pointer';const printCss=w.document.createElement('style');printCss.textContent='@media print{#sector-print-button{display:none!important}.sheet:last-of-type{page-break-after:auto!important}}';w.document.head.appendChild(printCss);
   printBtn.onclick=()=>{try{w.focus();w.print()}catch(e){printBtn.textContent='Gagal membuka dialog cetak';}};
   w.document.body.prepend(printBtn);
   setTimeout(()=>{try{w.focus();w.print()}catch(e){printBtn.textContent='Tekan tombol untuk mencetak PDF'}},1500);
