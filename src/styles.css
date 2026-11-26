@@ -2156,3 +2156,10 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .app-shell .quran-library-reader-controls .quran-library-back{margin-bottom:0}
 .app-shell .quran-translation-toggle{border:1px solid #c5dff4;border-radius:12px;padding:10px 12px;background:#fff;color:#145ca9;font-weight:800;cursor:pointer}
 .app-shell .quran-translation-toggle.active{background:#e8f4ff;border-color:#74b9ed}
+
+/* Q.S. Ar-Rahman: separate ayah blocks for comfortable mobile reading */
+.quran-ayah-list{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.quran-ayah-row{padding:16px 14px;border:1px solid #d7e7f3;border-radius:18px;background:#fff;box-shadow:0 3px 10px #0a4d8b0b}
+.quran-ayah-arabic{direction:rtl;margin-inline:auto;color:#102f58;white-space:normal;overflow-wrap:normal;text-align:right!important;max-width:100%!important}
+.quran-ayah-number{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin-inline:10px 2px;width:34px;height:34px;border-radius:50%;background:#e7f4fc;border:1px solid #bddcf2;color:#145a96;font-family:system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1;flex-shrink:0}
+.quran-ayah-translation{margin:14px 0 0;padding-top:12px;border-top:1px solid #edf2f6;color:#607b94;font-size:16px;line-height:1.7;text-align:left}
