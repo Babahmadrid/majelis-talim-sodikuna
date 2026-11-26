@@ -2077,3 +2077,15 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
   font-weight:750!important;text-align:center!important;
   width:100%!important;text-shadow:none!important;opacity:1!important;filter:none!important;
 }
+
+/* Caringin Sukabumi prayer times page */
+.app-shell .prayer-page{max-width:540px;margin:20px auto;padding:0 18px 20px;border-radius:22px;background:linear-gradient(160deg,#fff 0%,#eff7ff 100%);border:1px solid #d8e9fa;box-shadow:0 12px 30px #0752b41a;overflow:hidden}
+.app-shell .prayer-page .prayer-modal-head{margin:0 -18px 14px;padding:18px;background:linear-gradient(110deg,#0752b4,#0b9bd1);color:#fff}
+.app-shell .prayer-page .prayer-modal-head h3{margin:7px 0;font-size:22px}
+.app-shell .prayer-page .prayer-modal-head p{margin:0;color:#d7efff;font-size:12px}
+.app-shell .prayer-page .prayer-date{padding:10px 0;text-align:center;font-weight:800;color:#164b83}
+.app-shell .prayer-page .prayer-times{display:grid;gap:8px;padding:10px 0}
+.app-shell .prayer-page .prayer-time-row{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-radius:12px;background:#fff;border:1px solid #dceaf7;color:#164b83;font-weight:700}
+.app-shell .prayer-page .prayer-time-row b{font-size:18px;color:#0752b4}
+.app-shell .prayer-page .prayer-source{display:block;padding:12px 0;color:#6b8198;font-size:10px;line-height:1.6}
+@media(max-width:520px){.app-shell .prayer-page{margin:14px 0;padding:0 14px 16px}.app-shell .prayer-page .prayer-modal-head{margin:0 -14px 12px;padding:16px}}
