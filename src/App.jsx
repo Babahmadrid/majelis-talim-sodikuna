@@ -443,7 +443,7 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError,initialTab='asma'
  const visible=items.filter(x=>tab==='dzikir'?devotionalCategories.includes(x.category||'dzikir-harian'):tab==='doa'?x.category==='doa-harian':x.category===tab);
  const folderLabels={};
 
- const heading={asma:'Asmaul Husna',quran:'Q.S. Ar-Rahman',dzikir:'Kumpulan Dzikir',doa:'Kumpulan Do\u0027a-do\u0027a'}[tab];
+ const heading={asma:'Asmaul Husna',quran:'Q.S. Ar-Rahman',dzikir:'Kumpulan Dzikir',doa:'Kumpulan Do'a-do'a'}[tab];
  const descriptions={asma:'Kenali 99 nama Allah yang indah.',quran:'Bacaan Surah Ar-Rahman.',dzikir:'Kumpulan dzikir harian.',doa:'Kumpulan doa harian dari API dan bacaan lainnya.'};
  
  if(tab==='dzikir'&&selectedReading){
@@ -472,7 +472,7 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError,initialTab='asma'
    <button className={tab==='asma'?'active':''} onClick={()=>setTab('asma')}><Sparkles size={18}/> Asmaul Husna</button>
    <button className={tab==='quran'?'active':''} onClick={()=>setTab('quran')}><BookOpen size={18}/> Q.S. Ar-Rahman</button>
    <button className={tab==='dzikir'?'active':''} onClick={()=>{setTab('dzikir');setSubTab(null);setExpandedItems([])}}><Sunrise size={18}/> Dzikir dan Doa</button>
-   <button className={tab==='doa'?'active':''} onClick={()=>setTab('doa')}><FolderOpen size={18}/> Do\u0027a-do\u0027a</button>
+   <button className={tab==='doa'?'active':''} onClick={()=>setTab('doa')}><FolderOpen size={18}/> Do'a-do'a</button>
   </div>
   {tab==='quran'?<>
     <section className="quran-page-heading"><div className="quran-heading-kicker">AL-QUR'ANUL KARIM</div><h3>Surah Ar-Rahman</h3><p>Surah ke-55 <span>•</span> 78 Ayat <span>•</span> Juz 27</p></section>
