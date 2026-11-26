@@ -2191,4 +2191,4 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 
 .quran-settings-row input[type="range"]{flex:1;min-width:65px;max-width:110px;accent-color:#166bb0;height:18px}
 
-.quran-mushaf-line{display:flex;direction:rtl;align-items:baseline;justify-content:space-around;flex-wrap:nowrap;text-align:center;min-height:1.75em;gap:0;white-space:normal}.quran-mushaf-word{white-space:nowrap;}
+.quran-mushaf-line{display:block;direction:rtl;text-align:justify;text-align-last:justify;min-height:1.75em;line-height:inherit;white-space:normal;word-spacing:normal}.quran-mushaf-line:last-child{text-align:center;text-align-last:center}.quran-mushaf-word{display:inline;white-space:normal;}
