@@ -2089,3 +2089,24 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .app-shell .prayer-page .prayer-time-row b{font-size:18px;color:#0752b4}
 .app-shell .prayer-page .prayer-source{display:block;padding:12px 0;color:#6b8198;font-size:10px;line-height:1.6}
 @media(max-width:520px){.app-shell .prayer-page{margin:14px 0;padding:0 14px 16px}.app-shell .prayer-page .prayer-modal-head{margin:0 -14px 12px;padding:16px}}
+
+/* In-app monthly calendar */
+.app-shell .calendar-page{max-width:560px;margin:20px auto;padding:18px;border:1px solid #d7e8f8;border-radius:20px;background:linear-gradient(160deg,#fff,#eff7ff);box-shadow:0 12px 30px #0752b41a;color:#164b83}
+.app-shell .calendar-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.app-shell .calendar-head h2{margin:0;font-size:20px;text-transform:capitalize;text-align:center}
+.app-shell .calendar-head button{border:0;border-radius:12px;background:#0b65c0;color:#fff;width:40px;height:40px;font-size:26px;font-weight:800}
+.app-shell .calendar-today{display:block;margin:0 0 14px auto;border:1px solid #168ce7;border-radius:20px;background:#eaf6ff;color:#0752b4;padding:7px 14px;font-weight:800}
+.app-shell .calendar-weekdays,.app-shell .calendar-days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}
+.app-shell .calendar-weekdays{margin-bottom:7px;color:#4776a4;font-weight:800;font-size:12px}
+.app-shell .calendar-day{position:relative;border:1px solid transparent;border-radius:10px;background:#fff;min-height:40px;color:#174b83;font-weight:700}
+.app-shell .calendar-day.selected{background:#0b65c0;color:#fff;border-color:#0b65c0}
+.app-shell .calendar-day.has-event i{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#16b8d4}
+.app-shell .calendar-day.selected.has-event i{background:#fff}
+.app-shell .calendar-empty{min-height:40px}
+.app-shell .calendar-agenda{margin-top:18px;padding-top:15px;border-top:1px solid #dbeaf8}
+.app-shell .calendar-agenda h3{margin:0 0 10px;font-size:15px;text-transform:capitalize;color:#124b86}
+.app-shell .calendar-event{padding:12px;border-radius:12px;background:#fff;border:1px solid #dbeaf8;margin:8px 0}
+.app-shell .calendar-event p{margin:6px 0;font-size:12px;color:#607e9c}
+.app-shell .calendar-event small{color:#0b65c0;font-weight:700}
+.app-shell .calendar-no-event{font-size:13px;color:#6d86a1;padding:8px 2px}
+@media(max-width:520px){.app-shell .calendar-page{margin:14px 0;padding:14px}.app-shell .calendar-day{min-height:37px}.app-shell .calendar-empty{min-height:37px}}
