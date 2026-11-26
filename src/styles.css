@@ -2110,3 +2110,14 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .app-shell .calendar-event small{color:#0b65c0;font-weight:700}
 .app-shell .calendar-no-event{font-size:13px;color:#6d86a1;padding:8px 2px}
 @media(max-width:520px){.app-shell .calendar-page{margin:14px 0;padding:14px}.app-shell .calendar-day{min-height:37px}.app-shell .calendar-empty{min-height:37px}}
+
+/* Hijri date labels inside calendar */
+.app-shell .calendar-title-wrap{text-align:center;flex:1;min-width:0}
+.app-shell .calendar-title-wrap h2{margin:0}
+.app-shell .calendar-hijri-month{display:block;margin-top:3px;color:#3b73a5;font-size:12px;font-weight:700;text-align:center}
+.app-shell .calendar-day{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 1px;min-height:50px}
+.app-shell .calendar-gregorian{font-size:15px;line-height:1.15;font-weight:800}
+.app-shell .calendar-hijri-day{font-size:9px;line-height:1.1;color:#6385a5;white-space:nowrap;font-weight:600}
+.app-shell .calendar-day.selected .calendar-hijri-day{color:#e8f4ff}
+.app-shell .calendar-selected-hijri{margin:-5px 0 12px;color:#2474ba;font-weight:700;font-size:13px}
+@media(max-width:520px){.app-shell .calendar-day{min-height:43px}.app-shell .calendar-gregorian{font-size:14px}.app-shell .calendar-hijri-day{font-size:8px}}
