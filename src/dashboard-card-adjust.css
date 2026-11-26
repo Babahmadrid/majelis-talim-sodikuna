@@ -50,3 +50,13 @@
  .stats-grid.dashboard-stats button.dashboard-stat-button>b{grid-column:2!important;grid-row:2!important;align-self:start!important;font-size:19px!important;line-height:1.05!important;white-space:normal!important;overflow-wrap:anywhere!important;margin:2px 0 0!important;padding:0!important}
  .stats-grid.dashboard-stats button.dashboard-stat-button:nth-child(3)>b,.stats-grid.dashboard-stats button.dashboard-stat-button:nth-child(4)>b{display:none!important}
 }
+
+
+/* PR #24: center Agenda and Artikel text, enrich the lower four shortcut cards */
+.app-shell .dashboard-stats .dashboard-stat-button:nth-child(2) .stat-header span,
+.app-shell .dashboard-stats .dashboard-stat-button:nth-child(4) .stat-header span{ text-align:center!important; }
+.dashboard-feature.prayer-feature{background:linear-gradient(145deg,#9debd0,#63d5ae)!important;border-color:#49bd96!important;box-shadow:0 5px 0 #3cae86!important;color:#075d47!important}
+.dashboard-feature.hijri-feature{background:linear-gradient(145deg,#c9a8ff,#a276ef)!important;border-color:#9266df!important;box-shadow:0 5px 0 #8057cc!important;color:#4d268e!important}
+.dashboard-feature.quran-feature{background:linear-gradient(145deg,#ffd39a,#ffb25d)!important;border-color:#ee9b44!important;box-shadow:0 5px 0 #d98632!important;color:#854b0a!important}
+.dashboard-feature.rahman-feature{background:linear-gradient(145deg,#fff09c,#ffd54c)!important;border-color:#e9c234!important;box-shadow:0 5px 0 #d3ad2c!important;color:#765600!important}
+.dashboard-feature.rahman-feature{font:inherit;}
