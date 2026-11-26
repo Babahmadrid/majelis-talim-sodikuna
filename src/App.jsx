@@ -496,7 +496,7 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError,initialTab='asma'
 }
 function ModernDeleteDialog({open,onCancel,onConfirm,title='Hapus konten?',message='Konten yang dihapus tidak dapat dipulihkan.'}){if(!open)return null;return <div className="modern-confirm-backdrop" onClick={onCancel}><section className="modern-confirm-card" role="dialog" aria-modal="true" onClick={e=>e.stopPropagation()}><div className="modern-confirm-icon"><Trash2 size={22}/></div><h3>{title}</h3><p>{message}</p><div className="modern-confirm-actions"><button type="button" className="modern-confirm-cancel" onClick={onCancel}>Batal</button><button type="button" className="modern-confirm-delete" onClick={onConfirm}>Ya, hapus</button></div></section></div>}
 function MaterialsPage({db,isAdmin,session,setNotice,setError}){
- const categories=['Semua','Fikih Syafi’i','Akidah Ahlussunnah','Akhlak & Tasawuf','Kisah Nabi & Ulama','Hadits & Hikmah','Keluarga & Masyarakat','Artikel NU Online','Kitab Dasar'];
+ const categories=['Semua','Fikih Syafi’i','Akidah Ahlussunnah','Akhlak & Tasawuf','Kisah Nabi & Ulama','Hadits & Hikmah','Keluarga & Masyarakat','Kitab Dasar'];
  const contentCategories=categories.slice(1);
  const [items,setItems]=useState([]),[loading,setLoading]=useState(true),[form,setForm]=useState(null),[saving,setSaving]=useState(false),[query,setQuery]=useState(''),[pendingDelete,setPendingDelete]=useState(null),[categoryFilter,setCategoryFilter]=useState('Semua');
  async function load(){setLoading(true);const {data,error}=await db.from('app_settings').select('value').eq('id','materials_articles_library').maybeSingle();if(error)setError(error.message);else{try{setItems(data?.value?JSON.parse(data.value):[])}catch{setItems([])}}setLoading(false)}
