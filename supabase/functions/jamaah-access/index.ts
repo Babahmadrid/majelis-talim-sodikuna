@@ -44,7 +44,7 @@ Deno.serve(async req=>{
     admin.from("app_settings").select("value").eq("id","devotional_library").maybeSingle()
    ]);
    for(const r of [j,a,at,n,t,w,d])if(r.error)throw r.error;
-   return json({jamaah:j.data||[],agenda:a.data||[],attendance:at.data||[],announcements:n.data||[],devotionalItems:(()=>{try{const v=typeof d.data?.value==="string"?JSON.parse(d.data.value):d.data?.value;return Array.isArray(v)?v:[]}catch{return []}})(),theme:t.data?.value||"ocean",welcomeSlides:(()=>{try{const v=typeof w.data?.value==="string"?JSON.parse(w.data.value):w.data?.value;return Array.isArray(v)?v:[]}catch{return []}})()});
+   return json({jamaah:j.data||[],agenda:a.data||[],attendance:at.data||[],announcements:n.data||[],devotionalItems:(()=>{try{const raw=typeof d.data?.value==="string"?JSON.parse(d.data.value):d.data?.value;if(!Array.isArray(raw))return [];return raw.map((x:any)=>{const cat=String(x.category||"").toLowerCase();const title=String(x.title||"");let category;if(["pagi","adzkar-shobah","dzikir-pagi","wirdul-latif"].includes(cat)||/dzikir pagi|adzkar shobah|wirdul latif|wirid latif/i.test(title))category="dzikir-harian";else if(["doa","doa-harian"].includes(cat))category="doa-harian";else if(["dzikir","dzikir-harian"].includes(cat)||!cat)category="dzikir-harian";else category=cat;return {...x,category}})}catch{return []}})(),theme:t.data?.value||"ocean",welcomeSlides:(()=>{try{const v=typeof w.data?.value==="string"?JSON.parse(w.data.value):w.data?.value;return Array.isArray(v)?v:[]}catch{return []}})()});
   }
   return json({error:"Permintaan tidak dikenal"},400);
  }catch(e){return json({error:e?.message||"Kesalahan server"},500)}
