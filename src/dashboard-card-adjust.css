@@ -64,3 +64,30 @@
 .dashboard-feature.quran-feature{background:linear-gradient(145deg,#ffd39a,#ffb25d)!important;border-color:#ee9b44!important;box-shadow:0 5px 0 #d98632!important;color:#854b0a!important}
 .dashboard-feature.rahman-feature{background:linear-gradient(145deg,#80d9f2,#23a8dc)!important;border-color:#168fc4!important;box-shadow:0 5px 0 #0878b0!important;color:#064c77!important}
 .dashboard-feature.rahman-feature{font:inherit;}
+
+/* PR #24: restore crisp, high-contrast typography on white dashboard cards */
+@media(max-width:760px){
+ .app-shell .stats-grid.dashboard-stats button.dashboard-stat-button,
+ .app-shell .stats-grid.dashboard-stats button.dashboard-stat-button .stat-header span,
+ .app-shell .stats-grid.dashboard-stats button.dashboard-stat-button>b{
+  color:#12345a!important;opacity:1!important;filter:none!important;text-shadow:none!important;font-weight:800!important;
+ }
+ .app-shell .stats-grid.dashboard-stats button.dashboard-stat-button:nth-child(2) .stat-header span,
+ .app-shell .stats-grid.dashboard-stats button.dashboard-stat-button:nth-child(4) .stat-header span{
+  text-align:center!important;justify-self:center!important;align-self:center!important;width:100%!important;color:#12345a!important;opacity:1!important;
+ }
+ .app-shell .stats-grid.dashboard-stats button.dashboard-stat-button .stat-header span{line-height:1.18!important;letter-spacing:0!important}
+}
+/* Keep all four lower shortcut cards white with clear, dark labels */
+.app-shell .dashboard-feature-links .dashboard-feature,
+.app-shell .dashboard-feature-links .dashboard-feature.prayer-feature,
+.app-shell .dashboard-feature-links .dashboard-feature.hijri-feature,
+.app-shell .dashboard-feature-links .dashboard-feature.quran-feature,
+.app-shell .dashboard-feature-links .dashboard-feature.rahman-feature{
+ background:#fff!important;background-image:none!important;color:#12345a!important;
+ border-color:#e5edf6!important;box-shadow:0 5px 0 #d9e6f4!important;
+ opacity:1!important;filter:none!important;
+}
+.app-shell .dashboard-feature-links .dashboard-feature b,
+.app-shell .dashboard-feature-links .dashboard-feature small{color:#12345a!important;opacity:1!important;font-weight:800!important;text-shadow:none!important}
+.app-shell .dashboard-feature-links .dashboard-feature small{font-weight:600!important}
