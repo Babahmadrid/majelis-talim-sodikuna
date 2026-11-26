@@ -1848,3 +1848,16 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .dashboard-stats .stat-header span{font-size:10px!important}
  .dashboard-stats .stat-card>b{font-size:18px!important}
 }
+
+
+/* FINAL OVERRIDE: compact the four highlighted dashboard cards by ~50%.
+   Higher-specificity selectors defeat legacy .app-shell card sizing. */
+@media(max-width:760px){
+ .app-shell .dashboard-stats .stat-card,
+ .app-shell .dashboard-stats button.stat-card{height:142px!important;min-height:142px!important;max-height:142px!important;padding:11px!important;box-sizing:border-box!important;display:grid!important;grid-template-columns:38px minmax(0,1fr)!important;grid-template-rows:minmax(38px,1fr) auto!important;gap:7px!important;overflow:hidden!important}
+ .app-shell .dashboard-stats .stat-header{display:contents!important}
+ .app-shell .dashboard-stats .stat-icon{width:38px!important;height:38px!important;min-width:38px!important;max-width:38px!important;min-height:38px!important;max-height:38px!important;flex:0 0 38px!important;border-radius:11px!important;box-sizing:border-box!important}
+ .app-shell .dashboard-stats .stat-icon svg{width:19px!important;height:19px!important}
+ .app-shell .dashboard-stats .stat-header span{grid-column:2!important;grid-row:1!important;font-size:11px!important;line-height:1.18!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;min-width:0!important}
+ .app-shell .dashboard-stats .stat-card>b{grid-column:1/-1!important;grid-row:2!important;font-size:19px!important;line-height:1.05!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;margin:0!important}
+}
