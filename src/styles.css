@@ -2163,3 +2163,17 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .quran-ayah-arabic{direction:rtl;margin-inline:auto;color:#102f58;white-space:normal;overflow-wrap:normal;text-align:right!important;max-width:100%!important}
 .quran-ayah-number{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin-inline:10px 2px;width:34px;height:34px;border-radius:50%;background:#e7f4fc;border:1px solid #bddcf2;color:#145a96;font-family:system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1;flex-shrink:0}
 .quran-ayah-translation{margin:14px 0 0;padding-top:12px;border-top:1px solid #edf2f6;color:#607b94;font-size:16px;line-height:1.7;text-align:left}
+
+/* Compact shared Quran reading controls for both Quran library and Ar-Rahman */
+.quran-shared-settings{padding:8px 10px!important;margin:8px 0 12px!important;border-radius:12px!important;font-size:11px;display:flex;flex-direction:column;gap:6px}
+.quran-shared-settings>b{font-size:11px;color:#24618f}
+.quran-settings-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-top:1px solid #e5eff7;padding-top:5px}
+.quran-settings-row>span{font-size:10px;font-weight:700;color:#58748d;margin-right:auto;min-width:74px}
+.quran-settings-row button{border:1px solid #c3dcee;background:#fff;color:#155a94;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:700;min-height:27px}
+.quran-settings-row button.selected{background:#166bb0;color:#fff;border-color:#166bb0}
+.quran-settings-row strong{font-size:10px;min-width:28px;text-align:center;color:#305d80}
+.quran-pagination{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:14px 0;padding:8px;background:#f1f8fe;border:1px solid #d3e7f5;border-radius:12px;font-size:11px;color:#456b8b}
+.quran-pagination button{border:1px solid #bad8ee;background:#fff;color:#175f98;border-radius:8px;padding:7px 9px;font-size:11px;font-weight:700}
+.quran-pagination button:disabled{opacity:.45}
+.quran-library-arabic{line-height:1.9!important}
+.quran-page-mode .quran-library-ayah{margin-bottom:9px}
