@@ -519,7 +519,7 @@ function CalendarPage({agenda=[]}){
  const dayEvents=agenda.filter(a=>a.event_date===selected);
  const prev=()=>setMonth(new Date(year,m-1,1)),next=()=>setMonth(new Date(year,m+1,1));
  const monthLabel=month.toLocaleDateString('id-ID',{month:'long',year:'numeric'});
- const hijriMonthLabel=new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura',{month:'long',year:'numeric'}).format(new Date());
+ const hijriMonthLabel=new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura',{month:'long'}).format(new Date());
  return <section className="calendar-page">
   <div className="calendar-head"><button type="button" onClick={prev} aria-label="Bulan sebelumnya">‹</button><div className="calendar-title-wrap"><h2>{monthLabel}</h2><small className="calendar-hijri-month">{hijriMonthLabel}</small></div><button type="button" onClick={next} aria-label="Bulan berikutnya">›</button></div>
   <button type="button" className="calendar-today" onClick={()=>{const n=new Date();setMonth(new Date(n.getFullYear(),n.getMonth(),1));setSelected(n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0'))}}>Hari ini</button>
