@@ -578,8 +578,7 @@ function QuranLibraryPage({db,isAdmin,session,setError,setNotice}){
     <div className="quran-reader-settings quran-reader-settings-compact quran-shared-settings">
      <b>Pengaturan bacaan</b>
      <div className="quran-settings-row"><span>Ukuran huruf</span><button onClick={()=>setQuranFont(v=>Math.max(18,v-2))}>A−</button><strong>{quranFont}px</strong><button onClick={()=>setQuranFont(v=>Math.min(42,v+2))}>A+</button><button onClick={()=>{setQuranFont(25);setQuranLineSpacing(1.7);setShowTranslation(true);}}>Atur ulang</button></div>
-     <div className="quran-settings-row"><span>Spasi baris</span><input type="range" min="1.2" max="2.0" step="0.1" value={quranLineSpacing} onChange={e=>setQuranLineSpacing(Number(e.target.value))}/><strong>{quranLineSpacing.toFixed(1)}</strong></div><div className="quran-settings-row"><span>Terjemahan</span><button onClick={()=>setShowTranslation(v=>!v)}>{showTranslation?'Sembunyikan':'Tampilkan'}</button></div>
-     <div className="quran-settings-row"><span>Tampilan</span><button className={quranDisplayMode==='page'?'selected':''} onClick={()=>{setQuranDisplayMode('page');setQuranPage(0);setMushafPage(1);}}>Per halaman</button><button className={quranDisplayMode==='ayah'?'selected':''} onClick={()=>{setQuranDisplayMode('ayah');setQuranPage(0);}}>Per ayat</button></div>
+     <div className="quran-settings-row"><span>Terjemahan</span><button onClick={()=>setShowTranslation(v=>!v)}>{showTranslation?'Sembunyikan':'Tampilkan'}</button></div>
     </div>
     <header className="quran-library-surah-head"><small>AL-QUR’ANUL KARIM</small><h2>{selected.latinName||selected.name}</h2><p>{selected.name} · {selected.ayahs.length} Ayat</p></header>
     {quranDisplayMode==='page'?<div className="quran-mushaf-page-reader">
