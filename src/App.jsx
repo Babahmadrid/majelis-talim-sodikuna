@@ -443,7 +443,7 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError,initialTab='asma'
  const visible=items.filter(x=>tab==='dzikir'?devotionalCategories.includes(x.category||'dzikir-harian'):tab==='doa'?x.category==='doa-harian':x.category===tab);
  const folderLabels={};
 
- const heading={asma:'Asmaul Husna',quran:'Q.S. Ar-Rahman',dzikir:'Kumpulan Dzikir',doa:'Kumpulan Do'a-do'a'}[tab];
+ const heading={asma:'Asmaul Husna',quran:'Q.S. Ar-Rahman',dzikir:'Kumpulan Dzikir',doa:"Kumpulan Do'a-do'a"}[tab];
  const descriptions={asma:'Kenali 99 nama Allah yang indah.',quran:'Bacaan Surah Ar-Rahman.',dzikir:'Kumpulan dzikir harian.',doa:'Kumpulan doa harian dari API dan bacaan lainnya.'};
  
  if(tab==='dzikir'&&selectedReading){
