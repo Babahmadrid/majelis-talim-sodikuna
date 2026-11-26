@@ -34,7 +34,7 @@ Deno.serve(async req=>{
    const token=req.headers.get("x-jamaah-token")||"";
    const {data:s}=await admin.from("jamaah_pin_sessions").select("expires_at").eq("token_hash",await sha(token)).maybeSingle();
    if(!s||new Date(s.expires_at).getTime()<Date.now())return json({error:"Sesi jamaah berakhir"},401);
-   const [j,a,at,n,t,w]=await Promise.all([
+   const [j,a,at,n,t,w,d]=await Promise.all([
     admin.from("jamaah").select("id,member_no,name,sector,status").eq("status","aktif").order("sector").order("member_no"),
     admin.from("agenda").select("id,title,event_date,event_time,location,speaker,description,status").order("event_date"),
     admin.from("attendance").select("id,status,agenda_id,jamaah_id,created_at").order("created_at",{ascending:false}),
