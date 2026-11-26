@@ -2188,3 +2188,5 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .quran-mushaf-word{display:inline;margin:0 2px}
 .quran-mushaf-marker{display:inline-flex;vertical-align:middle;margin:0 4px;font-size:.56em;border:1px solid #c8a86a;border-radius:50%;width:1.7em;height:1.7em;align-items:center;justify-content:center;color:#7a5a24}
 .quran-mushaf-error{color:#b42318;font-size:12px;text-align:center}
+
+.quran-settings-row input[type="range"]{flex:1;min-width:65px;max-width:110px;accent-color:#166bb0;height:18px}
