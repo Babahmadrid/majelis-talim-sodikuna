@@ -1861,3 +1861,26 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .app-shell .dashboard-stats .stat-header span{grid-column:2!important;grid-row:1!important;font-size:11px!important;line-height:1.18!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;min-width:0!important}
  .app-shell .dashboard-stats .stat-card>b{grid-column:1/-1!important;grid-row:2!important;font-size:19px!important;line-height:1.05!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;margin:0!important}
 }
+
+
+/* Actual compact card sizing fix: constrain grid tracks and the card itself */
+@media(max-width:760px){
+ .app-shell .stats-grid.dashboard-stats{
+   grid-auto-rows:142px!important;
+   grid-template-rows:repeat(2,142px)!important;
+   align-items:stretch!important;
+ }
+ .app-shell .stats-grid.dashboard-stats>.stat-card,
+ .app-shell .stats-grid.dashboard-stats>button.stat-card{
+   height:142px!important;min-height:0!important;max-height:142px!important;
+   aspect-ratio:auto!important;align-self:stretch!important;
+   box-sizing:border-box!important;overflow:hidden!important;
+   padding:10px!important;
+ }
+ .app-shell .stats-grid.dashboard-stats .stat-icon{
+   width:34px!important;height:34px!important;min-width:34px!important;max-width:34px!important;
+   min-height:34px!important;max-height:34px!important;flex:0 0 34px!important;
+ }
+ .app-shell .stats-grid.dashboard-stats .stat-header span{font-size:10px!important;line-height:1.15!important}
+ .app-shell .stats-grid.dashboard-stats .stat-card>b{font-size:17px!important;line-height:1.05!important}
+}
