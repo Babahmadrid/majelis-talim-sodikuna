@@ -455,9 +455,9 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError,initialTab='asma'
     
    </div>
    <article className="devotional-card devotional-detail-card">
-    {item.arabic&&<div className="devotional-arabic" dir="rtl" lang="ar" style={{fontFamily:'Amiri, Noto Naskh Arabic, Scheherazade New, serif',fontSize:fontSize+'px',lineHeight:arabicLineSpacing,letterSpacing:'normal',textAlign:readerAlign,maxWidth:readerWidth+'%',marginInline:'auto',whiteSpace:'pre-wrap'}}>{item.arabic}</div>}
+    {item.arabic&&<div className="devotional-arabic" dir="rtl" lang="ar" style={{fontFamily:'Amiri, Noto Naskh Arabic, Scheherazade New, serif',fontSize:fontSize+'px',lineHeight:arabicLineSpacing,letterSpacing:'normal',textAlign:readerAlign,maxWidth:readerWidth+'%',marginInline:'auto',whiteSpace:'pre-wrap'}}>{item.arabic.replace(/\\s+/g,' ').trim()}</div>}
     {item.latin&&<p className="devotional-latin" style={{fontSize:Math.max(12,fontSize-14)+'px',textAlign:readerAlign}}>{item.latin}</p>}
-    {item.meaning&&<p className="devotional-meaning" style={{fontSize:Math.max(12,fontSize-14)+'px',whiteSpace:'pre-wrap',textAlign:readerAlign}}>{item.meaning}</p>}
+    {item.meaning&&<p className="devotional-meaning" style={{fontSize:Math.max(12,fontSize-14)+'px',whiteSpace:'normal',textAlign:readerAlign}}>{item.meaning.replace(/\\s+/g,' ').trim()}</p>}
     {item.reference&&<small>Rujukan: {item.reference}</small>}
    </article>
    {isAdmin&&<div className="row-actions devotional-detail-actions"><button className="small-btn" onClick={()=>setForm(item)}><Pencil size={14}/> Edit bacaan</button><button className="small-btn danger-btn" onClick={()=>remove(item.id)}><Trash2 size={14}/> Hapus bacaan</button></div>}
