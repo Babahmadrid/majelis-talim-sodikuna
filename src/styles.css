@@ -1945,3 +1945,7 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .mini-finance{background:linear-gradient(140deg,#24c1df,#0789c3 72%,#075c91)!important}
 .mini-attendance{background:linear-gradient(140deg,#27b98b,#0a8b6a 72%,#06644f)!important}
 @media(max-width:760px){.dashboard-mini-shortcuts .mini-shortcut{flex:0 0 74px!important;width:74px!important;height:74px!important;min-height:74px!important;max-height:74px!important;padding:6px 3px!important}.dashboard-mini-shortcuts .mini-shortcut-icon{width:32px!important;height:32px!important;min-width:32px!important;max-width:32px!important;min-height:32px!important;max-height:32px!important;flex-basis:32px!important}.dashboard-mini-shortcuts .mini-shortcut-icon svg{width:18px!important;height:18px!important}.dashboard-mini-shortcuts .mini-shortcut-copy b{font-size:10px!important}}
+
+/* 3D illustrated dashboard stat icon artwork */
+.stat-icon.stat-image-icon{width:62px;height:62px;background:transparent!important;border-radius:0;overflow:visible;flex-shrink:0}
+.stat-icon.stat-image-icon img{width:100%;height:100%;display:block;object-fit:contain;filter:drop-shadow(0 4px 3px rgba(10,55,120,.2))}
