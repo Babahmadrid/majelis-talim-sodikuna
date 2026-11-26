@@ -2177,3 +2177,14 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .quran-pagination button:disabled{opacity:.45}
 .quran-library-arabic{line-height:1.9!important}
 .quran-page-mode .quran-library-ayah{margin-bottom:9px}
+
+/* Authentic Mushaf page reader */
+.quran-mushaf-page-reader{margin:10px 0}
+.quran-mushaf-page-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0;padding:7px;border-radius:12px;background:var(--surface-soft,#f3f5f8)}
+.quran-mushaf-page-controls button{min-width:34px;padding:7px 12px;border-radius:9px;border:1px solid var(--border-color,#d9dfe8);background:var(--surface,#fff);font-weight:700}
+.quran-mushaf-page-controls label{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600}
+.quran-mushaf-page-controls input{width:58px;text-align:center;padding:6px;border-radius:8px;border:1px solid var(--border-color,#d9dfe8);background:var(--surface,#fff)}
+.quran-mushaf-page{direction:rtl;min-height:360px;padding:20px 15px;border:2px solid #c8a86a;border-radius:12px;background:#fffdf6;color:#20190e;text-align:justify;text-align-last:center;font-family:"Noto Naskh Arabic","Amiri",serif;font-size:25px;line-height:2.15;box-shadow:inset 0 0 0 4px #f4e8ce}
+.quran-mushaf-word{display:inline;margin:0 2px}
+.quran-mushaf-marker{display:inline-flex;vertical-align:middle;margin:0 4px;font-size:.56em;border:1px solid #c8a86a;border-radius:50%;width:1.7em;height:1.7em;align-items:center;justify-content:center;color:#7a5a24}
+.quran-mushaf-error{color:#b42318;font-size:12px;text-align:center}
