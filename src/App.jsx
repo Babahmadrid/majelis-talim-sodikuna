@@ -477,7 +477,7 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError,initialTab='asma'
     <section className="quran-page-heading"><div className="quran-heading-kicker">AL-QUR'ANUL KARIM</div><h3>Surah Ar-Rahman</h3><p>Surah ke-55 <span>•</span> 78 Ayat <span>•</span> Juz 27</p></section>
     <div className="quran-reader-settings quran-reader-settings-compact"><div className="quran-settings-title"><span>Pengaturan bacaan</span><small>Sesuaikan kenyamanan membaca</small></div>
       <div className="devotional-tools quran-tools">
-        <label className="quran-font-tools"><span>Ukuran huruf</span><button aria-label="Perkecil huruf" onClick={()=>setQuranFontSize(v=>Math.max(14,v-2))}>A−</button><b>{quranFontSize}px</b><button aria-label="Perbesar huruf" onClick={()=>setQuranFontSize(v=>Math.min(48,v+2))}>A+</button><button onClick={()=>{setQuranFontSize(22);setQuranAlign('justify');setQuranWidth(100);setQuranLineSpacing(1.7);setArRahmanShowTranslation(true)}}>Atur ulang</button></label>
+        <label className="quran-font-tools"><span>Ukuran huruf</span><button aria-label="Perkecil huruf" onClick={()=>setQuranFontSize(v=>Math.max(18,v-2))}>A−</button><b>{quranFontSize}px</b><button aria-label="Perbesar huruf" onClick={()=>setQuranFontSize(v=>Math.min(42,v+2))}>A+</button><button onClick={()=>{setQuranFontSize(25);setQuranAlign('justify');setQuranWidth(100);setQuranLineSpacing(1.7);setArRahmanShowTranslation(true)}}>Atur ulang</button></label>
         <label className="text-align-control"><span>Spasi baris Arab</span><input type="range" min="1.2" max="2.0" step="0.1" value={quranLineSpacing} onChange={e=>setQuranLineSpacing(Number(e.target.value))}/><b>{quranLineSpacing.toFixed(1)}</b></label>
         <div className="quran-settings-row"><span>Terjemahan</span><button onClick={()=>setArRahmanShowTranslation(v=>!v)}>{arRahmanShowTranslation?"Sembunyikan":"Tampilkan"}</button></div><div className="quran-settings-row"><span>Tampilan</span><button className={arRahmanDisplayMode==="page"?"selected":""} onClick={()=>{setArRahmanDisplayMode("page");setArRahmanPage(0)}}>Per halaman</button><button className={arRahmanDisplayMode==="ayah"?"selected":""} onClick={()=>{setArRahmanDisplayMode("ayah");setArRahmanPage(0)}}>Per ayat</button></div>
       </div></div>
@@ -514,6 +514,7 @@ function QuranLibraryPage({db,isAdmin,session,setError,setNotice}){
  const [quranDisplayMode,setQuranDisplayMode]=useState('ayah');
  const [quranPage,setQuranPage]=useState(0);
  const [quranFont,setQuranFont]=useState(25);
+ const [quranLineSpacing,setQuranLineSpacing]=useState(1.7);
  const [mushafPage,setMushafPage]=useState(1);
  const [mushafAyahs,setMushafAyahs]=useState([]);
  const [mushafLoading,setMushafLoading]=useState(false);
@@ -577,14 +578,14 @@ function QuranLibraryPage({db,isAdmin,session,setError,setNotice}){
     <div className="quran-reader-settings quran-reader-settings-compact quran-shared-settings">
      <b>Pengaturan bacaan</b>
      <div className="quran-settings-row"><span>Ukuran huruf</span><button onClick={()=>setQuranFont(v=>Math.max(18,v-2))}>A−</button><strong>{quranFont}px</strong><button onClick={()=>setQuranFont(v=>Math.min(42,v+2))}>A+</button></div>
-     <div className="quran-settings-row"><span>Terjemahan</span><button onClick={()=>setShowTranslation(v=>!v)}>{showTranslation?'Sembunyikan':'Tampilkan'}</button></div>
+     <div className="quran-settings-row"><span>Spasi baris</span><input type="range" min="1.2" max="2.0" step="0.1" value={quranLineSpacing} onChange={e=>setQuranLineSpacing(Number(e.target.value))}/><strong>{quranLineSpacing.toFixed(1)}</strong></div><div className="quran-settings-row"><span>Terjemahan</span><button onClick={()=>setShowTranslation(v=>!v)}>{showTranslation?'Sembunyikan':'Tampilkan'}</button></div>
      <div className="quran-settings-row"><span>Tampilan</span><button className={quranDisplayMode==='page'?'selected':''} onClick={()=>{setQuranDisplayMode('page');setQuranPage(0);setMushafPage(1);}}>Per halaman</button><button className={quranDisplayMode==='ayah'?'selected':''} onClick={()=>{setQuranDisplayMode('ayah');setQuranPage(0);}}>Per ayat</button></div>
     </div>
     <header className="quran-library-surah-head"><small>AL-QUR’ANUL KARIM</small><h2>{selected.latinName||selected.name}</h2><p>{selected.name} · {selected.ayahs.length} Ayat</p></header>
     {quranDisplayMode==='page'?<div className="quran-mushaf-page-reader">
      <div className="quran-mushaf-page-controls"><button disabled={mushafPage<=1} onClick={()=>setMushafPage(v=>Math.max(1,v-1))}>‹</button><label>Halaman Mushaf <input type="number" min="1" max="604" value={mushafPage} onChange={e=>setMushafPage(Math.max(1,Math.min(604,Number(e.target.value)||1)))}/>/ 604</label><button disabled={mushafPage>=604} onClick={()=>setMushafPage(v=>Math.min(604,v+1))}>›</button></div>
-     {mushafLoading?<p className="loading-line">Memuat halaman mushaf…</p>:mushafError?<p className="quran-mushaf-error">{mushafError}</p>:<div className="quran-mushaf-page" dir="rtl">{mushafAyahs.map(a=><span className="quran-mushaf-word" key={a.number}>{a.text}<span className="quran-mushaf-marker">{a.numberInSurah}</span></span>)}</div>}
-    </div>:<div className={'quran-library-ayahs quran-ayah-mode'}>{pageAyahs.map(a=><article className="quran-library-ayah" key={a.number}><span className="quran-ayah-number">{a.number}</span><p dir="rtl" lang="ar" className="quran-library-arabic" style={{fontSize:quranFont+'px'}}>{a.arabic}</p>{showTranslation&&a.translation&&<p className="quran-library-translation">{a.translation}</p>}</article>)}</div>}
+     {mushafLoading?<p className="loading-line">Memuat halaman mushaf…</p>:mushafError?<p className="quran-mushaf-error">{mushafError}</p>:<div className="quran-mushaf-page" dir="rtl" style={{fontSize:quranFont+"px",lineHeight:quranLineSpacing}}>{mushafAyahs.map(a=><span className="quran-mushaf-word" key={a.number}>{a.text}<span className="quran-mushaf-marker">{a.numberInSurah}</span></span>)}</div>}
+    </div>:<div className={'quran-library-ayahs quran-ayah-mode'}>{pageAyahs.map(a=><article className="quran-library-ayah" key={a.number}><span className="quran-ayah-number">{a.number}</span><p dir="rtl" lang="ar" className="quran-library-arabic" style={{fontSize:quranFont+'px',lineHeight:quranLineSpacing}}>{a.arabic}</p>{showTranslation&&a.translation&&<p className="quran-library-translation">{a.translation}</p>}</article>)}</div>}
    </section>
   );
  }
