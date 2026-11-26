@@ -532,7 +532,13 @@ function QuranLibraryPage({db,isAdmin,session,setError,setNotice}){
   })();
   return ()=>{active=false};
  },[db]);
- useEffect(()=>{\n  if(!selected||quranDisplayMode!=='page')return;\n  let active=true;setMushafLoading(true);setMushafError('');\n  fetch('https://api.alquran.cloud/v1/page/'+mushafPage+'/quran-uthmani').then(res=>{if(!res.ok)throw new Error('Gagal memuat halaman mushaf');return res.json();}).then(json=>{if(active){const ayahs=json?.data?.ayahs||[];setMushafAyahs(ayahs);if(!ayahs.length)throw new Error('Halaman mushaf kosong');}}).catch(err=>{if(active)setMushafError(err.message||'Tidak dapat memuat halaman mushaf');}).finally(()=>{if(active)setMushafLoading(false);});\n  return ()=>{active=false};\n },[selected,quranDisplayMode,mushafPage]);\n async function importComplete(){
+ useEffect(()=>{
+  if(!selected||quranDisplayMode!=='page')return;
+  let active=true;setMushafLoading(true);setMushafError('');
+  fetch('https://api.alquran.cloud/v1/page/'+mushafPage+'/quran-uthmani').then(res=>{if(!res.ok)throw new Error('Gagal memuat halaman mushaf');return res.json();}).then(json=>{if(active){const ayahs=json?.data?.ayahs||[];setMushafAyahs(ayahs);if(!ayahs.length)throw new Error('Halaman mushaf kosong');}}).catch(err=>{if(active)setMushafError(err.message||'Tidak dapat memuat halaman mushaf');}).finally(()=>{if(active)setMushafLoading(false);});
+  return ()=>{active=false};
+ },[selected,quranDisplayMode,mushafPage]);
+ async function importComplete(){
   if(!isAdmin){setError('Impor Al-Qur’an hanya untuk admin.');return;}
   if(!confirm('Impor 114 surah dari EQuran.id API v2 ke Supabase?'))return;
   setBusy(true);setProgress(0);
