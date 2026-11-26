@@ -514,6 +514,10 @@ function QuranLibraryPage({db,isAdmin,session,setError,setNotice}){
  const [quranDisplayMode,setQuranDisplayMode]=useState('ayah');
  const [quranPage,setQuranPage]=useState(0);
  const [quranFont,setQuranFont]=useState(25);
+ const [mushafPage,setMushafPage]=useState(1);
+ const [mushafAyahs,setMushafAyahs]=useState([]);
+ const [mushafLoading,setMushafLoading]=useState(false);
+ const [mushafError,setMushafError]=useState('');
  useEffect(()=>{
   let active=true;
   (async()=>{
@@ -528,7 +532,7 @@ function QuranLibraryPage({db,isAdmin,session,setError,setNotice}){
   })();
   return ()=>{active=false};
  },[db]);
- async function importComplete(){
+ useEffect(()=>{\n  if(!selected||quranDisplayMode!=='page')return;\n  let active=true;setMushafLoading(true);setMushafError('');\n  fetch('https://api.alquran.cloud/v1/page/'+mushafPage+'/quran-uthmani').then(res=>{if(!res.ok)throw new Error('Gagal memuat halaman mushaf');return res.json();}).then(json=>{if(active){const ayahs=json?.data?.ayahs||[];setMushafAyahs(ayahs);if(!ayahs.length)throw new Error('Halaman mushaf kosong');}}).catch(err=>{if(active)setMushafError(err.message||'Tidak dapat memuat halaman mushaf');}).finally(()=>{if(active)setMushafLoading(false);});\n  return ()=>{active=false};\n },[selected,quranDisplayMode,mushafPage]);\n async function importComplete(){
   if(!isAdmin){setError('Impor Al-Qur’an hanya untuk admin.');return;}
   if(!confirm('Impor 114 surah dari EQuran.id API v2 ke Supabase?'))return;
   setBusy(true);setProgress(0);
@@ -560,7 +564,7 @@ function QuranLibraryPage({db,isAdmin,session,setError,setNotice}){
   return haystack.includes(search.toLowerCase());
  });
  if(selected){
-  const pageAyahs=quranDisplayMode==='page'?selected.ayahs.slice(quranPage*10,quranPage*10+10):selected.ayahs;
+  const pageAyahs=selected.ayahs;
   return (
    <section className="quran-library-page">
     <div className="quran-library-reader-controls"><button className="quran-library-back" onClick={()=>{setSelected(null);setQuranPage(0);}}>← Daftar Surah</button></div>
@@ -568,13 +572,13 @@ function QuranLibraryPage({db,isAdmin,session,setError,setNotice}){
      <b>Pengaturan bacaan</b>
      <div className="quran-settings-row"><span>Ukuran huruf</span><button onClick={()=>setQuranFont(v=>Math.max(18,v-2))}>A−</button><strong>{quranFont}px</strong><button onClick={()=>setQuranFont(v=>Math.min(42,v+2))}>A+</button></div>
      <div className="quran-settings-row"><span>Terjemahan</span><button onClick={()=>setShowTranslation(v=>!v)}>{showTranslation?'Sembunyikan':'Tampilkan'}</button></div>
-     <div className="quran-settings-row"><span>Tampilan</span><button className={quranDisplayMode==='page'?'selected':''} onClick={()=>{setQuranDisplayMode('page');setQuranPage(0);}}>Per halaman</button><button className={quranDisplayMode==='ayah'?'selected':''} onClick={()=>{setQuranDisplayMode('ayah');setQuranPage(0);}}>Per ayat</button></div>
+     <div className="quran-settings-row"><span>Tampilan</span><button className={quranDisplayMode==='page'?'selected':''} onClick={()=>{setQuranDisplayMode('page');setQuranPage(0);setMushafPage(1);}}>Per halaman</button><button className={quranDisplayMode==='ayah'?'selected':''} onClick={()=>{setQuranDisplayMode('ayah');setQuranPage(0);}}>Per ayat</button></div>
     </div>
     <header className="quran-library-surah-head"><small>AL-QUR’ANUL KARIM</small><h2>{selected.latinName||selected.name}</h2><p>{selected.name} · {selected.ayahs.length} Ayat</p></header>
-    <div className={'quran-library-ayahs '+(quranDisplayMode==='page'?'quran-page-mode':'quran-ayah-mode')}>
-     {pageAyahs.map(a=><article className="quran-library-ayah" key={a.number}><span className="quran-ayah-number">{a.number}</span><p dir="rtl" lang="ar" className="quran-library-arabic" style={{fontSize:quranFont+'px'}}>{a.arabic}</p>{showTranslation&&a.translation&&<p className="quran-library-translation">{a.translation}</p>}</article>)}
-    </div>
-    {quranDisplayMode==='page'&&<div className="quran-pagination"><button disabled={quranPage===0} onClick={()=>setQuranPage(v=>v-1)}>‹ Sebelumnya</button><span>Halaman {quranPage+1} / {Math.ceil(selected.ayahs.length/10)}</span><button disabled={(quranPage+1)*10>=selected.ayahs.length} onClick={()=>setQuranPage(v=>v+1)}>Berikutnya ›</button></div>}
+    {quranDisplayMode==='page'?<div className="quran-mushaf-page-reader">
+     <div className="quran-mushaf-page-controls"><button disabled={mushafPage<=1} onClick={()=>setMushafPage(v=>Math.max(1,v-1))}>‹</button><label>Halaman Mushaf <input type="number" min="1" max="604" value={mushafPage} onChange={e=>setMushafPage(Math.max(1,Math.min(604,Number(e.target.value)||1)))}/>/ 604</label><button disabled={mushafPage>=604} onClick={()=>setMushafPage(v=>Math.min(604,v+1))}>›</button></div>
+     {mushafLoading?<p className="loading-line">Memuat halaman mushaf…</p>:mushafError?<p className="quran-mushaf-error">{mushafError}</p>:<div className="quran-mushaf-page" dir="rtl">{mushafAyahs.map(a=><span className="quran-mushaf-word" key={a.number}>{a.text}<span className="quran-mushaf-marker">{a.numberInSurah}</span></span>)}</div>}
+    </div>:<div className={'quran-library-ayahs quran-ayah-mode'}>{pageAyahs.map(a=><article className="quran-library-ayah" key={a.number}><span className="quran-ayah-number">{a.number}</span><p dir="rtl" lang="ar" className="quran-library-arabic" style={{fontSize:quranFont+'px'}}>{a.arabic}</p>{showTranslation&&a.translation&&<p className="quran-library-translation">{a.translation}</p>}</article>)}</div>}
    </section>
   );
  }
