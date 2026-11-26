@@ -2144,3 +2144,10 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .app-shell .quran-library-arabic{font-family:'Noto Naskh Arabic',Amiri,serif;text-align:right;font-size:26px;line-height:1.9;color:#173e68;margin:10px 0}
 .app-shell .quran-library-translation{font-size:14px;line-height:1.7;color:#617f9b;border-top:1px solid #eef4fa;padding-top:10px;margin:0}
 @media(max-width:520px){.app-shell .quran-library-page{margin:12px 0;padding:12px}.app-shell .quran-library-arabic{font-size:23px}}
+
+/* One-click full Quran database import controls */
+.app-shell .quran-library-admin-import{display:grid;gap:7px;padding:12px;border-radius:13px;background:#e8f5ff;border:1px solid #cde5f8;margin:8px 0 12px}
+.app-shell .quran-library-import-button{border:0;border-radius:12px;padding:12px;background:linear-gradient(110deg,#0752b4,#08a7cb);color:#fff;font-weight:800;font-size:14px;width:100%;box-shadow:0 5px 12px #0752b426}
+.app-shell .quran-library-import-button:disabled{opacity:.65}
+.app-shell .quran-library-admin-import small{font-size:11px;line-height:1.5;color:#5d7f9c}
+.app-shell .quran-library-progress{margin:0;font-size:12px;color:#0752b4;font-weight:800}
