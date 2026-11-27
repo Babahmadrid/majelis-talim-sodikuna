@@ -2573,3 +2573,21 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .app-shell .dashboard-menu-swipe .dashboard-stats .stat-card .stat-header .stat-icon{background:rgba(255,255,255,.22)!important;color:#fff!important}
 .app-shell .dashboard-menu-swipe .dashboard-stats .stat-card .stat-header span,
 .app-shell .dashboard-menu-swipe .dashboard-stats .stat-card>b{color:#fff!important;text-shadow:0 1px 4px rgba(0,25,75,.35)!important}
+
+/* FINAL OVERRIDE: restore distinct gradient palette on the four worship feature cards */
+.app-shell .dashboard-feature-links .dashboard-feature.prayer-feature{
+ background:linear-gradient(145deg,#80d3ff 0%,#3f9cff 48%,#1554b8 100%)!important;background-image:linear-gradient(145deg,#80d3ff 0%,#3f9cff 48%,#1554b8 100%)!important;color:#fff!important;border-color:#70c8ff!important;box-shadow:0 6px 0 #0d4795,0 10px 15px rgba(20,70,140,.25),inset 0 1px 0 rgba(255,255,255,.4)!important;
+}
+.app-shell .dashboard-feature-links .dashboard-feature.hijri-feature{
+ background:linear-gradient(145deg,#8df8f4 0%,#27d5dc 48%,#0580a5 100%)!important;background-image:linear-gradient(145deg,#8df8f4 0%,#27d5dc 48%,#0580a5 100%)!important;color:#fff!important;border-color:#68e7f0!important;box-shadow:0 6px 0 #05677e,0 10px 15px rgba(4,115,143,.25),inset 0 1px 0 rgba(255,255,255,.4)!important;
+}
+.app-shell .dashboard-feature-links .dashboard-feature.quran-feature{
+ background:linear-gradient(145deg,#e2c3ff 0%,#b080f3 48%,#6a43c6 100%)!important;background-image:linear-gradient(145deg,#e2c3ff 0%,#b080f3 48%,#6a43c6 100%)!important;color:#fff!important;border-color:#d1b5ff!important;box-shadow:0 6px 0 #4c2a92,0 10px 15px rgba(79,43,158,.25),inset 0 1px 0 rgba(255,255,255,.4)!important;
+}
+.app-shell .dashboard-feature-links .dashboard-feature.rahman-feature{
+ background:linear-gradient(145deg,#a4f5cb 0%,#43d69c 48%,#087e60 100%)!important;background-image:linear-gradient(145deg,#a4f5cb 0%,#43d69c 48%,#087e60 100%)!important;color:#fff!important;border-color:#73e8bc!important;box-shadow:0 6px 0 #056448,0 10px 15px rgba(4,105,76,.25),inset 0 1px 0 rgba(255,255,255,.4)!important;
+}
+.app-shell .dashboard-feature-links .dashboard-feature.prayer-feature b,
+.app-shell .dashboard-feature-links .dashboard-feature.hijri-feature b,
+.app-shell .dashboard-feature-links .dashboard-feature.quran-feature b,
+.app-shell .dashboard-feature-links .dashboard-feature.rahman-feature b{color:#fff!important}
