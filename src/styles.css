@@ -2282,3 +2282,16 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .app-shell .dashboard-menu-swipe .dashboard-feature .feature-emoji{font-size:24px!important;line-height:1!important}
  .app-shell .dashboard-menu-swipe .dashboard-feature b{font-size:11px!important;line-height:1.15!important;text-align:center!important}
 }
+
+/* PR24: force equal vertical alignment of dashboard main menu tiles */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats{
+   align-items:center!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats>.stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats>button.stat-card{
+   align-self:center!important;
+   vertical-align:middle!important;
+   transform:none!important;
+ }
+}
