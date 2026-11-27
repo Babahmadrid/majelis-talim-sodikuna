@@ -2295,3 +2295,30 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
    transform:none!important;
  }
 }
+
+/* Final sizing override: main dashboard stat menu tiles match compact utility tiles */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats{
+   display:flex!important;flex-flow:row nowrap!important;align-items:center!important;justify-content:flex-start!important;
+   gap:10px!important;width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;
+   grid-template-columns:none!important;padding:0 2px 8px!important;box-sizing:border-box!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats button.stat-card{
+   display:flex!important;flex:0 0 132px!important;width:132px!important;min-width:132px!important;max-width:132px!important;
+   height:132px!important;min-height:132px!important;max-height:132px!important;aspect-ratio:1/1!important;
+   align-self:center!important;justify-self:auto!important;margin:0!important;padding:9px!important;box-sizing:border-box!important;
+   transform:none!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-header{
+   display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-icon,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-icon.stat-image-icon{
+   width:32px!important;height:32px!important;min-width:32px!important;max-width:32px!important;min-height:32px!important;max-height:32px!important;flex:0 0 32px!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-header span{
+   display:block!important;font-size:11px!important;line-height:1.2!important;text-align:center!important;white-space:normal!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card>b{display:none!important}
+}
