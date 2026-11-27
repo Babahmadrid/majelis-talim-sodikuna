@@ -2370,3 +2370,40 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-header span{font-size:12px!important;line-height:1.15!important;text-align:left!important}
  .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card>b{display:none!important}
 }
+
+/* Unified dashboard main menu: one carousel, one row, all tiles same square size */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe{
+   display:flex!important;flex-flow:row nowrap!important;align-items:stretch!important;gap:10px!important;
+   width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;
+   scroll-snap-type:x mandatory!important;-webkit-overflow-scrolling:touch!important;
+   padding:4px 3px 12px!important;margin:12px 0 17px!important;box-sizing:border-box!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links{
+   display:contents!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats button.stat-card,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature{
+   display:flex!important;flex:0 0 84px!important;width:84px!important;min-width:84px!important;max-width:84px!important;
+   height:84px!important;min-height:84px!important;max-height:84px!important;aspect-ratio:1/1!important;
+   align-self:stretch!important;justify-self:auto!important;margin:0!important;padding:7px 4px!important;
+   box-sizing:border-box!important;transform:none!important;border-radius:15px!important;scroll-snap-align:start!important;
+   flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-header{
+   display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;
+   min-width:0!important;flex:none!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-icon,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-icon.stat-image-icon{
+   width:30px!important;height:30px!important;min-width:30px!important;max-width:30px!important;min-height:30px!important;max-height:30px!important;flex:0 0 30px!important;
+ }
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .feature-emoji{font-size:20px!important;line-height:1!important}
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-header span,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature b{
+   display:block!important;font-size:10px!important;line-height:1.15!important;text-align:center!important;white-space:normal!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card>b{display:none!important}
+}
