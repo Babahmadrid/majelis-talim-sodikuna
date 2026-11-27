@@ -446,7 +446,7 @@ function DevotionalPage({db,isAdmin,session,setNotice,setError,initialTab='asma'
  const heading={asma:'Asmaul Husna',quran:'Q.S. Ar-Rahman',dzikir:'Kumpulan Dzikir',doa:"Kumpulan Do'a-do'a"}[tab];
  const descriptions={asma:'Kenali 99 nama Allah yang indah.',quran:'Bacaan Surah Ar-Rahman.',dzikir:'Kumpulan dzikir harian.',doa:'Kumpulan doa harian dari API dan bacaan lainnya.'};
  
- if(tab==='dzikir'&&selectedReading){
+ if((tab==='dzikir'||tab==='doa')&&selectedReading){
   const item=selectedReading;
   return <section className="devotional-page devotional-reader-page">
    <button type="button" className="devotional-back-button" onClick={()=>setSelectedReading(null)}>← Kembali ke daftar bacaan</button>
@@ -529,16 +529,25 @@ function QuranLibraryPage({db,isAdmin,session,setError,setNotice}){
   let active=true;
   (async()=>{
    try{
-    const result=await db.from('app_settings').select('value').eq('id','quran_library').maybeSingle();
-    if(result.error)throw result.error;
-    const parsed=result.data&&result.data.value?JSON.parse(result.data.value):[];
+    let parsed=[];
+    if(isAdmin){
+     const result=await db.from('app_settings').select('value').eq('id','quran_library').maybeSingle();
+     if(result.error)throw result.error;
+     parsed=result.data&&result.data.value?JSON.parse(result.data.value):[];
+    }else{
+     const token=localStorage.getItem('sodikuna_jamaah_token')||'';
+     const response=await fetch(supabaseUrl+'/functions/v1/jamaah-access',{method:'POST',headers:{'Content-Type':'application/json','apikey':supabaseKey,'x-jamaah-token':token},body:JSON.stringify({action:'read'})});
+     const payload=await response.json();
+     if(!response.ok)throw new Error(payload.error||'Gagal memuat Al-Qur’an untuk jamaah');
+     parsed=payload.quranSurahs||[];
+    }
     if(!Array.isArray(parsed))throw new Error('Format data Al-Qur’an tidak valid.');
     if(active)setSurahs(parsed);
    }catch(e){if(active)setError(e.message||'Gagal memuat Al-Qur’an dari database.');}
    finally{if(active)setLoading(false);}
   })();
   return ()=>{active=false};
- },[db]);
+ },[db,isAdmin]);
  useEffect(()=>{
   if(!selected||quranDisplayMode!=='page')return;
   let active=true;setMushafLoading(true);setMushafError('');
