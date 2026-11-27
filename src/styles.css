@@ -2459,3 +2459,11 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .dashboard-quote::after{width:125px;height:62px;left:-20px;bottom:-18px;opacity:.42}
 .dashboard-quote-mark,.dashboard-quote p,.dashboard-quote small{position:relative;z-index:1}
 @media(max-width:760px){.dashboard-quote{padding:16px 15px!important}}
+
+/* Use user's uploaded embossed geometric pattern as the quote-card background */
+.dashboard-quote{
+ background:#fff url('/quote-pattern.svg') center/cover no-repeat!important;
+ border:1px solid #d9e9f3!important;
+ box-shadow:0 5px 0 #d5e7f3,0 9px 18px rgba(25,73,119,.13),inset 0 2px 0 rgba(255,255,255,.9)!important;
+}
+.dashboard-quote::before,.dashboard-quote::after{display:none!important}
