@@ -27,7 +27,7 @@
  .quote-card p{font-size:12px}
 }
 /* Daily Quote card: plain white surface with readable Quran Arabic */
-.quote-card{background:#fff!important;background-image:none!important;border:1px solid #d7e8f4!important;border-radius:18px!important;box-shadow:0 5px 0 #d5e8f5,0 9px 16px rgba(27,75,122,.12),inset 0 2px 0 #fff!important}
+.quote-card{background:#fff!important;background-color:#fff!important;background-image:none!important;border:1px solid #d7e8f4!important;border-radius:18px!important;box-shadow:0 5px 0 #d5e8f5,0 9px 16px rgba(27,75,122,.12),inset 0 2px 0 #fff!important}
 .quote-card .quote-arab{font-family:"Amiri","Noto Naskh Arabic",serif;font-size:24px;line-height:1.9;text-align:center;color:#174d78;margin:8px 0 12px;direction:rtl}
 
 /* Quote content transitions only; card sizing remains unchanged */
