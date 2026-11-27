@@ -1,4 +1,4 @@
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const book = String(event.queryStringParameters?.book || '').toLowerCase();
   const range = String(event.queryStringParameters?.range || '1-20');
   const allowedBooks = new Set(['bukhari', 'muslim', 'tirmidzi']);
