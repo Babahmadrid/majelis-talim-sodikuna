@@ -91,3 +91,7 @@
 .app-shell .dashboard-feature-links .dashboard-feature b,
 .app-shell .dashboard-feature-links .dashboard-feature small{color:#12345a!important;opacity:1!important;font-weight:800!important;text-shadow:none!important}
 .app-shell .dashboard-feature-links .dashboard-feature small{font-weight:600!important}
+
+/* Spinning gear shown while login is being processed */
+@keyframes login-gear-spin { to { transform: rotate(360deg); } }
+.login-gear { display:inline-block; font-size:1.25em; line-height:1; animation:login-gear-spin 1s linear infinite; }
