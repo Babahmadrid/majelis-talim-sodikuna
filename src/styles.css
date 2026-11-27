@@ -2427,3 +2427,13 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
   height:77px!important;min-height:77px!important;max-height:77px!important;aspect-ratio:1/1!important;
  }
 }
+
+/* User-requested final tile size: 75x75px */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats button.stat-card,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature{
+  flex:0 0 75px!important;width:75px!important;min-width:75px!important;max-width:75px!important;
+  height:75px!important;min-height:75px!important;max-height:75px!important;aspect-ratio:1/1!important;
+ }
+}
