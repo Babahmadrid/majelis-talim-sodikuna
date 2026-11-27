@@ -118,3 +118,16 @@
 .tasbih-latin{color:#68819c;margin:4px 0 10px}
 .tasbih-meaning{margin-top:14px;color:#426583;line-height:1.65}
 .tasbih-note{display:block;margin-top:10px;color:#75879a;line-height:1.5}
+
+/* Eight dashboard menu cards: preserve card dimensions, swipe horizontally */
+.dashboard-menu-swipe{display:flex!important;flex-wrap:nowrap!important;gap:12px!important;overflow-x:auto!important;overflow-y:hidden!important;scroll-snap-type:x mandatory!important;-webkit-overflow-scrolling:touch!important;overscroll-behavior-x:contain!important;scrollbar-width:none!important;padding:4px 3px 14px!important;margin:12px 0 18px!important}
+.dashboard-menu-swipe::-webkit-scrollbar{display:none!important}
+.dashboard-menu-swipe .stats-grid.dashboard-stats{display:contents!important}
+.dashboard-menu-swipe .dashboard-feature-links{display:contents!important}
+.dashboard-menu-swipe .stat-card,.dashboard-menu-swipe .dashboard-feature{flex:0 0 150px!important;width:150px!important;min-width:150px!important;max-width:150px!important;height:150px!important;min-height:150px!important;max-height:150px!important;scroll-snap-align:start!important;box-sizing:border-box!important}
+.dashboard-menu-swipe .stat-card{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:8px!important;padding:12px!important;border-radius:22px!important}
+.dashboard-menu-swipe .dashboard-feature{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:12px!important;border-radius:22px!important}
+.dashboard-menu-swipe .stat-card .stat-icon{width:48px!important;height:48px!important;min-width:48px!important;min-height:48px!important;grid-column:auto!important;grid-row:auto!important}
+.dashboard-menu-swipe .stat-card .stat-header{display:block!important;text-align:center!important}.dashboard-menu-swipe .stat-card .stat-header span{font-size:14px!important;line-height:1.15!important;text-align:center!important}.dashboard-menu-swipe .stat-card>b{display:none!important}
+.dashboard-menu-swipe .dashboard-feature .feature-emoji{font-size:36px!important}
+@media(max-width:760px){.dashboard-menu-swipe .stat-card,.dashboard-menu-swipe .dashboard-feature{flex-basis:150px!important;width:150px!important;min-width:150px!important;height:150px!important;max-height:150px!important}}
