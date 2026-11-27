@@ -2199,3 +2199,14 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .materials-font-control input[type=range]{flex:1;min-width:50px;accent-color:#087bd7}
 .materials-font-control span{font-size:13px;font-weight:800;min-width:38px;text-align:center}
 @media(max-width:560px){.materials-toolbar{flex-wrap:wrap}.materials-font-control{order:3;flex-basis:100%;max-width:none}.materials-toolbar .search{flex-basis:100%}}
+
+/* Arba'in Nawawi: Arabic and translation separated, horizontal swipe navigation */
+.arbain-swipe-wrap{width:100%;touch-action:pan-y;}
+.arbain-swipe-card{width:100%;max-width:100%;box-sizing:border-box;}
+.arbain-swipe-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 12px;padding:0 2px;color:#125a91;font-weight:700;}
+.arbain-swipe-nav button{border:1px solid #b6d7ee;background:#edf7ff;color:#1264a5;border-radius:12px;padding:8px 10px;font-size:13px;font-weight:700;min-height:38px;cursor:pointer;}
+.arbain-swipe-nav button:disabled{opacity:.38;cursor:default;}
+.arbain-swipe-nav span{font-size:13px;white-space:nowrap;}
+.arbain-swipe-card .arbain-arabic{direction:rtl;text-align:right;line-height:1.9;margin:20px 0 12px;padding-bottom:12px;border-bottom:1px solid #c5d7e4;white-space:normal;}
+.arbain-swipe-card .arbain-translation{direction:ltr;text-align:left;line-height:1.8;margin:14px 0 22px;padding-top:8px;white-space:normal;}
+@media(max-width:480px){.arbain-swipe-nav{gap:5px}.arbain-swipe-nav button{padding:7px 8px;font-size:12px}.arbain-swipe-nav span{font-size:12px}}
