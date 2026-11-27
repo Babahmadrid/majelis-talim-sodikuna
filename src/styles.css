@@ -2563,3 +2563,13 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .dashboard-menu-swipe .dashboard-stats>.stat-card{box-shadow:0 5px 0 rgba(20,67,115,.24),0 9px 16px rgba(25,70,125,.15),inset 0 1px 0 rgba(255,255,255,.42)!important}
 .dashboard-menu-swipe .dashboard-stats .stat-icon{background:rgba(255,255,255,.2)!important}
 .dashboard-menu-swipe .dashboard-stats .stat-header,.dashboard-menu-swipe .dashboard-stats .stat-header *{color:#fff!important}
+
+/* Fix specificity: main dashboard cards override pale stat-tone rules */
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card.stat-tone-0{background:linear-gradient(145deg,#72c9ff 0%,#2788ee 48%,#0752b9 100%)!important;border-color:#64c7ff!important;box-shadow:0 5px 0 #064a9b,0 9px 17px rgba(5,70,155,.24),inset 0 1px 0 rgba(255,255,255,.5)!important}
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card.stat-tone-1{background:linear-gradient(145deg,#78f1ed 0%,#20c1d6 48%,#087d9f 100%)!important;border-color:#60e5ed!important;box-shadow:0 5px 0 #056e8d,0 9px 17px rgba(4,115,143,.24),inset 0 1px 0 rgba(255,255,255,.5)!important}
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card.stat-tone-2{background:linear-gradient(145deg,#e1b8ff 0%,#9a68ef 48%,#6034bd 100%)!important;border-color:#d3b2ff!important;box-shadow:0 5px 0 #4c2a9a,0 9px 17px rgba(79,43,158,.24),inset 0 1px 0 rgba(255,255,255,.5)!important}
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card.stat-tone-3{background:linear-gradient(145deg,#ffd69a 0%,#ff984e 48%,#c84a1c 100%)!important;border-color:#ffd294!important;box-shadow:0 5px 0 #a93d18,0 9px 17px rgba(180,65,25,.24),inset 0 1px 0 rgba(255,255,255,.5)!important}
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card .stat-header{background:transparent!important}
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card .stat-header .stat-icon{background:rgba(255,255,255,.22)!important;color:#fff!important}
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card .stat-header span,
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card>b{color:#fff!important;text-shadow:0 1px 4px rgba(0,25,75,.35)!important}
