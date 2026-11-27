@@ -1567,7 +1567,7 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .devotional-detail-card{padding:22px 20px;min-height:220px}
 .devotional-detail-card .devotional-arabic{line-height:2.15;padding:10px 2px 22px;color:#080808;border-bottom:1px solid #e0e9ef}
 .devotional-detail-card .devotional-latin{line-height:1.85;margin:18px 0;color:#315a75}
-.devotional-detail-card .devotional-meaning{line-height:1.9;margin:18px 0;color:#31516a}
+.devotional-detail-card .devotional-paired-section{padding:0 0 1.25rem;margin:0 0 1rem;border-bottom:1px solid rgba(20,90,150,.10)}.devotional-paired-meaning{direction:ltr;color:var(--text-muted,#64748b);padding:.65rem .5rem 0;line-height:1.7}.devotional-meaning{line-height:1.9;margin:18px 0;color:#31516a}
 .devotional-detail-card>small{display:block;margin-top:16px;color:#698398}
 .devotional-detail-actions{justify-content:flex-end;gap:8px;margin-top:12px}
 .devotional-open-label{font-size:12px;font-weight:700;color:#1684bd;white-space:nowrap}
@@ -1784,4 +1784,895 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .mini-info{background:linear-gradient(140deg,#22c3e2,#078dc9 70%,#06669d)}
 .mini-gallery{background:linear-gradient(140deg,#9a7bf1,#6651d4 70%,#4032a1)}
 .mini-schedule{background:linear-gradient(140deg,#ff9854,#ed642f 70%,#b84220)}
-@media(max-width:760px){.dashboard-mini-shortcuts{display:flex;gap:11px;overflow-x:auto;overflow-y:visible;padding:4px 3px 12px;margin:12px 0 17px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}.mini-shortcut{flex:0 0 142px;min-height:80px;padding:11px;border-radius:17px;scroll-snap-align:start}.mini-shortcut-icon{width:42px;height:42px;flex-basis:42px;border-radius:13px}.mini-shortcut-copy b{font-size:12px}.mini-shortcut-copy small{font-size:9px}}
+@media(max-width:760px){.dashboard-mini-shortcuts{display:flex;gap:11px;overflow-x:auto;overflow-y:visible;padding:4px 3px 12px;margin:12px 0 17px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}.mini-shortcut{flex:0 0 150px;min-height:86px;padding:11px;border-radius:17px;scroll-snap-align:start}.mini-shortcut-icon{width:42px;height:42px;flex-basis:42px;border-radius:13px}.mini-shortcut-copy b{font-size:12px}.mini-shortcut-copy small{font-size:9px}}
+
+
+/* Dashboard compact-card prototype: half-height tiles + secondary menu rail */
+.dashboard-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px!important}
+.dashboard-stats .stat-card{min-height:94px!important;height:auto;padding:11px 12px!important;border-radius:19px!important;display:flex!important;align-items:center!important;gap:11px!important;box-shadow:0 7px 0 rgba(6,45,101,.22),0 12px 17px rgba(9,56,119,.13),inset 0 2px 4px rgba(255,255,255,.42)!important}
+.dashboard-stats .stat-header{display:flex!important;align-items:center!important;gap:9px!important;min-width:0!important;flex:1!important}
+.dashboard-stats .stat-icon{width:43px!important;height:43px!important;flex:0 0 43px!important;border-radius:13px!important;background:rgba(255,255,255,.38)!important;border:1px solid rgba(255,255,255,.5)!important;box-shadow:0 4px 0 rgba(0,30,90,.12),inset 0 2px 4px rgba(255,255,255,.45)!important;color:#fff!important}
+.dashboard-stats .stat-card span{font-size:11px!important;line-height:1.18!important;font-weight:800!important;color:#fff!important;text-shadow:0 1px 3px rgba(0,25,75,.25)!important}
+.dashboard-stats .stat-card b{font-size:21px!important;line-height:1.05!important;color:#fff!important;text-shadow:0 1px 4px rgba(0,24,65,.28)!important;white-space:nowrap!important}
+.dashboard-other-menu{margin:15px 0 19px;padding:14px 13px 13px;border:1px solid #a8d0f4;border-radius:22px;background:linear-gradient(155deg,#e8f5ff,#cfe7ff);box-shadow:0 9px 22px rgba(20,70,130,.1),inset 0 1px 2px rgba(255,255,255,.9)}
+.dashboard-other-head{display:flex;align-items:center;justify-content:space-between;padding:1px 3px 12px}
+.dashboard-other-head h3{margin:0;font-size:15px;font-weight:900;color:#123e70}
+.dashboard-other-head span{font-size:12px;font-weight:800;color:#0752b4;white-space:nowrap}
+.dashboard-mini-shortcuts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0!important;padding:0!important}
+.dashboard-mini-shortcuts .mini-shortcut{display:flex;flex-direction:column;justify-content:center;gap:7px;align-items:center;text-align:center;min-height:100px;padding:10px 7px;border-radius:17px}
+.dashboard-mini-shortcuts .mini-shortcut-icon{width:44px;height:44px;flex-basis:44px;border-radius:13px}
+.dashboard-mini-shortcuts .mini-shortcut-copy b{font-size:12px}
+.dashboard-mini-shortcuts .mini-shortcut-copy small{display:none}
+@media(max-width:760px){
+ .dashboard-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px!important}
+ .dashboard-stats .stat-card{min-height:90px!important;padding:10px!important;border-radius:18px!important;gap:8px!important}
+ .dashboard-stats .stat-icon{width:40px!important;height:40px!important;flex-basis:40px!important;border-radius:12px!important}
+ .dashboard-stats .stat-card span{font-size:10px!important}
+ .dashboard-stats .stat-card b{font-size:20px!important}
+ .dashboard-other-menu{margin:13px 0 16px;padding:12px 11px;border-radius:20px}
+ .dashboard-other-head h3{font-size:14px}
+ .dashboard-mini-shortcuts{display:flex!important;overflow-x:auto;overflow-y:visible;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:9px;padding:2px 2px 9px!important}
+ .dashboard-mini-shortcuts .mini-shortcut{flex:0 0 74px;min-height:96px;scroll-snap-align:start;border-radius:15px;padding:9px 5px}
+ .dashboard-mini-shortcuts .mini-shortcut-icon{width:40px;height:40px;flex-basis:40px}
+ .dashboard-mini-shortcuts .mini-shortcut-copy b{font-size:11px}
+}
+
+
+/* Corrective pass: make the four dashboard statistic cards visibly smaller */
+.dashboard-stats .stat-card{height:82px!important;min-height:82px!important;max-height:82px!important;padding:8px 9px!important;display:grid!important;grid-template-columns:30px minmax(0,1fr)!important;grid-template-rows:1fr auto!important;align-items:center!important;column-gap:7px!important;row-gap:3px!important}
+.dashboard-stats .stat-header{display:contents!important}
+.dashboard-stats .stat-icon{grid-column:1!important;grid-row:1!important;width:30px!important;height:30px!important;min-width:30px!important;max-width:30px!important;flex-basis:30px!important;border-radius:9px!important}
+.dashboard-stats .stat-icon svg{width:17px!important;height:17px!important}
+.dashboard-stats .stat-header span{grid-column:2!important;grid-row:1!important;font-size:9px!important;line-height:1.1!important;max-width:100%!important;overflow-wrap:anywhere!important}
+.dashboard-stats .stat-card>b{grid-column:1 / -1!important;grid-row:2!important;font-size:16px!important;line-height:1!important;margin:0!important}
+@media(max-width:760px){
+ .dashboard-stats .stat-card{height:78px!important;min-height:78px!important;max-height:78px!important;padding:7px 8px!important;grid-template-columns:28px minmax(0,1fr)!important;column-gap:6px!important;row-gap:2px!important}
+ .dashboard-stats .stat-icon{width:28px!important;height:28px!important;min-width:28px!important;max-width:28px!important;flex-basis:28px!important;border-radius:8px!important}
+ .dashboard-stats .stat-icon svg{width:16px!important;height:16px!important}
+ .dashboard-stats .stat-header span{font-size:8.5px!important}
+ .dashboard-stats .stat-card>b{font-size:15px!important}
+}
+
+
+/* Dashboard mini-cards: screenshot correction — compact height, square icon, wrapping text */
+.dashboard-stats .stat-card{height:128px!important;min-height:128px!important;max-height:128px!important;padding:10px 11px!important;display:grid!important;grid-template-columns:38px minmax(0,1fr)!important;grid-template-rows:minmax(34px,1fr) auto!important;align-items:center!important;column-gap:8px!important;row-gap:5px!important;overflow:hidden!important}
+.dashboard-stats .stat-header{display:contents!important}
+.dashboard-stats .stat-icon{grid-column:1!important;grid-row:1!important;width:38px!important;height:38px!important;min-width:38px!important;max-width:38px!important;min-height:38px!important;max-height:38px!important;flex:0 0 38px!important;aspect-ratio:1/1!important;border-radius:12px!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.dashboard-stats .stat-icon svg{width:20px!important;height:20px!important;max-width:20px!important}
+.dashboard-stats .stat-header span{grid-column:2!important;grid-row:1!important;display:block!important;font-size:11px!important;line-height:1.2!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;min-width:0!important}
+.dashboard-stats .stat-card>b{grid-column:1/-1!important;grid-row:2!important;display:block!important;font-size:19px!important;line-height:1.05!important;margin:0!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important}
+@media(max-width:760px){
+ .dashboard-stats .stat-card{height:122px!important;min-height:122px!important;max-height:122px!important;padding:9px!important;grid-template-columns:36px minmax(0,1fr)!important;grid-template-rows:minmax(34px,1fr) auto!important;column-gap:7px!important;row-gap:4px!important}
+ .dashboard-stats .stat-icon{width:36px!important;height:36px!important;min-width:36px!important;max-width:36px!important;min-height:36px!important;max-height:36px!important;flex:0 0 36px!important}
+ .dashboard-stats .stat-icon svg{width:19px!important;height:19px!important}
+ .dashboard-stats .stat-header span{font-size:10px!important}
+ .dashboard-stats .stat-card>b{font-size:18px!important}
+}
+
+
+/* FINAL OVERRIDE: compact the four highlighted dashboard cards by ~50%.
+   Higher-specificity selectors defeat legacy .app-shell card sizing. */
+@media(max-width:760px){
+ .app-shell .dashboard-stats .stat-card,
+ .app-shell .dashboard-stats button.stat-card{height:142px!important;min-height:142px!important;max-height:142px!important;padding:11px!important;box-sizing:border-box!important;display:grid!important;grid-template-columns:38px minmax(0,1fr)!important;grid-template-rows:minmax(38px,1fr) auto!important;gap:7px!important;overflow:hidden!important}
+ .app-shell .dashboard-stats .stat-header{display:contents!important}
+ .app-shell .dashboard-stats .stat-icon{width:38px!important;height:38px!important;min-width:38px!important;max-width:38px!important;min-height:38px!important;max-height:38px!important;flex:0 0 38px!important;border-radius:11px!important;box-sizing:border-box!important}
+ .app-shell .dashboard-stats .stat-icon svg{width:19px!important;height:19px!important}
+ .app-shell .dashboard-stats .stat-header span{grid-column:2!important;grid-row:1!important;font-size:11px!important;line-height:1.18!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere!important;min-width:0!important}
+ .app-shell .dashboard-stats .stat-card>b{grid-column:1/-1!important;grid-row:2!important;font-size:19px!important;line-height:1.05!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;margin:0!important}
+}
+
+
+/* Actual compact card sizing fix: constrain grid tracks and the card itself */
+@media(max-width:760px){
+ .app-shell .stats-grid.dashboard-stats{
+   grid-auto-rows:142px!important;
+   grid-template-rows:repeat(2,142px)!important;
+   align-items:stretch!important;
+ }
+ .app-shell .stats-grid.dashboard-stats>.stat-card,
+ .app-shell .stats-grid.dashboard-stats>button.stat-card{
+   height:142px!important;min-height:0!important;max-height:142px!important;
+   aspect-ratio:auto!important;align-self:stretch!important;
+   box-sizing:border-box!important;overflow:hidden!important;
+   padding:10px!important;
+ }
+ .app-shell .stats-grid.dashboard-stats .stat-icon{
+   width:34px!important;height:34px!important;min-width:34px!important;max-width:34px!important;
+   min-height:34px!important;max-height:34px!important;flex:0 0 34px!important;
+ }
+ .app-shell .stats-grid.dashboard-stats .stat-header span{font-size:10px!important;line-height:1.15!important}
+ .app-shell .stats-grid.dashboard-stats .stat-card>b{font-size:17px!important;line-height:1.05!important}
+}
+
+/* Final dashboard stat-card compact layout matching the user's reference */
+@media(max-width:760px){
+ .app-shell .stats-grid.dashboard-stats{
+   grid-template-columns:repeat(2,minmax(0,1fr))!important;
+   grid-auto-rows:112px!important;
+   grid-template-rows:repeat(2,112px)!important;
+   gap:10px!important;
+   align-items:stretch!important;
+ }
+ .app-shell .stats-grid.dashboard-stats>.stat-card,
+ .app-shell .stats-grid.dashboard-stats>button.stat-card{
+   height:112px!important;min-height:112px!important;max-height:112px!important;
+   padding:10px 11px!important;display:grid!important;
+   grid-template-columns:62px minmax(0,1fr)!important;
+   grid-template-rows:minmax(0,1fr) auto!important;
+   align-items:center!important;column-gap:9px!important;row-gap:4px!important;
+   overflow:hidden!important;border-radius:20px!important;box-sizing:border-box!important;
+ }
+ .app-shell .stats-grid.dashboard-stats .stat-header{display:contents!important}
+ .app-shell .stats-grid.dashboard-stats .stat-icon{
+   grid-column:1!important;grid-row:1/3!important;
+   width:62px!important;height:62px!important;min-width:62px!important;max-width:62px!important;
+   min-height:62px!important;max-height:62px!important;flex:0 0 62px!important;
+   border-radius:16px!important;display:grid!important;place-items:center!important;
+ }
+ .app-shell .stats-grid.dashboard-stats .stat-icon svg{width:30px!important;height:30px!important}
+ .app-shell .stats-grid.dashboard-stats .stat-header span{
+   grid-column:2!important;grid-row:1!important;font-size:12px!important;line-height:1.15!important;
+   white-space:normal!important;overflow-wrap:anywhere!important;min-width:0!important;
+ }
+ .app-shell .stats-grid.dashboard-stats .stat-card>b{
+   grid-column:2!important;grid-row:2!important;font-size:21px!important;line-height:1.05!important;
+   white-space:normal!important;overflow-wrap:anywhere!important;margin:0!important;padding:0!important;
+ }
+}
+
+
+/* Dashboard 4 primary cards: final correction requested — 20% shorter, text centered */
+@media(max-width:760px){
+ .app-shell .stats-grid.dashboard-stats{grid-auto-rows:90px!important;grid-template-rows:repeat(2,90px)!important;align-items:stretch!important}
+ .app-shell .stats-grid.dashboard-stats>.stat-card,.app-shell .stats-grid.dashboard-stats>button.stat-card{height:90px!important;min-height:90px!important;max-height:90px!important;box-sizing:border-box!important;padding:8px!important;display:grid!important;grid-template-columns:38px minmax(0,1fr)!important;grid-template-rows:1fr auto!important;align-items:center!important;justify-items:center!important;column-gap:7px!important;row-gap:3px!important;overflow:hidden!important}
+ .app-shell .stats-grid.dashboard-stats .stat-header{display:contents!important}
+ .app-shell .stats-grid.dashboard-stats .stat-icon{grid-column:1!important;grid-row:1/3!important;width:36px!important;height:36px!important;min-width:36px!important;max-width:36px!important;min-height:36px!important;max-height:36px!important;flex:0 0 36px!important;border-radius:11px!important}
+ .app-shell .stats-grid.dashboard-stats .stat-icon svg{width:19px!important;height:19px!important}
+ .app-shell .stats-grid.dashboard-stats .stat-header span{grid-column:2!important;grid-row:1!important;align-self:center!important;text-align:center!important;font-size:10px!important;line-height:1.15!important;white-space:normal!important;overflow-wrap:anywhere!important;min-width:0!important;margin:0!important}
+ .app-shell .stats-grid.dashboard-stats .stat-card>b{grid-column:2!important;grid-row:2!important;align-self:center!important;text-align:center!important;font-size:16px!important;line-height:1.05!important;white-space:normal!important;overflow-wrap:anywhere!important;margin:0!important;padding:0!important}
+}
+
+/* Menu Lainnya: square compact shortcut tiles, with added Report/Finance/Attendance */
+.dashboard-mini-shortcuts{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:9px!important;padding:4px 3px 10px!important}
+.dashboard-mini-shortcuts .mini-shortcut{flex:0 0 84px!important;width:84px!important;height:84px!important;min-height:84px!important;max-height:84px!important;box-sizing:border-box!important;display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;gap:6px!important;padding:7px 4px!important;border-radius:15px!important;scroll-snap-align:start!important}
+.dashboard-mini-shortcuts .mini-shortcut-icon{width:36px!important;height:36px!important;min-width:36px!important;max-width:36px!important;min-height:36px!important;max-height:36px!important;flex-basis:36px!important;border-radius:11px!important}
+.dashboard-mini-shortcuts .mini-shortcut-icon svg{width:20px!important;height:20px!important}
+.dashboard-mini-shortcuts .mini-shortcut-copy{display:flex!important;align-items:center!important;justify-content:center!important;transform:translateZ(8px)!important}
+.dashboard-mini-shortcuts .mini-shortcut-copy b{font-size:10px!important;line-height:1.1!important;text-align:center!important;white-space:normal!important}
+.dashboard-mini-shortcuts .mini-shortcut-copy small{display:none!important}
+.mini-report{background:linear-gradient(140deg,#8b78ef,#624ac9 72%,#40319d)!important}
+.mini-finance{background:linear-gradient(140deg,#24c1df,#0789c3 72%,#075c91)!important}
+.mini-attendance{background:linear-gradient(140deg,#27b98b,#0a8b6a 72%,#06644f)!important}
+@media(max-width:760px){.dashboard-mini-shortcuts .mini-shortcut{flex:0 0 74px!important;width:74px!important;height:74px!important;min-height:74px!important;max-height:74px!important;padding:6px 3px!important}.dashboard-mini-shortcuts .mini-shortcut-icon{width:32px!important;height:32px!important;min-width:32px!important;max-width:32px!important;min-height:32px!important;max-height:32px!important;flex-basis:32px!important}.dashboard-mini-shortcuts .mini-shortcut-icon svg{width:18px!important;height:18px!important}.dashboard-mini-shortcuts .mini-shortcut-copy b{font-size:10px!important}}
+
+/* 3D illustrated dashboard stat icon artwork */
+.stat-icon.stat-image-icon{width:62px;height:62px;background:transparent!important;border-radius:0;overflow:visible;flex-shrink:0}
+.stat-icon.stat-image-icon img{width:100%;height:100%;display:block;object-fit:contain;filter:none!important}
+
+/* Dashboard shortcuts: prayer times, Hijri calendar, and Quran */
+.dashboard-feature-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:16px 0 20px}
+.dashboard-feature{min-width:0;min-height:108px;padding:13px 10px;border:1px solid #c5dff3;border-radius:16px;text-decoration:none;color:#174c85;background:linear-gradient(145deg,#f9fcff,#e4f4ff);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;box-shadow:0 5px 0 #b6d6ee;transition:transform .15s ease,box-shadow .15s ease;font:inherit;cursor:pointer}
+.dashboard-feature:active{transform:translateY(3px);box-shadow:0 2px 0 #b6d6ee}
+.dashboard-feature .feature-emoji{font-size:26px;line-height:1.1}
+.dashboard-feature b{font-size:12px;line-height:1.3}
+.dashboard-feature small{font-size:9px;line-height:1.3;color:#6b89a6}
+.prayer-feature{background:linear-gradient(145deg,#e5f8f4,#d0eee5);border-color:#c4e6da;box-shadow:0 5px 0 #b3dbce;color:#176b5a}
+.hijri-feature{background:linear-gradient(145deg,#f1eaff,#e5d9ff);border-color:#d9c8f5;box-shadow:0 5px 0 #c8b2ee;color:#5c3f9e}
+.quran-feature{background:linear-gradient(145deg,#fff3e2,#ffe4c4);border-color:#f1d5b5;box-shadow:0 5px 0 #e7c39d;color:#8a5319}
+@media(max-width:520px){.dashboard-feature-links{gap:8px}.dashboard-feature{min-height:98px;padding:10px 6px;border-radius:13px}.dashboard-feature b{font-size:10px}.dashboard-feature small{font-size:8px}}
+
+.rahman-feature{background:linear-gradient(145deg,#fff8dd,#f7e8b5);border-color:#e8d89b;box-shadow:0 5px 0 #d9c57f;color:#80611c}
+
+/* Dashboard primary cards: four compact cards in one row */
+@media(max-width:520px){.app-shell .stats-grid.dashboard-stats{grid-template-columns:repeat(4,minmax(0,1fr))!important;grid-auto-rows:100px!important;grid-template-rows:100px!important;gap:6px!important}.app-shell .stats-grid.dashboard-stats>.stat-card,.app-shell .stats-grid.dashboard-stats>button.stat-card{height:100px!important;min-height:100px!important;max-height:100px!important;padding:6px 4px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;border-radius:14px!important}.app-shell .stats-grid.dashboard-stats .stat-header{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important}.app-shell .stats-grid.dashboard-stats .stat-icon{width:32px!important;height:32px!important;min-width:32px!important;max-width:32px!important;min-height:32px!important;max-height:32px!important;flex:none!important;border-radius:9px!important}.app-shell .stats-grid.dashboard-stats .stat-icon svg{width:18px!important;height:18px!important}.app-shell .stats-grid.dashboard-stats .stat-header span{display:block!important;font-size:9px!important;line-height:1.1!important;text-align:center!important;white-space:normal!important;overflow-wrap:anywhere!important}.app-shell .stats-grid.dashboard-stats .stat-card>b{display:block!important;font-size:15px!important;line-height:1!important;text-align:center!important;padding:0!important;margin:0!important}}
+
+/* Square dashboard cards: compact icons and concise labels */
+@media(max-width:520px){.app-shell .stats-grid.dashboard-stats{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;grid-auto-rows:auto!important;grid-template-rows:none!important}.app-shell .stats-grid.dashboard-stats>.stat-card,.app-shell .stats-grid.dashboard-stats>button.stat-card{aspect-ratio:1/1!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;padding:6px 4px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;border-radius:13px!important}.app-shell .stats-grid.dashboard-stats .stat-header{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;padding:0!important}.app-shell .stats-grid.dashboard-stats .stat-icon.stat-image-icon{width:26px!important;height:26px!important;min-width:26px!important;max-width:26px!important;min-height:26px!important;max-height:26px!important;flex:none!important}.app-shell .stats-grid.dashboard-stats .stat-header span{display:block!important;font-size:9px!important;line-height:1.1!important;text-align:center!important;white-space:normal!important;overflow-wrap:anywhere!important}.app-shell .stats-grid.dashboard-stats .stat-card>b{display:block!important;font-size:14px!important;line-height:1!important;text-align:center!important;padding:0!important;margin:0!important}}
+
+/* Dashboard lower row: clean, legible labels on square tiles */
+@media(max-width:520px){
+.dashboard-feature-links{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:7px!important;align-items:stretch!important}
+.dashboard-feature{aspect-ratio:1/1!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important;padding:6px 3px!important;gap:5px!important;border-radius:13px!important;justify-content:center!important}
+.dashboard-feature .feature-emoji{font-size:21px!important;line-height:1!important}
+.dashboard-feature b{font-size:10px!important;line-height:1.2!important;font-weight:750!important;overflow-wrap:normal!important;word-break:normal!important;hyphens:none!important;text-align:center!important;display:block!important}
+.dashboard-feature small{display:none!important}
+}
+
+
+/* PR #24: unify all eight dashboard cards to the white-card mockup */
+.app-shell .stats-grid.dashboard-stats .dashboard-stat-button,
+.app-shell .dashboard-feature-links .dashboard-feature{
+  background:#fff!important;
+  background-image:none!important;
+  color:#173d69!important;
+  border:1px solid #d9e8f8!important;
+  box-shadow:0 7px 0 #e6f0fb,0 12px 22px rgba(20,65,120,.10)!important;
+  border-radius:20px!important;
+  text-align:center!important;
+  box-sizing:border-box!important;
+}
+.app-shell .stats-grid.dashboard-stats .dashboard-stat-button .stat-header span,
+.app-shell .dashboard-feature-links .dashboard-feature b{
+  color:#173d69!important;
+  text-align:center!important;
+  justify-content:center!important;
+  width:100%!important;
+}
+.app-shell .stats-grid.dashboard-stats .dashboard-stat-button .stat-image-icon{
+  background:transparent!important;
+}
+.app-shell .dashboard-feature-links .dashboard-feature .feature-emoji{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  line-height:1!important;
+}
+.app-shell .dashboard-feature-links .dashboard-feature.prayer-feature,
+.app-shell .dashboard-feature-links .dashboard-feature.hijri-feature,
+.app-shell .dashboard-feature-links .dashboard-feature.quran-feature,
+.app-shell .dashboard-feature-links .dashboard-feature.rahman-feature{
+  background:#fff!important;
+  color:#173d69!important;
+  border-color:#d9e8f8!important;
+  box-shadow:0 7px 0 #e6f0fb,0 12px 22px rgba(20,65,120,.10)!important;
+}
+@media(max-width:520px){
+  .app-shell .stats-grid.dashboard-stats button.dashboard-stat-button{
+    border-radius:16px!important;
+    box-shadow:0 5px 0 #e6f0fb,0 8px 15px rgba(20,65,120,.09)!important;
+  }
+  .app-shell .dashboard-feature-links .dashboard-feature{
+    aspect-ratio:1/1!important;
+    min-height:0!important;
+    height:auto!important;
+    padding:10px 5px!important;
+    border-radius:16px!important;
+    box-shadow:0 5px 0 #e6f0fb,0 8px 15px rgba(20,65,120,.09)!important;
+    gap:8px!important;
+  }
+  .app-shell .dashboard-feature-links .dashboard-feature .feature-emoji{
+    font-size:25px!important;
+  }
+  .app-shell .dashboard-feature-links .dashboard-feature b{
+    font-size:10px!important;
+    line-height:1.2!important;
+    overflow-wrap:anywhere!important;
+  }
+}
+
+
+/* Final dashboard row-one cleanup: match the lower white shortcut cards exactly */
+.app-shell .stats-grid.dashboard-stats .dashboard-stat-button{
+  background:#fff!important;
+  background-image:none!important;
+  border:1px solid #d9e8f8!important;
+  box-shadow:0 5px 0 #e6f0fb,0 8px 15px rgba(20,65,120,.09)!important;
+  transform:none!important;
+  color:#173d69!important;
+  text-shadow:none!important;
+}
+.app-shell .stats-grid.dashboard-stats .dashboard-stat-button:before,
+.app-shell .stats-grid.dashboard-stats .dashboard-stat-button:after{
+  content:none!important;
+  display:none!important;
+}
+.app-shell .stats-grid.dashboard-stats .dashboard-stat-button .stat-image-icon{
+  width:25px!important;height:25px!important;
+  min-width:25px!important;max-width:25px!important;
+  min-height:25px!important;max-height:25px!important;
+  flex:0 0 25px!important;
+  padding:0!important;border:0!important;border-radius:0!important;
+  background:transparent!important;box-shadow:none!important;
+}
+.app-shell .stats-grid.dashboard-stats .dashboard-stat-button .stat-image-icon img{
+  width:25px!important;height:25px!important;object-fit:contain!important;
+  display:block!important;filter:none!important;box-shadow:none!important;
+}
+.app-shell .stats-grid.dashboard-stats .dashboard-stat-button .stat-header{
+  gap:8px!important;padding:0!important;
+}
+.app-shell .stats-grid.dashboard-stats .dashboard-stat-button .stat-header span{
+  color:#173d69!important;font-size:10px!important;line-height:1.2!important;
+  font-weight:750!important;text-align:center!important;
+  width:100%!important;text-shadow:none!important;opacity:1!important;filter:none!important;
+}
+
+/* Caringin Sukabumi prayer times page */
+.app-shell .prayer-page{max-width:540px;margin:20px auto;padding:0 18px 20px;border-radius:22px;background:linear-gradient(160deg,#fff 0%,#eff7ff 100%);border:1px solid #d8e9fa;box-shadow:0 12px 30px #0752b41a;overflow:hidden}
+.app-shell .prayer-page .prayer-modal-head{margin:0 -18px 14px;padding:18px;background:linear-gradient(110deg,#0752b4,#0b9bd1);color:#fff}
+.app-shell .prayer-page .prayer-modal-head h3{margin:7px 0;font-size:22px}
+.app-shell .prayer-page .prayer-modal-head p{margin:0;color:#d7efff;font-size:12px}
+.app-shell .prayer-page .prayer-date{padding:10px 0;text-align:center;font-weight:800;color:#164b83}
+.app-shell .prayer-page .prayer-times{display:grid;gap:8px;padding:10px 0}
+.app-shell .prayer-page .prayer-time-row{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;border-radius:12px;background:#fff;border:1px solid #dceaf7;color:#164b83;font-weight:700}
+.app-shell .prayer-page .prayer-time-row b{font-size:18px;color:#0752b4}
+.app-shell .prayer-page .prayer-source{display:block;padding:12px 0;color:#6b8198;font-size:10px;line-height:1.6}
+@media(max-width:520px){.app-shell .prayer-page{margin:14px 0;padding:0 14px 16px}.app-shell .prayer-page .prayer-modal-head{margin:0 -14px 12px;padding:16px}}
+
+/* In-app monthly calendar */
+.app-shell .calendar-page{max-width:560px;margin:20px auto;padding:18px;border:1px solid #d7e8f8;border-radius:20px;background:linear-gradient(160deg,#fff,#eff7ff);box-shadow:0 12px 30px #0752b41a;color:#164b83}
+.app-shell .calendar-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.app-shell .calendar-head h2{margin:0;font-size:20px;text-transform:capitalize;text-align:center}
+.app-shell .calendar-head button{border:0;border-radius:12px;background:#0b65c0;color:#fff;width:40px;height:40px;font-size:26px;font-weight:800}
+.app-shell .calendar-today{display:block;margin:0 0 14px auto;border:1px solid #168ce7;border-radius:20px;background:#eaf6ff;color:#0752b4;padding:7px 14px;font-weight:800}
+.app-shell .calendar-weekdays,.app-shell .calendar-days{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}
+.app-shell .calendar-weekdays{margin-bottom:7px;color:#4776a4;font-weight:800;font-size:12px}
+.app-shell .calendar-day{position:relative;border:1px solid transparent;border-radius:10px;background:#fff;min-height:40px;color:#174b83;font-weight:700}
+.app-shell .calendar-day.selected{background:#0b65c0;color:#fff;border-color:#0b65c0}
+.app-shell .calendar-day.has-event i{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#16b8d4}
+.app-shell .calendar-day.selected.has-event i{background:#fff}
+.app-shell .calendar-empty{min-height:40px}
+.app-shell .calendar-agenda{margin-top:18px;padding-top:15px;border-top:1px solid #dbeaf8}
+.app-shell .calendar-agenda h3{margin:0 0 10px;font-size:15px;text-transform:capitalize;color:#124b86}
+.app-shell .calendar-event{padding:12px;border-radius:12px;background:#fff;border:1px solid #dbeaf8;margin:8px 0}
+.app-shell .calendar-event p{margin:6px 0;font-size:12px;color:#607e9c}
+.app-shell .calendar-event small{color:#0b65c0;font-weight:700}
+.app-shell .calendar-no-event{font-size:13px;color:#6d86a1;padding:8px 2px}
+@media(max-width:520px){.app-shell .calendar-page{margin:14px 0;padding:14px}.app-shell .calendar-day{min-height:37px}.app-shell .calendar-empty{min-height:37px}}
+
+/* Gregorian-only calendar cells */
+.app-shell .calendar-title-wrap{text-align:center;flex:1;min-width:0}
+.app-shell .calendar-title-wrap h2{margin:0}
+.app-shell .calendar-day{display:flex;align-items:center;justify-content:center;padding:4px 1px;min-height:50px;font-size:16px;font-weight:800}
+@media(max-width:520px){.app-shell .calendar-day{min-height:43px;font-size:14px}}
+
+/* In-app Quran library and reader */
+.app-shell .quran-library-page{max-width:620px;margin:16px auto;padding:16px;border-radius:20px;background:linear-gradient(160deg,#fff,#edf7ff);border:1px solid #d7e8f8;box-shadow:0 12px 28px #0752b41a;color:#164b83}
+.app-shell .quran-library-header{padding:18px 12px;text-align:center;border-radius:16px;background:linear-gradient(110deg,#0752b4,#0b9bd1);color:white;margin-bottom:12px}
+.app-shell .quran-library-header small,.app-shell .quran-library-surah-head small{letter-spacing:1.4px;font-weight:800}
+.app-shell .quran-library-header h2{margin:8px 0;font-size:24px}
+.app-shell .quran-library-header p{margin:0;font-size:12px;color:#d9efff}
+.app-shell .quran-library-search{width:100%;padding:12px 14px;border:1px solid #d5e6f5;border-radius:12px;background:white;color:#164b83;margin:8px 0 12px;box-sizing:border-box}
+.app-shell .quran-library-surah-list{display:grid;gap:8px}
+.app-shell .quran-library-surah-list button{display:flex;align-items:center;gap:12px;text-align:left;border:1px solid #dbeaf8;border-radius:13px;background:white;padding:12px;color:#174b83;width:100%}
+.app-shell .quran-surah-number{display:grid;place-items:center;min-width:34px;height:34px;border-radius:10px;background:#e8f4ff;color:#0863ba;font-weight:800}
+.app-shell .quran-library-surah-list button>span:nth-child(2){display:grid;gap:3px;flex:1}
+.app-shell .quran-library-surah-list small{font-size:11px;color:#7190aa}
+.app-shell .quran-library-surah-list button>strong{font-family:serif;font-size:20px}
+.app-shell .quran-library-empty{padding:18px 12px;text-align:center;background:white;border-radius:14px;color:#174b83}
+.app-shell .quran-library-empty p{font-size:13px;line-height:1.6;color:#6b849d}
+.app-shell .quran-library-import{display:inline-flex;flex-direction:column;gap:8px;margin-top:12px;padding:12px;border-radius:12px;background:#eaf6ff;color:#0752b4;font-weight:800;cursor:pointer}
+.app-shell .quran-library-import input{max-width:100%;font-size:12px}
+.app-shell .quran-library-back{border:0;border-radius:12px;background:#e8f4ff;color:#0752b4;padding:10px 14px;font-weight:800;margin-bottom:12px}
+.app-shell .quran-library-surah-head{text-align:center;padding:14px;border-radius:14px;background:#f4faff;border:1px solid #dbeaf8;margin-bottom:12px}
+.app-shell .quran-library-surah-head h2{margin:8px 0;font-size:22px}
+.app-shell .quran-library-surah-head p{margin:0;color:#5d84a8;font-size:12px}
+.app-shell .quran-library-ayahs{display:grid;gap:10px}
+.app-shell .quran-library-ayah{padding:14px;border-radius:14px;background:white;border:1px solid #dbeaf8}
+.app-shell .quran-ayah-number{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#e9f5ff;color:#0870c4;font-size:12px;font-weight:800}
+.app-shell .quran-library-arabic{font-family:'Noto Naskh Arabic',Amiri,serif;text-align:right;font-size:26px;line-height:1.9;color:#173e68;margin:10px 0}
+.app-shell .quran-library-translation{font-size:14px;line-height:1.7;color:#617f9b;border-top:1px solid #eef4fa;padding-top:10px;margin:0}
+@media(max-width:520px){.app-shell .quran-library-page{margin:12px 0;padding:12px}.app-shell .quran-library-arabic{font-size:23px}}
+
+/* One-click full Quran database import controls */
+.app-shell .quran-library-admin-import{display:grid;gap:7px;padding:12px;border-radius:13px;background:#e8f5ff;border:1px solid #cde5f8;margin:8px 0 12px}
+.app-shell .quran-library-import-button{border:0;border-radius:12px;padding:12px;background:linear-gradient(110deg,#0752b4,#08a7cb);color:#fff;font-weight:800;font-size:14px;width:100%;box-shadow:0 5px 12px #0752b426}
+.app-shell .quran-library-import-button:disabled{opacity:.65}
+.app-shell .quran-library-admin-import small{font-size:11px;line-height:1.5;color:#5d7f9c}
+.app-shell .quran-library-progress{margin:0;font-size:12px;color:#0752b4;font-weight:800}
+
+.app-shell .quran-library-reader-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.app-shell .quran-library-reader-controls .quran-library-back{margin-bottom:0}
+.app-shell .quran-translation-toggle{border:1px solid #c5dff4;border-radius:12px;padding:10px 12px;background:#fff;color:#145ca9;font-weight:800;cursor:pointer}
+.app-shell .quran-translation-toggle.active{background:#e8f4ff;border-color:#74b9ed}
+
+/* Q.S. Ar-Rahman: separate ayah blocks for comfortable mobile reading */
+.quran-ayah-list{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.quran-ayah-row{padding:16px 14px;border:1px solid #d7e7f3;border-radius:18px;background:#fff;box-shadow:0 3px 10px #0a4d8b0b}
+.quran-ayah-arabic{direction:rtl;margin-inline:auto;color:#102f58;white-space:normal;overflow-wrap:normal;text-align:right!important;max-width:100%!important}
+.quran-ayah-number{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin-inline:10px 2px;width:34px;height:34px;border-radius:50%;background:#e7f4fc;border:1px solid #bddcf2;color:#145a96;font-family:system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1;flex-shrink:0}
+.quran-ayah-translation{margin:14px 0 0;padding-top:12px;border-top:1px solid #edf2f6;color:#607b94;font-size:16px;line-height:1.7;text-align:left}
+
+/* Compact shared Quran reading controls for both Quran library and Ar-Rahman */
+.quran-shared-settings{padding:8px 10px!important;margin:8px 0 12px!important;border-radius:12px!important;font-size:11px;display:flex;flex-direction:column;gap:6px}
+.quran-shared-settings>b{font-size:11px;color:#24618f}
+.quran-settings-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-top:1px solid #e5eff7;padding-top:5px}
+.quran-settings-row>span{font-size:10px;font-weight:700;color:#58748d;margin-right:auto;min-width:74px}
+.quran-settings-row button{border:1px solid #c3dcee;background:#fff;color:#155a94;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:700;min-height:27px}
+.quran-settings-row button.selected{background:#166bb0;color:#fff;border-color:#166bb0}
+.quran-settings-row strong{font-size:10px;min-width:28px;text-align:center;color:#305d80}
+.quran-pagination{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin:14px 0;padding:8px;background:#f1f8fe;border:1px solid #d3e7f5;border-radius:12px;font-size:11px;color:#456b8b}
+.quran-pagination button{border:1px solid #bad8ee;background:#fff;color:#175f98;border-radius:8px;padding:7px 9px;font-size:11px;font-weight:700}
+.quran-pagination button:disabled{opacity:.45}
+.quran-library-arabic{line-height:1.9!important}
+.quran-page-mode .quran-library-ayah{margin-bottom:9px}
+
+/* Authentic Mushaf page reader */
+.quran-mushaf-page-reader{margin:10px 0}
+.quran-mushaf-page-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0;padding:7px;border-radius:12px;background:var(--surface-soft,#f3f5f8)}
+.quran-mushaf-page-controls button{min-width:34px;padding:7px 12px;border-radius:9px;border:1px solid var(--border-color,#d9dfe8);background:var(--surface,#fff);font-weight:700}
+.quran-mushaf-page-controls label{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600}
+.quran-mushaf-page-controls input{width:58px;text-align:center;padding:6px;border-radius:8px;border:1px solid var(--border-color,#d9dfe8);background:var(--surface,#fff)}
+.quran-mushaf-page{direction:rtl;min-height:360px;padding:20px 15px;border:2px solid #c8a86a;border-radius:12px;background:#fffdf6;color:#20190e;text-align:justify;text-align-last:center;font-family:"Noto Naskh Arabic","Amiri",serif;font-size:25px;line-height:2.15;box-shadow:inset 0 0 0 4px #f4e8ce}
+.quran-mushaf-word{display:inline;margin:0 2px}
+.quran-mushaf-marker{display:inline-flex;vertical-align:middle;margin:0 4px;font-size:.56em;border:1px solid #c8a86a;border-radius:50%;width:1.7em;height:1.7em;align-items:center;justify-content:center;color:#7a5a24}
+.quran-mushaf-error{color:#b42318;font-size:12px;text-align:center}
+
+.quran-settings-row input[type="range"]{flex:1;min-width:65px;max-width:110px;accent-color:#166bb0;height:18px}
+
+.quran-mushaf-line{display:block;direction:rtl;text-align:justify;text-align-last:justify;min-height:1.75em;line-height:inherit;white-space:normal;word-spacing:normal}.quran-mushaf-line:last-child{text-align:center;text-align-last:center}.quran-mushaf-word{display:inline;white-space:normal;}
+
+/* Materials font size controls - PR24 */
+.materials-font-control{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid #c9dff1;border-radius:12px;background:#f7fbff;color:#14518a;flex:1;min-width:180px;max-width:310px}
+.materials-font-control button{border:0;background:#e2f1ff;color:#0752b4;border-radius:9px;min-width:34px;min-height:34px;font-weight:800;font-size:16px;cursor:pointer}
+.materials-font-control input[type=range]{flex:1;min-width:50px;accent-color:#087bd7}
+.materials-font-control span{font-size:13px;font-weight:800;min-width:38px;text-align:center}
+@media(max-width:560px){.materials-toolbar{flex-wrap:wrap}.materials-font-control{order:3;flex-basis:100%;max-width:none}.materials-toolbar .search{flex-basis:100%}}
+
+/* Arba'in Nawawi: Arabic and translation separated, horizontal swipe navigation */
+.arbain-swipe-wrap{width:100%;touch-action:pan-y;}
+.arbain-swipe-card{width:100%;max-width:100%;box-sizing:border-box;}
+.arbain-swipe-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 12px;padding:0 2px;color:#125a91;font-weight:700;}
+.arbain-swipe-nav button{border:1px solid #b6d7ee;background:#edf7ff;color:#1264a5;border-radius:12px;padding:8px 10px;font-size:13px;font-weight:700;min-height:38px;cursor:pointer;}
+.arbain-swipe-nav button:disabled{opacity:.38;cursor:default;}
+.arbain-swipe-nav span{font-size:13px;white-space:nowrap;}
+.arbain-swipe-card .arbain-arabic{direction:rtl;text-align:right;line-height:1.9;margin:20px 0 12px;padding-bottom:12px;border-bottom:0!important;white-space:normal;}
+.arbain-swipe-card .arbain-translation{direction:ltr;text-align:left;line-height:1.8;margin:14px 0 22px;padding-top:8px;white-space:normal;}
+@media(max-width:480px){.arbain-swipe-nav{gap:5px}.arbain-swipe-nav button{padding:7px 8px;font-size:12px}.arbain-swipe-nav span{font-size:12px}}
+
+/* Pinched-paper page turn animation for swipeable Arba'in */
+.arbain-swipe-wrap{perspective:1600px;touch-action:pan-y;}
+.arbain-swipe-card{transform-style:preserve-3d;backface-visibility:hidden;position:relative;overflow:hidden;}
+.arbain-swipe-card.page-turn-next{transform-origin:right center;animation:arbainPageTurnNext .56s cubic-bezier(.2,.65,.3,1) both;}
+.arbain-swipe-card.page-turn-prev{transform-origin:left center;animation:arbainPageTurnPrev .56s cubic-bezier(.2,.65,.3,1) both;}
+.arbain-swipe-card.page-turn-next::after,.arbain-swipe-card.page-turn-prev::after{content:"";position:absolute;top:0;width:34%;height:100%;pointer-events:none;opacity:0;z-index:3;background:linear-gradient(90deg,transparent,rgba(255,255,255,.48),rgba(18,60,110,.10));}
+.arbain-swipe-card.page-turn-next::after{right:0;transform-origin:right center;animation:arbainPinchCurl .56s ease both;}
+.arbain-swipe-card.page-turn-prev::after{left:0;transform-origin:left center;animation:arbainPinchCurl .56s ease both;transform:scaleX(-1);}
+@keyframes arbainPageTurnNext{0%{transform:rotateY(0) rotateZ(0) translateX(0);filter:none}25%{transform:rotateY(-22deg) rotateZ(-1deg) translateX(-9px);filter:drop-shadow(-10px 5px 9px rgba(18,60,110,.2))}55%{transform:rotateY(-34deg) rotateZ(-1.5deg) translateX(-12px)}78%{transform:rotateY(5deg) rotateZ(.4deg) translateX(3px)}100%{transform:rotateY(0) rotateZ(0) translateX(0);filter:none}}
+@keyframes arbainPageTurnPrev{0%{transform:rotateY(0) rotateZ(0) translateX(0);filter:none}25%{transform:rotateY(22deg) rotateZ(1deg) translateX(9px);filter:drop-shadow(10px 5px 9px rgba(18,60,110,.2))}55%{transform:rotateY(34deg) rotateZ(1.5deg) translateX(12px)}78%{transform:rotateY(-5deg) rotateZ(-.4deg) translateX(-3px)}100%{transform:rotateY(0) rotateZ(0) translateX(0);filter:none}}
+@keyframes arbainPinchCurl{0%{opacity:0;transform:scaleX(.1)}35%{opacity:1;transform:scaleX(1)}70%{opacity:.65;transform:scaleX(.35)}100%{opacity:0;transform:scaleX(.1)}}
+@media(prefers-reduced-motion:reduce){.arbain-swipe-card.page-turn-next,.arbain-swipe-card.page-turn-prev,.arbain-swipe-card.page-turn-next::after,.arbain-swipe-card.page-turn-prev::after{animation:none}}
+
+
+/* PR #24 correction: remove any residual underline/bottom rule from Arba'in Arabic text */
+.arbain-swipe-card .arbain-arabic,
+.arbain-swipe-card p[lang="ar"]{
+  text-decoration:none!important;
+  text-decoration-line:none!important;
+  border-bottom:0!important;
+  box-shadow:none!important;
+}
+
+/* PR #24 correction: simple, smooth horizontal swipe transition; no page-turn/curl */
+.arbain-swipe-wrap{perspective:none!important;}
+.arbain-swipe-card{transform:none!important;transform-style:flat!important;backface-visibility:visible!important;overflow:visible!important;}
+.arbain-swipe-card.page-turn-next{transform-origin:center!important;animation:arbainSlideNext .22s ease-out both!important;}
+.arbain-swipe-card.page-turn-prev{transform-origin:center!important;animation:arbainSlidePrev .22s ease-out both!important;}
+.arbain-swipe-card.page-turn-next::after,.arbain-swipe-card.page-turn-prev::after{content:none!important;display:none!important;animation:none!important;}
+@keyframes arbainSlideNext{from{opacity:.65;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+@keyframes arbainSlidePrev{from{opacity:.65;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
+
+/* Dashboard menu cards: match the compact Menu Lainnya tiles */
+.dashboard-quote{margin:12px 0 16px;padding:12px 15px;border-radius:15px;border:1px solid #55c8ff;background:linear-gradient(135deg,#e7f5ff,#cceaff);color:#164a80;box-shadow:0 5px 0 #b8dcf8,0 8px 16px rgba(20,65,120,.09)}
+.dashboard-quote-mark{display:block;font-size:24px;line-height:.75;font-weight:900;color:#188bd5}
+.dashboard-quote p{font-size:12px!important;line-height:1.45!important;font-weight:700!important;margin:5px 0!important}
+.dashboard-quote small{font-size:9px!important;color:#5d82a8!important;font-weight:700}
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe{overflow-x:auto!important;overflow-y:visible!important;padding:3px 3px 12px!important;margin:12px 0 16px!important;scroll-snap-type:x mandatory!important;-webkit-overflow-scrolling:touch!important}
+ .app-shell .stats-grid.dashboard-stats{display:flex!important;flex-wrap:nowrap!important;overflow:visible!important;grid-template-columns:none!important;gap:11px!important;margin:0!important;width:max-content!important}
+ .app-shell .stats-grid.dashboard-stats>.stat-card,.app-shell .stats-grid.dashboard-stats>button.stat-card{flex:0 0 150px!important;width:150px!important;min-width:150px!important;max-width:150px!important;height:86px!important;min-height:86px!important;max-height:86px!important;aspect-ratio:auto!important;padding:11px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important;border-radius:17px!important;scroll-snap-align:start!important;box-sizing:border-box!important}
+ .app-shell .stats-grid.dashboard-stats .stat-header{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;padding:0!important}
+ .app-shell .stats-grid.dashboard-stats .stat-icon,.app-shell .stats-grid.dashboard-stats .stat-icon.stat-image-icon{width:30px!important;height:30px!important;min-width:30px!important;max-width:30px!important;min-height:30px!important;max-height:30px!important;flex:0 0 30px!important;border-radius:9px!important;padding:0!important}
+ .app-shell .stats-grid.dashboard-stats .stat-icon img{width:25px!important;height:25px!important;object-fit:contain!important}
+ .app-shell .stats-grid.dashboard-stats .stat-header span{display:block!important;font-size:11px!important;line-height:1.15!important;text-align:center!important;font-weight:750!important;white-space:normal!important;overflow:visible!important}
+ .app-shell .stats-grid.dashboard-stats .stat-card>b{display:none!important}
+}
+
+/* PR #24: normalize both dashboard-stat shortcuts and feature shortcut cards.
+   Prevent inherited CSS from making individual main-menu tiles taller. */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links{
+   display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;
+   align-items:stretch!important;gap:10px!important;width:max-content!important;
+   grid-template-columns:none!important;overflow:visible!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats>.stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats>button.stat-card,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links>.dashboard-feature{
+   flex:0 0 104px!important;width:104px!important;min-width:104px!important;max-width:104px!important;
+   height:112px!important;min-height:112px!important;max-height:112px!important;
+   aspect-ratio:auto!important;box-sizing:border-box!important;align-self:stretch!important;
+   padding:8px!important;margin:0!important;border-radius:18px!important;overflow:hidden!important;
+ }
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links>.dashboard-feature{
+   display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important;
+ }
+ .app-shell .dashboard-menu-swipe .dashboard-feature .feature-emoji{font-size:24px!important;line-height:1!important}
+ .app-shell .dashboard-menu-swipe .dashboard-feature b{font-size:11px!important;line-height:1.15!important;text-align:center!important}
+}
+
+/* PR24: force equal vertical alignment of dashboard main menu tiles */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats{
+   align-items:center!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats>.stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats>button.stat-card{
+   align-self:center!important;
+   vertical-align:middle!important;
+   transform:none!important;
+ }
+}
+
+/* Final sizing override: main dashboard stat menu tiles match compact utility tiles */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats{
+   display:flex!important;flex-flow:row nowrap!important;align-items:center!important;justify-content:flex-start!important;
+   gap:10px!important;width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;
+   grid-template-columns:none!important;padding:0 2px 8px!important;box-sizing:border-box!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats button.stat-card{
+   display:flex!important;flex:0 0 132px!important;width:132px!important;min-width:132px!important;max-width:132px!important;
+   height:132px!important;min-height:132px!important;max-height:132px!important;aspect-ratio:1/1!important;
+   align-self:center!important;justify-self:auto!important;margin:0!important;padding:9px!important;box-sizing:border-box!important;
+   transform:none!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-header{
+   display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-icon,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-icon.stat-image-icon{
+   width:32px!important;height:32px!important;min-width:32px!important;max-width:32px!important;min-height:32px!important;max-height:32px!important;flex:0 0 32px!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-header span{
+   display:block!important;font-size:11px!important;line-height:1.2!important;text-align:center!important;white-space:normal!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card>b{display:none!important}
+}
+
+/* Make prayer/calendar/quran feature tiles match Menu Lainnya compact dimensions */
+.app-shell .dashboard-menu-swipe .dashboard-feature-links{
+ display:flex!important;flex-flow:row nowrap!important;gap:9px!important;align-items:center!important;
+ width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;
+ grid-template-columns:none!important;box-sizing:border-box!important;padding:4px 2px 10px!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature{
+ flex:0 0 84px!important;width:84px!important;min-width:84px!important;max-width:84px!important;
+ height:84px!important;min-height:84px!important;max-height:84px!important;aspect-ratio:1/1!important;
+ margin:0!important;padding:7px 4px!important;box-sizing:border-box!important;align-self:center!important;
+ display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;gap:5px!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-feature-links .feature-emoji{font-size:22px!important;line-height:1!important}
+.app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature b{font-size:10px!important;line-height:1.1!important}
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature{
+  flex-basis:74px!important;width:74px!important;min-width:74px!important;max-width:74px!important;
+  height:74px!important;min-height:74px!important;max-height:74px!important;padding:6px 3px!important;border-radius:15px!important;
+ }
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .feature-emoji{font-size:20px!important}
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature b{font-size:10px!important}
+}
+
+/* Override conflicting historic dashboard stat card sizing: match Menu Lainnya tiles */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats{
+   display:flex!important;flex-flow:row nowrap!important;align-items:center!important;gap:11px!important;
+   width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:visible!important;
+   grid-template-columns:none!important;padding:4px 3px 12px!important;box-sizing:border-box!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats button.stat-card{
+   flex:0 0 150px!important;width:150px!important;min-width:150px!important;max-width:150px!important;
+   height:86px!important;min-height:86px!important;max-height:86px!important;aspect-ratio:auto!important;
+   align-self:center!important;margin:0!important;padding:11px!important;box-sizing:border-box!important;transform:none!important;
+   display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:10px!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-header{
+   display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:9px!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-icon,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-icon.stat-image-icon{
+   width:42px!important;height:42px!important;min-width:42px!important;max-width:42px!important;min-height:42px!important;max-height:42px!important;flex:0 0 42px!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-header span{font-size:12px!important;line-height:1.15!important;text-align:left!important}
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card>b{display:none!important}
+}
+
+/* Unified dashboard main menu: one carousel, one row, all tiles same square size */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe{
+   display:flex!important;flex-flow:row nowrap!important;align-items:stretch!important;gap:10px!important;
+   width:100%!important;max-width:100%!important;overflow-x:auto!important;overflow-y:hidden!important;
+   scroll-snap-type:x mandatory!important;-webkit-overflow-scrolling:touch!important;
+   padding:4px 3px 12px!important;margin:12px 0 17px!important;box-sizing:border-box!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links{
+   display:contents!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats button.stat-card,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature{
+   display:flex!important;flex:0 0 84px!important;width:84px!important;min-width:84px!important;max-width:84px!important;
+   height:84px!important;min-height:84px!important;max-height:84px!important;aspect-ratio:1/1!important;
+   align-self:stretch!important;justify-self:auto!important;margin:0!important;padding:7px 4px!important;
+   box-sizing:border-box!important;transform:none!important;border-radius:15px!important;scroll-snap-align:start!important;
+   flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-header{
+   display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;
+   min-width:0!important;flex:none!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-icon,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-icon.stat-image-icon{
+   width:30px!important;height:30px!important;min-width:30px!important;max-width:30px!important;min-height:30px!important;max-height:30px!important;flex:0 0 30px!important;
+ }
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .feature-emoji{font-size:20px!important;line-height:1!important}
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-header span,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature b{
+   display:block!important;font-size:10px!important;line-height:1.15!important;text-align:center!important;white-space:normal!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card>b{display:none!important}
+}
+
+/* Final requested dashboard menu tile dimensions: 87x87 px, unified carousel */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats button.stat-card,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature{
+   flex:0 0 87px!important;width:87px!important;min-width:87px!important;max-width:87px!important;
+   height:87px!important;min-height:87px!important;max-height:87px!important;aspect-ratio:1/1!important;
+ }
+}
+
+/* Latest requested compact main menu: 77x77px square tiles */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats button.stat-card,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature{
+  flex:0 0 77px!important;width:77px!important;min-width:77px!important;max-width:77px!important;
+  height:77px!important;min-height:77px!important;max-height:77px!important;aspect-ratio:1/1!important;
+ }
+}
+
+/* User-requested final tile size: 75x75px */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats button.stat-card,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature{
+  flex:0 0 75px!important;width:75px!important;min-width:75px!important;max-width:75px!important;
+  height:75px!important;min-height:75px!important;max-height:75px!important;aspect-ratio:1/1!important;
+ }
+}
+
+/* Quote card redesign: +30% vertical breathing room, white 3D surface with soft cloud forms (CSS shapes, not icon) */
+.dashboard-quote{
+ position:relative!important;overflow:hidden!important;
+ padding:16px 15px!important;
+ background:linear-gradient(155deg,#ffffff 0%,#f8fcff 55%,#edf7ff 100%)!important;
+ border:1px solid #b9e3f7!important;border-radius:17px!important;
+ box-shadow:0 5px 0 #d2eaf7,0 9px 18px rgba(31,91,145,.13),inset 0 2px 0 rgba(255,255,255,.95)!important;
+}
+.dashboard-quote::before,.dashboard-quote::after{
+ content:"";position:absolute;pointer-events:none;z-index:0;opacity:.72;
+ background:
+ radial-gradient(ellipse at 28% 60%,#ffffff 0 34%,transparent 35%),
+ radial-gradient(ellipse at 47% 42%,#ffffff 0 42%,transparent 43%),
+ radial-gradient(ellipse at 67% 59%,#ffffff 0 36%,transparent 37%),
+ radial-gradient(ellipse at 49% 75%,#ffffff 0 46%,transparent 47%);
+ filter:drop-shadow(0 4px 3px rgba(150,198,230,.25));
+}
+.dashboard-quote::before{width:170px;height:85px;right:-12px;top:-14px}
+.dashboard-quote::after{width:125px;height:62px;left:-20px;bottom:-18px;opacity:.42}
+.dashboard-quote-mark,.dashboard-quote p,.dashboard-quote small{position:relative;z-index:1}
+@media(max-width:760px){.dashboard-quote{padding:16px 15px!important}}
+
+/* Use user's uploaded embossed geometric pattern as the quote-card background */
+.dashboard-quote{
+ background:#fff url('/quote-pattern.svg') center/cover no-repeat!important;
+ border:1px solid #d9e9f3!important;
+ box-shadow:0 5px 0 #d5e7f3,0 9px 18px rgba(25,73,119,.13),inset 0 2px 0 rgba(255,255,255,.9)!important;
+}
+.dashboard-quote::before,.dashboard-quote::after{display:none!important}
+
+/* Fix quote background: tile the uploaded pattern evenly instead of cover-cropping into bands */
+.dashboard-quote{
+ position:relative!important;overflow:hidden!important;
+ background-color:#fff!important;
+ background-image:linear-gradient(rgba(255,255,255,.36),rgba(255,255,255,.36)),url('/quote-pattern.svg')!important;
+ background-size:100% 100%,320px 165px!important;
+ background-position:center center,center center!important;
+ background-repeat:no-repeat,repeat!important;
+ padding:18px 16px!important;
+ border:1px solid #d6e8f3!important;border-radius:18px!important;
+ box-shadow:0 5px 0 #d3e7f5,0 8px 16px rgba(20,65,120,.12),inset 0 2px 0 rgba(255,255,255,.95)!important;
+}
+.dashboard-quote::before,.dashboard-quote::after{display:none!important}
+.dashboard-quote-mark,.dashboard-quote p,.dashboard-quote small{position:relative;z-index:1}
+.dashboard-quote p{margin:7px 0 9px!important;line-height:1.45!important}
+
+/* Quote card background: plain white with 3D depth only (no texture) */
+.dashboard-quote{
+ background:#fff!important;background-image:none!important;background-color:#fff!important;
+ border:1px solid #d9eaf5!important;border-radius:18px!important;
+ box-shadow:0 5px 0 #d5e8f5,0 9px 16px rgba(27,75,122,.12),inset 0 2px 0 #fff!important;
+}
+.dashboard-quote::before,.dashboard-quote::after{display:none!important}
+
+/* Fixed dashboard quote card dimensions to match reference screenshot #2; long API text cannot resize the card */
+.dashboard-quote{
+ box-sizing:border-box!important;
+ height:116px!important;min-height:116px!important;max-height:116px!important;
+ padding:12px 15px!important;margin:12px 0 16px!important;
+ display:flex!important;flex-direction:column!important;
+ justify-content:space-between!important;overflow:hidden!important;
+}
+.dashboard-quote-mark{flex:0 0 auto!important;font-size:22px!important;line-height:1!important;margin:0!important}
+.dashboard-quote p{
+ display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:2!important;
+ overflow:hidden!important;text-overflow:ellipsis!important;
+ flex:0 0 auto!important;max-height:35px!important;
+ margin:0!important;line-height:1.45!important;font-size:12px!important;
+}
+.dashboard-quote small{
+ display:block!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+ flex:0 0 auto!important;max-height:14px!important;line-height:14px!important;margin:0!important;
+}
+@media(max-width:760px){.dashboard-quote{height:116px!important;min-height:116px!important;max-height:116px!important;padding:12px 15px!important}}
+
+/* Quote: fixed-size manual swipe, compact Arabic + translation */
+.dashboard-quote{
+ height:116px!important;min-height:116px!important;max-height:116px!important;box-sizing:border-box!important;
+ padding:10px 14px!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important;gap:2px!important;
+}
+.dashboard-quote-mark{font-size:20px!important;line-height:1!important;margin:0!important}
+.dashboard-quote-arab{font-size:15px!important;line-height:1.35!important;font-weight:700!important;color:#164b7d!important;
+ white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;flex-shrink:0!important}
+.dashboard-quote p{font-size:11px!important;line-height:1.3!important;margin:0!important;display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:2!important;overflow:hidden!important;max-height:29px!important}
+.dashboard-quote small{font-size:9px!important;line-height:12px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;flex-shrink:0!important}
+
+/* Eight main dashboard cards use distinct dominant colors */
+.dashboard-stats .stat-card:nth-child(1){background:linear-gradient(145deg,#48b7ff,#1267c9)!important;color:#fff!important;border-color:#64c7ff!important}
+.dashboard-stats .stat-card:nth-child(2){background:linear-gradient(145deg,#39d6dc,#0786a9)!important;color:#fff!important;border-color:#60e5ed!important}
+.dashboard-stats .stat-card:nth-child(3){background:linear-gradient(145deg,#bd8bff,#7041c9)!important;color:#fff!important;border-color:#d3b2ff!important}
+.dashboard-stats .stat-card:nth-child(4){background:linear-gradient(145deg,#ffbf63,#e66a20)!important;color:#fff!important;border-color:#ffd294!important}
+.dashboard-stats .stat-card{box-shadow:0 5px 0 rgba(20,67,115,.16),0 8px 14px rgba(25,70,125,.12)!important}
+.dashboard-stats .stat-card .stat-icon{background:rgba(255,255,255,.2)!important}
+.dashboard-feature.prayer-feature{background:linear-gradient(145deg,#3fa8ff,#1557b8)!important;color:#fff!important;border-color:#70c8ff!important}
+.dashboard-feature.hijri-feature{background:linear-gradient(145deg,#27d2df,#047eab)!important;color:#fff!important;border-color:#68e7f0!important}
+.dashboard-feature.quran-feature{background:linear-gradient(145deg,#b78cff,#6940c5)!important;color:#fff!important;border-color:#d1b5ff!important}
+.dashboard-feature.rahman-feature{background:linear-gradient(145deg,#40d5a0,#078665)!important;color:#fff!important;border-color:#73e8bc!important}
+.dashboard-feature{box-shadow:0 5px 0 rgba(20,67,115,.15),0 8px 13px rgba(25,70,125,.12)!important}
+.dashboard-feature b{color:inherit!important}
+
+/* Richer multi-stop gradients for all eight dashboard primary cards */
+.dashboard-stats .stat-card:nth-child(1){background:linear-gradient(135deg,#72c9ff 0%,#2788ee 42%,#0752b9 100%)!important}
+.dashboard-stats .stat-card:nth-child(2){background:linear-gradient(135deg,#78f1ed 0%,#20c1d6 42%,#087d9f 100%)!important}
+.dashboard-stats .stat-card:nth-child(3){background:linear-gradient(135deg,#e1b8ff 0%,#9a68ef 42%,#6034bd 100%)!important}
+.dashboard-stats .stat-card:nth-child(4){background:linear-gradient(135deg,#ffd69a 0%,#ff984e 42%,#c84a1c 100%)!important}
+.dashboard-feature.prayer-feature{background:linear-gradient(135deg,#80d3ff 0%,#3f9cff 40%,#1554b8 100%)!important}
+.dashboard-feature.hijri-feature{background:linear-gradient(135deg,#8df8f4 0%,#27d5dc 40%,#0580a5 100%)!important}
+.dashboard-feature.quran-feature{background:linear-gradient(135deg,#e2c3ff 0%,#b080f3 40%,#6a43c6 100%)!important}
+.dashboard-feature.rahman-feature{background:linear-gradient(135deg,#a4f5cb 0%,#43d69c 40%,#087e60 100%)!important}
+.dashboard-stats .stat-card,.dashboard-feature{position:relative;overflow:hidden}
+.dashboard-stats .stat-card:before,.dashboard-feature:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(145deg,rgba(255,255,255,.35),transparent 42%,rgba(0,0,0,.12));border-radius:inherit}
+.dashboard-stats .stat-card,.dashboard-feature{box-shadow:0 5px 0 rgba(18,61,108,.22),0 9px 18px rgba(24,69,126,.16),inset 0 1px 0 rgba(255,255,255,.45)!important}
+
+/* Main 8 dashboard menu cards: strong dominant gradients, matching other-menu cards */
+.dashboard-menu-swipe .dashboard-stats>.stat-card:nth-child(1),
+.dashboard-menu-swipe .dashboard-stats>button.stat-card:nth-child(1){background:linear-gradient(145deg,#55baff 0%,#2184e9 48%,#0755b8 100%)!important;color:#fff!important;border-color:#75ceff!important}
+.dashboard-menu-swipe .dashboard-stats>.stat-card:nth-child(2),
+.dashboard-menu-swipe .dashboard-stats>button.stat-card:nth-child(2){background:linear-gradient(145deg,#55e2e5 0%,#1bb9d1 48%,#087b9e 100%)!important;color:#fff!important;border-color:#78f1f2!important}
+.dashboard-menu-swipe .dashboard-stats>.stat-card:nth-child(3),
+.dashboard-menu-swipe .dashboard-stats>button.stat-card:nth-child(3){background:linear-gradient(145deg,#c9a0ff 0%,#9664e9 48%,#5c35ba 100%)!important;color:#fff!important;border-color:#d9bdff!important}
+.dashboard-menu-swipe .dashboard-stats>.stat-card:nth-child(4),
+.dashboard-menu-swipe .dashboard-stats>button.stat-card:nth-child(4){background:linear-gradient(145deg,#ffca78 0%,#ff914b 48%,#c84d21 100%)!important;color:#fff!important;border-color:#ffd6a0!important}
+.dashboard-menu-swipe .dashboard-stats>.stat-card{box-shadow:0 5px 0 rgba(20,67,115,.24),0 9px 16px rgba(25,70,125,.15),inset 0 1px 0 rgba(255,255,255,.42)!important}
+.dashboard-menu-swipe .dashboard-stats .stat-icon{background:rgba(255,255,255,.2)!important}
+.dashboard-menu-swipe .dashboard-stats .stat-header,.dashboard-menu-swipe .dashboard-stats .stat-header *{color:#fff!important}
+
+/* Fix specificity: main dashboard cards override pale stat-tone rules */
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card.stat-tone-0{background:linear-gradient(145deg,#72c9ff 0%,#2788ee 48%,#0752b9 100%)!important;border-color:#64c7ff!important;box-shadow:0 5px 0 #064a9b,0 9px 17px rgba(5,70,155,.24),inset 0 1px 0 rgba(255,255,255,.5)!important}
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card.stat-tone-1{background:linear-gradient(145deg,#78f1ed 0%,#20c1d6 48%,#087d9f 100%)!important;border-color:#60e5ed!important;box-shadow:0 5px 0 #056e8d,0 9px 17px rgba(4,115,143,.24),inset 0 1px 0 rgba(255,255,255,.5)!important}
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card.stat-tone-2{background:linear-gradient(145deg,#e1b8ff 0%,#9a68ef 48%,#6034bd 100%)!important;border-color:#d3b2ff!important;box-shadow:0 5px 0 #4c2a9a,0 9px 17px rgba(79,43,158,.24),inset 0 1px 0 rgba(255,255,255,.5)!important}
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card.stat-tone-3{background:linear-gradient(145deg,#ffd69a 0%,#ff984e 48%,#c84a1c 100%)!important;border-color:#ffd294!important;box-shadow:0 5px 0 #a93d18,0 9px 17px rgba(180,65,25,.24),inset 0 1px 0 rgba(255,255,255,.5)!important}
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card .stat-header{background:transparent!important}
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card .stat-header .stat-icon{background:rgba(255,255,255,.22)!important;color:#fff!important}
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card .stat-header span,
+.app-shell .dashboard-menu-swipe .dashboard-stats .stat-card>b{color:#fff!important;text-shadow:0 1px 4px rgba(0,25,75,.35)!important}
+
+/* FINAL OVERRIDE: restore distinct gradient palette on the four worship feature cards */
+.app-shell .dashboard-feature-links .dashboard-feature.prayer-feature{
+ background:linear-gradient(145deg,#80d3ff 0%,#3f9cff 48%,#1554b8 100%)!important;background-image:linear-gradient(145deg,#80d3ff 0%,#3f9cff 48%,#1554b8 100%)!important;color:#fff!important;border-color:#70c8ff!important;box-shadow:0 6px 0 #0d4795,0 10px 15px rgba(20,70,140,.25),inset 0 1px 0 rgba(255,255,255,.4)!important;
+}
+.app-shell .dashboard-feature-links .dashboard-feature.hijri-feature{
+ background:linear-gradient(145deg,#8df8f4 0%,#27d5dc 48%,#0580a5 100%)!important;background-image:linear-gradient(145deg,#8df8f4 0%,#27d5dc 48%,#0580a5 100%)!important;color:#fff!important;border-color:#68e7f0!important;box-shadow:0 6px 0 #05677e,0 10px 15px rgba(4,115,143,.25),inset 0 1px 0 rgba(255,255,255,.4)!important;
+}
+.app-shell .dashboard-feature-links .dashboard-feature.quran-feature{
+ background:linear-gradient(145deg,#e2c3ff 0%,#b080f3 48%,#6a43c6 100%)!important;background-image:linear-gradient(145deg,#e2c3ff 0%,#b080f3 48%,#6a43c6 100%)!important;color:#fff!important;border-color:#d1b5ff!important;box-shadow:0 6px 0 #4c2a92,0 10px 15px rgba(79,43,158,.25),inset 0 1px 0 rgba(255,255,255,.4)!important;
+}
+.app-shell .dashboard-feature-links .dashboard-feature.rahman-feature{
+ background:linear-gradient(145deg,#a4f5cb 0%,#43d69c 48%,#087e60 100%)!important;background-image:linear-gradient(145deg,#a4f5cb 0%,#43d69c 48%,#087e60 100%)!important;color:#fff!important;border-color:#73e8bc!important;box-shadow:0 6px 0 #056448,0 10px 15px rgba(4,105,76,.25),inset 0 1px 0 rgba(255,255,255,.4)!important;
+}
+.app-shell .dashboard-feature-links .dashboard-feature.prayer-feature b,
+.app-shell .dashboard-feature-links .dashboard-feature.hijri-feature b,
+.app-shell .dashboard-feature-links .dashboard-feature.quran-feature b,
+.app-shell .dashboard-feature-links .dashboard-feature.rahman-feature b{color:#fff!important}
+
+/* FINAL FIX: clean pure-white quote and exact 75x75 dashboard cards */
+.app-shell .dashboard-quote{
+ background:#fff!important;background-color:#fff!important;background-image:none!important;
+ height:116px!important;min-height:116px!important;max-height:116px!important;
+ box-sizing:border-box!important;
+}
+.app-shell .dashboard-quote::before,.app-shell .dashboard-quote::after{display:none!important;content:none!important;background:none!important}
+.app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card,
+.app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature{
+ flex:0 0 75px!important;width:75px!important;min-width:75px!important;max-width:75px!important;
+ height:75px!important;min-height:75px!important;max-height:75px!important;aspect-ratio:1/1!important;
+ padding:6px!important;box-sizing:border-box!important;overflow:hidden!important;
+}
+
+/* Dashboard main menu: fixed 75x75 px for all 8 tiles; do not alter Menu Lainnya */
+.app-shell .dashboard-menu-swipe .dashboard-stats>button.dashboard-stat-button{
+ flex:0 0 75px!important;width:75px!important;min-width:75px!important;max-width:75px!important;
+ height:75px!important;min-height:75px!important;max-height:75px!important;
+ padding:4px!important;display:flex!important;flex-direction:column!important;
+ align-items:center!important;justify-content:center!important;gap:3px!important;
+ box-sizing:border-box!important;border-radius:14px!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-stats>button.dashboard-stat-button .stat-header{
+ width:100%!important;display:flex!important;flex-direction:column!important;
+ align-items:center!important;justify-content:center!important;gap:4px!important;
+ padding:0!important;margin:0!important;background:transparent!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-stats>button.dashboard-stat-button .stat-icon.stat-image-icon{
+ width:27px!important;height:27px!important;min-width:27px!important;max-width:27px!important;
+ min-height:27px!important;max-height:27px!important;flex:0 0 27px!important;
+ background:transparent!important;border:0!important;padding:0!important;border-radius:0!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-stats>button.dashboard-stat-button .stat-icon.stat-image-icon img{
+ width:100%!important;height:100%!important;object-fit:contain!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-stats>button.dashboard-stat-button .stat-header span{
+ display:block!important;width:100%!important;max-width:100%!important;
+ font-size:9px!important;line-height:1.1!important;font-weight:800!important;
+ text-align:center!important;white-space:normal!important;color:#fff!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-stats>button.dashboard-stat-button>b{display:none!important}
+.app-shell .dashboard-menu-swipe .dashboard-feature-links>.dashboard-feature{
+ flex:0 0 75px!important;width:75px!important;min-width:75px!important;max-width:75px!important;
+ height:75px!important;min-height:75px!important;max-height:75px!important;aspect-ratio:1/1!important;
+ padding:4px!important;box-sizing:border-box!important;border-radius:14px!important;
+ display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-feature-links>.dashboard-feature .feature-emoji{
+ font-size:19px!important;line-height:1!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-feature-links>.dashboard-feature b{
+ color:#fff!important;font-size:9px!important;line-height:1.1!important;
+ font-weight:800!important;text-align:center!important;white-space:normal!important;
+}
+
+/* Attendance sector folder cards — Sky Blue palette */
+.app-shell .sector-folders .sector-folder{
+ --folder-color:#426fe0!important;
+ border:1px solid #8ab8ff!important;
+ border-radius:17px!important;
+ background:linear-gradient(145deg,#e7f3ff 0%,#c6e2ff 45%,#8ab8ff 100%)!important;
+ box-shadow:0 5px 0 #6c9fe8,0 8px 14px rgba(66,111,224,.16),inset 0 1px 0 rgba(255,255,255,.85)!important;
+ overflow:hidden!important;
+}
+.app-shell .sector-folders .sector-folder-head{
+ background:linear-gradient(145deg,#e7f3ff 0%,#c6e2ff 45%,#8ab8ff 100%)!important;
+}
+.app-shell .sector-folders .folder-icon{
+ background:linear-gradient(145deg,#c6e2ff,#8ab8ff)!important;
+ border:1px solid #76a8f5!important;
+ box-shadow:0 3px 0 #5f91da,inset 0 1px 0 rgba(255,255,255,.75)!important;
+ color:#235bb8!important;
+}
+.app-shell .sector-folders .sector-folder-info b,
+.app-shell .sector-folders .sector-folder-info small{
+ color:#174d96!important;
+}
+.app-shell .sector-folders .sector-percent{
+ background:linear-gradient(145deg,#6fa7ff,#426fe0)!important;
+ box-shadow:0 3px 0 #2d58b7,inset 0 1px 0 rgba(255,255,255,.4)!important;
+ color:#fff!important;
+}
+.app-shell .sector-folders .sector-chevron{color:#3267c8!important}
+.app-shell .sector-folders .sector-members{background:#eaf5ff!important}
