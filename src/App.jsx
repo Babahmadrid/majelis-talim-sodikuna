@@ -5,7 +5,7 @@ import FaceAttendance from './FaceAttendance.jsx';
 import {createClient} from '@supabase/supabase-js';
 import QRCode from 'qrcode';
 import {Html5Qrcode} from 'html5-qrcode';
-import {LayoutDashboard,CalendarDays,Users,ClipboardCheck,Wallet, Megaphone,Images,ChartNoAxesCombined,Settings,LogOut,Menu,Plus,Search,Download,Upload, Bell,BookOpen,ArrowUpRight,ArrowDownRight,CheckCircle2,Clock3,MapPin,UserRound,FileSpreadsheet,QrCode,ShieldCheck,X,RefreshCw,Pencil,Trash2,FolderOpen,ChevronDown,Sparkles,Sunrise,Sunset} from 'lucide-react';
+import {LayoutDashboard,CalendarDays,Users,ClipboardCheck,Wallet, Megaphone,Images,ChartNoAxesCombined,Settings,LogOut,Menu,Plus,Search,Download,Upload, Bell,BookOpen,ArrowUpRight,ArrowDownRight,CheckCircle2,Clock3,MapPin,UserRound,FileSpreadsheet,QrCode,ShieldCheck,X,RefreshCw,Pencil,Trash2,FolderOpen,ChevronDown,Sparkles,Sunrise,Sunset,CircleDot} from 'lucide-react';
 
 const supabaseUrl=import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey=import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY||import.meta.env.VITE_SUPABASE_ANON_KEY;
