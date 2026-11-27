@@ -7,39 +7,64 @@ export const handler = async (event) => {
   }
 
   const [start, end] = range.split('-').map(Number);
-  const perPage = Math.min(Math.max(end - start + 1, 1), 50);
-  const page = Math.max(Math.floor((start - 1) / perPage) + 1, 1);
-  const bookSlug = book === 'tirmidzi' ? 'tirmidzi' : book;
+  if (start < 1 || end < start || end - start > 49) {
+    return { statusCode: 400, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: 'Rentang maksimal 50 hadits dan harus dimulai dari nomor valid.' }) };
+  }
+
   const headers = {
     'Content-Type': 'application/json',
     'Cache-Control': 'public, max-age=3600'
   };
+  const sources = [
+    {
+      name: 'House Muslim',
+      url: `https://api.housemuslim.org/api/v1/hadith/books/${book}/items?page=1&per_page=${end}`,
+      parse: json => json?.success && Array.isArray(json.data) ? json.data : null
+    },
+    {
+      name: 'API Hadis',
+      url: `https://api-hadis.vercel.app/books/${book}?range=${start}-${end}`,
+      parse: json => Array.isArray(json?.data?.hadiths) ? json.data.hadiths : Array.isArray(json?.data) ? json.data : null
+    },
+    {
+      name: 'Gading Hadith API',
+      url: `https://api.hadith.gading.dev/books/${book}?range=${start}-${end}`,
+      parse: json => Array.isArray(json?.data?.hadiths) ? json.data.hadiths : Array.isArray(json?.data) ? json.data : null
+    }
+  ];
 
-  try {
-    const url = `https://api.housemuslim.org/api/v1/hadith/books/${bookSlug}/items?page=${page}&per_page=${perPage}`;
-    const response = await fetch(url, { signal: AbortSignal.timeout(12000) });
-    if (!response.ok) throw new Error(`Sumber House Muslim merespons ${response.status}`);
-    const json = await response.json();
-    if (!json?.success || !Array.isArray(json?.data)) throw new Error('Format data House Muslim tidak dikenali');
+  const normalize = rows => rows
+    .filter(h => Number(h.number ?? h.hadithNumber ?? h.no) >= start && Number(h.number ?? h.hadithNumber ?? h.no) <= end)
+    .map(h => ({
+      number: Number(h.number ?? h.hadithNumber ?? h.no),
+      arab: h.arab || h.arabic || h.arabText || '',
+      id: h.translation_id || h.id || h.translation || h.terjemah || h.indonesia || ''
+    }))
+    .filter(h => h.number && (h.arab || h.id));
 
-    const hadiths = json.data
-      .filter(h => Number(h.number) >= start && Number(h.number) <= end)
-      .map(h => ({
-        number: h.number,
-        arab: h.arab || '',
-        id: h.translation_id || ''
-      }));
-    if (!hadiths.length) throw new Error('Tidak ada hadits pada rentang yang diminta');
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({ data: { hadiths }, source: 'House Muslim API' })
-    };
-  } catch (error) {
-    return {
-      statusCode: 502,
-      headers,
-      body: JSON.stringify({ error: error?.message || 'API Hadits gagal diakses.' })
-    };
+  const errors = [];
+  for (const source of sources) {
+    try {
+      const response = await fetch(source.url, { signal: AbortSignal.timeout(9000) });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const json = await response.json();
+      const rows = source.parse(json);
+      if (!rows) throw new Error('Format respons tidak dikenali');
+      const hadiths = normalize(rows);
+      if (!hadiths.length) throw new Error('Data kosong atau format teks tidak cocok');
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ data: { hadiths }, source: source.name, fallbackUsed: source.name !== 'House Muslim' })
+      };
+    } catch (error) {
+      errors.push(`${source.name}: ${error?.message || 'gagal'}`);
+    }
   }
+
+  return {
+    statusCode: 502,
+    headers,
+    body: JSON.stringify({ error: 'Semua sumber API hadits gagal.', details: errors })
+  };
 };
