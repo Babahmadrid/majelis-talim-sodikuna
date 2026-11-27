@@ -2646,3 +2646,33 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  color:#fff!important;font-size:9px!important;line-height:1.1!important;
  font-weight:800!important;text-align:center!important;white-space:normal!important;
 }
+
+/* Attendance sector folder cards — Sky Blue palette */
+.app-shell .sector-folders .sector-folder{
+ --folder-color:#426fe0!important;
+ border:1px solid #8ab8ff!important;
+ border-radius:17px!important;
+ background:linear-gradient(145deg,#e7f3ff 0%,#c6e2ff 45%,#8ab8ff 100%)!important;
+ box-shadow:0 5px 0 #6c9fe8,0 8px 14px rgba(66,111,224,.16),inset 0 1px 0 rgba(255,255,255,.85)!important;
+ overflow:hidden!important;
+}
+.app-shell .sector-folders .sector-folder-head{
+ background:linear-gradient(145deg,#e7f3ff 0%,#c6e2ff 45%,#8ab8ff 100%)!important;
+}
+.app-shell .sector-folders .folder-icon{
+ background:linear-gradient(145deg,#c6e2ff,#8ab8ff)!important;
+ border:1px solid #76a8f5!important;
+ box-shadow:0 3px 0 #5f91da,inset 0 1px 0 rgba(255,255,255,.75)!important;
+ color:#235bb8!important;
+}
+.app-shell .sector-folders .sector-folder-info b,
+.app-shell .sector-folders .sector-folder-info small{
+ color:#174d96!important;
+}
+.app-shell .sector-folders .sector-percent{
+ background:linear-gradient(145deg,#6fa7ff,#426fe0)!important;
+ box-shadow:0 3px 0 #2d58b7,inset 0 1px 0 rgba(255,255,255,.4)!important;
+ color:#fff!important;
+}
+.app-shell .sector-folders .sector-chevron{color:#3267c8!important}
+.app-shell .sector-folders .sector-members{background:#eaf5ff!important}
