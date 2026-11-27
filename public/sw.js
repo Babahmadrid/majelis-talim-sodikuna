@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sodikuna-pwa-v3';
+const CACHE_NAME = 'sodikuna-pwa-v4';
 const APP_SHELL = ['/', '/manifest.webmanifest', '/icons/sodikuna-app.svg', '/logo-sodikuna.png'];
 
 self.addEventListener('install', (event) => {
