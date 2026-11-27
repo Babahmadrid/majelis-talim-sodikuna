@@ -2258,3 +2258,27 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  .app-shell .stats-grid.dashboard-stats .stat-header span{display:block!important;font-size:11px!important;line-height:1.15!important;text-align:center!important;font-weight:750!important;white-space:normal!important;overflow:visible!important}
  .app-shell .stats-grid.dashboard-stats .stat-card>b{display:none!important}
 }
+
+/* PR #24: normalize both dashboard-stat shortcuts and feature shortcut cards.
+   Prevent inherited CSS from making individual main-menu tiles taller. */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links{
+   display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;
+   align-items:stretch!important;gap:10px!important;width:max-content!important;
+   grid-template-columns:none!important;overflow:visible!important;
+ }
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats>.stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats>button.stat-card,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links>.dashboard-feature{
+   flex:0 0 104px!important;width:104px!important;min-width:104px!important;max-width:104px!important;
+   height:112px!important;min-height:112px!important;max-height:112px!important;
+   aspect-ratio:auto!important;box-sizing:border-box!important;align-self:stretch!important;
+   padding:8px!important;margin:0!important;border-radius:18px!important;overflow:hidden!important;
+ }
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links>.dashboard-feature{
+   display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important;
+ }
+ .app-shell .dashboard-menu-swipe .dashboard-feature .feature-emoji{font-size:24px!important;line-height:1!important}
+ .app-shell .dashboard-menu-swipe .dashboard-feature b{font-size:11px!important;line-height:1.15!important;text-align:center!important}
+}
