@@ -34,7 +34,7 @@ Deno.serve(async req=>{
    const token=req.headers.get("x-jamaah-token")||"";
    const {data:s}=await admin.from("jamaah_pin_sessions").select("expires_at").eq("token_hash",await sha(token)).maybeSingle();
    if(!s||new Date(s.expires_at).getTime()<Date.now())return json({error:"Sesi jamaah berakhir"},401);
-   const [j,a,at,n,t,w,d]=await Promise.all([
+   const [j,a,at,n,t,w,d,q]=await Promise.all([
     admin.from("jamaah").select("id,member_no,name,sector,status").eq("status","aktif").order("sector").order("member_no"),
     admin.from("agenda").select("id,title,event_date,event_time,location,speaker,description,status").order("event_date"),
     admin.from("attendance").select("id,status,agenda_id,jamaah_id,created_at").order("created_at",{ascending:false}),
@@ -42,7 +42,7 @@ Deno.serve(async req=>{
     admin.from("app_settings").select("value").eq("id","dashboard_theme").maybeSingle(),
     admin.from("app_settings").select("value").eq("id","dashboard_welcome_slides").maybeSingle(),
     admin.from("app_settings").select("value").eq("id","devotional_library").maybeSingle(),
-    q=await admin.from("app_settings").select("value").eq("id","quran_library").maybeSingle()
+    admin.from("app_settings").select("value").eq("id","quran_library").maybeSingle()
    ]);
    for(const r of [j,a,at,n,t,w,d,q])if(r.error)throw r.error;
    return json({jamaah:j.data||[],agenda:a.data||[],attendance:at.data||[],announcements:n.data||[],devotionalItems:(()=>{try{const raw=typeof d.data?.value==="string"?JSON.parse(d.data.value):d.data?.value;if(!Array.isArray(raw))return [];return raw.map((x:any)=>{const cat=String(x.category||"").toLowerCase();const title=String(x.title||"");let category;if(["pagi","adzkar-shobah","dzikir-pagi","wirdul-latif"].includes(cat)||/dzikir pagi|adzkar shobah|wirdul latif|wirid latif/i.test(title))category="dzikir-harian";else if(["doa","doa-harian"].includes(cat))category="doa-harian";else if(["dzikir","dzikir-harian"].includes(cat)||!cat)category="dzikir-harian";else category=cat;return {...x,category}})}catch{return []}})(),quranSurahs:(()=>{try{const raw=typeof q.data?.value==="string"?JSON.parse(q.data.value):q.data?.value;return Array.isArray(raw)?raw:[]}catch{return []}})(),theme:t.data?.value||"ocean",welcomeSlides:(()=>{try{const v=typeof w.data?.value==="string"?JSON.parse(w.data.value):w.data?.value;return Array.isArray(v)?v:[]}catch{return []}})()});
