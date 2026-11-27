@@ -5,12 +5,24 @@ export const handler = async (event) => {
   if (!allowedBooks.has(book) || !/^\\d+-\\d+$/.test(range)) {
     return { statusCode: 400, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: 'Parameter kitab atau rentang tidak valid.' }) };
   }
-  try {
-    const upstream = await fetch(`https://api.hadith.gading.dev/books/${book}?range=${range}`);
-    if (!upstream.ok) return { statusCode: 502, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: `API Hadits sumber merespons ${upstream.status}` }) };
-    const data = await upstream.json();
-    return { statusCode: 200, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=300' }, body: JSON.stringify(data) };
-  } catch (err) {
-    return { statusCode: 502, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: 'Koneksi ke API Hadits sumber gagal.' }) };
+
+  const headers = { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=300' };
+  const urls = [
+    `https://api.hadith.gading.dev/books/${book}?range=${range}`,
+    `https://api-hadis.vercel.app/books/${book}?range=${range}`
+  ];
+
+  for (const url of urls) {
+    try {
+      const upstream = await fetch(url, { signal: AbortSignal.timeout(10000) });
+      if (!upstream.ok) continue;
+      const data = await upstream.json();
+      if (Array.isArray(data?.data?.hadiths)) {
+        return { statusCode: 200, headers, body: JSON.stringify(data) };
+      }
+    } catch (err) {
+      // Try the alternate public API if the first provider is unavailable.
+    }
   }
+  return { statusCode: 502, headers, body: JSON.stringify({ error: 'Semua sumber API Hadits sedang tidak dapat diakses.' }) };
 };
