@@ -2537,3 +2537,16 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .dashboard-feature.rahman-feature{background:linear-gradient(145deg,#40d5a0,#078665)!important;color:#fff!important;border-color:#73e8bc!important}
 .dashboard-feature{box-shadow:0 5px 0 rgba(20,67,115,.15),0 8px 13px rgba(25,70,125,.12)!important}
 .dashboard-feature b{color:inherit!important}
+
+/* Richer multi-stop gradients for all eight dashboard primary cards */
+.dashboard-stats .stat-card:nth-child(1){background:linear-gradient(135deg,#72c9ff 0%,#2788ee 42%,#0752b9 100%)!important}
+.dashboard-stats .stat-card:nth-child(2){background:linear-gradient(135deg,#78f1ed 0%,#20c1d6 42%,#087d9f 100%)!important}
+.dashboard-stats .stat-card:nth-child(3){background:linear-gradient(135deg,#e1b8ff 0%,#9a68ef 42%,#6034bd 100%)!important}
+.dashboard-stats .stat-card:nth-child(4){background:linear-gradient(135deg,#ffd69a 0%,#ff984e 42%,#c84a1c 100%)!important}
+.dashboard-feature.prayer-feature{background:linear-gradient(135deg,#80d3ff 0%,#3f9cff 40%,#1554b8 100%)!important}
+.dashboard-feature.hijri-feature{background:linear-gradient(135deg,#8df8f4 0%,#27d5dc 40%,#0580a5 100%)!important}
+.dashboard-feature.quran-feature{background:linear-gradient(135deg,#e2c3ff 0%,#b080f3 40%,#6a43c6 100%)!important}
+.dashboard-feature.rahman-feature{background:linear-gradient(135deg,#a4f5cb 0%,#43d69c 40%,#087e60 100%)!important}
+.dashboard-stats .stat-card,.dashboard-feature{position:relative;overflow:hidden}
+.dashboard-stats .stat-card:before,.dashboard-feature:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(145deg,rgba(255,255,255,.35),transparent 42%,rgba(0,0,0,.12));border-radius:inherit}
+.dashboard-stats .stat-card,.dashboard-feature{box-shadow:0 5px 0 rgba(18,61,108,.22),0 9px 18px rgba(24,69,126,.16),inset 0 1px 0 rgba(255,255,255,.45)!important}
