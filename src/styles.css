@@ -2605,3 +2605,44 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  height:75px!important;min-height:75px!important;max-height:75px!important;aspect-ratio:1/1!important;
  padding:6px!important;box-sizing:border-box!important;overflow:hidden!important;
 }
+
+/* Dashboard main menu: fixed 75x75 px for all 8 tiles; do not alter Menu Lainnya */
+.app-shell .dashboard-menu-swipe .dashboard-stats>button.dashboard-stat-button{
+ flex:0 0 75px!important;width:75px!important;min-width:75px!important;max-width:75px!important;
+ height:75px!important;min-height:75px!important;max-height:75px!important;
+ padding:4px!important;display:flex!important;flex-direction:column!important;
+ align-items:center!important;justify-content:center!important;gap:3px!important;
+ box-sizing:border-box!important;border-radius:14px!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-stats>button.dashboard-stat-button .stat-header{
+ width:100%!important;display:flex!important;flex-direction:column!important;
+ align-items:center!important;justify-content:center!important;gap:4px!important;
+ padding:0!important;margin:0!important;background:transparent!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-stats>button.dashboard-stat-button .stat-icon.stat-image-icon{
+ width:27px!important;height:27px!important;min-width:27px!important;max-width:27px!important;
+ min-height:27px!important;max-height:27px!important;flex:0 0 27px!important;
+ background:transparent!important;border:0!important;padding:0!important;border-radius:0!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-stats>button.dashboard-stat-button .stat-icon.stat-image-icon img{
+ width:100%!important;height:100%!important;object-fit:contain!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-stats>button.dashboard-stat-button .stat-header span{
+ display:block!important;width:100%!important;max-width:100%!important;
+ font-size:9px!important;line-height:1.1!important;font-weight:800!important;
+ text-align:center!important;white-space:normal!important;color:#fff!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-stats>button.dashboard-stat-button>b{display:none!important}
+.app-shell .dashboard-menu-swipe .dashboard-feature-links>.dashboard-feature{
+ flex:0 0 75px!important;width:75px!important;min-width:75px!important;max-width:75px!important;
+ height:75px!important;min-height:75px!important;max-height:75px!important;aspect-ratio:1/1!important;
+ padding:4px!important;box-sizing:border-box!important;border-radius:14px!important;
+ display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-feature-links>.dashboard-feature .feature-emoji{
+ font-size:19px!important;line-height:1!important;
+}
+.app-shell .dashboard-menu-swipe .dashboard-feature-links>.dashboard-feature b{
+ color:#fff!important;font-size:9px!important;line-height:1.1!important;
+ font-weight:800!important;text-align:center!important;white-space:normal!important;
+}
