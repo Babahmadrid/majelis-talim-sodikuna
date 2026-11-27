@@ -2242,3 +2242,19 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .arbain-swipe-card.page-turn-next::after,.arbain-swipe-card.page-turn-prev::after{content:none!important;display:none!important;animation:none!important;}
 @keyframes arbainSlideNext{from{opacity:.65;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
 @keyframes arbainSlidePrev{from{opacity:.65;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
+
+/* Dashboard menu cards: match the compact Menu Lainnya tiles */
+.dashboard-quote{margin:12px 0 16px;padding:12px 15px;border-radius:15px;border:1px solid #55c8ff;background:linear-gradient(135deg,#e7f5ff,#cceaff);color:#164a80;box-shadow:0 5px 0 #b8dcf8,0 8px 16px rgba(20,65,120,.09)}
+.dashboard-quote-mark{display:block;font-size:24px;line-height:.75;font-weight:900;color:#188bd5}
+.dashboard-quote p{font-size:12px!important;line-height:1.45!important;font-weight:700!important;margin:5px 0!important}
+.dashboard-quote small{font-size:9px!important;color:#5d82a8!important;font-weight:700}
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe{overflow-x:auto!important;overflow-y:visible!important;padding:3px 3px 12px!important;margin:12px 0 16px!important;scroll-snap-type:x mandatory!important;-webkit-overflow-scrolling:touch!important}
+ .app-shell .stats-grid.dashboard-stats{display:flex!important;flex-wrap:nowrap!important;overflow:visible!important;grid-template-columns:none!important;gap:11px!important;margin:0!important;width:max-content!important}
+ .app-shell .stats-grid.dashboard-stats>.stat-card,.app-shell .stats-grid.dashboard-stats>button.stat-card{flex:0 0 150px!important;width:150px!important;min-width:150px!important;max-width:150px!important;height:86px!important;min-height:86px!important;max-height:86px!important;aspect-ratio:auto!important;padding:11px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:6px!important;border-radius:17px!important;scroll-snap-align:start!important;box-sizing:border-box!important}
+ .app-shell .stats-grid.dashboard-stats .stat-header{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:5px!important;padding:0!important}
+ .app-shell .stats-grid.dashboard-stats .stat-icon,.app-shell .stats-grid.dashboard-stats .stat-icon.stat-image-icon{width:30px!important;height:30px!important;min-width:30px!important;max-width:30px!important;min-height:30px!important;max-height:30px!important;flex:0 0 30px!important;border-radius:9px!important;padding:0!important}
+ .app-shell .stats-grid.dashboard-stats .stat-icon img{width:25px!important;height:25px!important;object-fit:contain!important}
+ .app-shell .stats-grid.dashboard-stats .stat-header span{display:block!important;font-size:11px!important;line-height:1.15!important;text-align:center!important;font-weight:750!important;white-space:normal!important;overflow:visible!important}
+ .app-shell .stats-grid.dashboard-stats .stat-card>b{display:none!important}
+}
