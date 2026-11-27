@@ -2407,3 +2407,13 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  }
  .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card>b{display:none!important}
 }
+
+/* Final requested dashboard menu tile dimensions: 87x87 px, unified carousel */
+@media(max-width:760px){
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats .stat-card,
+ .app-shell .dashboard-menu-swipe .stats-grid.dashboard-stats button.stat-card,
+ .app-shell .dashboard-menu-swipe .dashboard-feature-links .dashboard-feature{
+   flex:0 0 87px!important;width:87px!important;min-width:87px!important;max-width:87px!important;
+   height:87px!important;min-height:87px!important;max-height:87px!important;aspect-ratio:1/1!important;
+ }
+}
