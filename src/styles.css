@@ -2491,3 +2491,24 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
  box-shadow:0 5px 0 #d5e8f5,0 9px 16px rgba(27,75,122,.12),inset 0 2px 0 #fff!important;
 }
 .dashboard-quote::before,.dashboard-quote::after{display:none!important}
+
+/* Fixed dashboard quote card dimensions to match reference screenshot #2; long API text cannot resize the card */
+.dashboard-quote{
+ box-sizing:border-box!important;
+ height:116px!important;min-height:116px!important;max-height:116px!important;
+ padding:12px 15px!important;margin:12px 0 16px!important;
+ display:flex!important;flex-direction:column!important;
+ justify-content:space-between!important;overflow:hidden!important;
+}
+.dashboard-quote-mark{flex:0 0 auto!important;font-size:22px!important;line-height:1!important;margin:0!important}
+.dashboard-quote p{
+ display:-webkit-box!important;-webkit-box-orient:vertical!important;-webkit-line-clamp:2!important;
+ overflow:hidden!important;text-overflow:ellipsis!important;
+ flex:0 0 auto!important;max-height:35px!important;
+ margin:0!important;line-height:1.45!important;font-size:12px!important;
+}
+.dashboard-quote small{
+ display:block!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important;
+ flex:0 0 auto!important;max-height:14px!important;line-height:14px!important;margin:0!important;
+}
+@media(max-width:760px){.dashboard-quote{height:116px!important;min-height:116px!important;max-height:116px!important;padding:12px 15px!important}}
