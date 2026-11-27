@@ -2,7 +2,7 @@ export const handler = async (event) => {
   const book = String(event.queryStringParameters?.book || '').toLowerCase();
   const range = String(event.queryStringParameters?.range || '1-20');
   const allowedBooks = new Set(['bukhari', 'muslim', 'tirmidzi']);
-  if (!allowedBooks.has(book) || !/^\\d+-\\d+$/.test(range)) {
+  if (!allowedBooks.has(book) || !/^\d+-\d+$/.test(range)) {
     return { statusCode: 400, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: 'Parameter kitab atau rentang tidak valid.' }) };
   }
 
