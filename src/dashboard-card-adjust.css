@@ -131,3 +131,13 @@
 .dashboard-menu-swipe .stat-card .stat-header{display:block!important;text-align:center!important}.dashboard-menu-swipe .stat-card .stat-header span{font-size:14px!important;line-height:1.15!important;text-align:center!important}.dashboard-menu-swipe .stat-card>b{display:none!important}
 .dashboard-menu-swipe .dashboard-feature .feature-emoji{font-size:36px!important}
 @media(max-width:760px){.dashboard-menu-swipe .stat-card,.dashboard-menu-swipe .dashboard-feature{flex-basis:150px!important;width:150px!important;min-width:150px!important;height:150px!important;max-height:150px!important}}
+
+/* Dashboard menu cards match the compact Menu Lainnya cards */
+.dashboard-menu-swipe{align-items:stretch!important;gap:12px!important}
+.dashboard-menu-swipe .stat-card,.dashboard-menu-swipe .dashboard-feature{flex:0 0 132px!important;width:132px!important;min-width:132px!important;max-width:132px!important;height:138px!important;min-height:138px!important;max-height:138px!important;overflow:hidden!important}
+.dashboard-menu-swipe .stat-card{padding:9px!important;gap:7px!important;border-radius:20px!important}
+.dashboard-menu-swipe .dashboard-feature{padding:9px!important;gap:8px!important;border-radius:20px!important}
+.dashboard-menu-swipe .stat-card .stat-icon{width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important}
+.dashboard-menu-swipe .stat-card .stat-header span,.dashboard-menu-swipe .dashboard-feature b{font-size:13px!important;line-height:1.15!important;text-align:center!important;white-space:normal!important}
+.dashboard-menu-swipe .dashboard-feature .feature-emoji{font-size:32px!important}
+@media(max-width:760px){.dashboard-menu-swipe .stat-card,.dashboard-menu-swipe .dashboard-feature{flex-basis:132px!important;width:132px!important;min-width:132px!important;height:138px!important;max-height:138px!important}}
