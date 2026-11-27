@@ -2192,3 +2192,10 @@ body{background:linear-gradient(180deg,#eaf7ff 0%,#d9efff 55%,#eef8ff 100%)!impo
 .quran-settings-row input[type="range"]{flex:1;min-width:65px;max-width:110px;accent-color:#166bb0;height:18px}
 
 .quran-mushaf-line{display:block;direction:rtl;text-align:justify;text-align-last:justify;min-height:1.75em;line-height:inherit;white-space:normal;word-spacing:normal}.quran-mushaf-line:last-child{text-align:center;text-align-last:center}.quran-mushaf-word{display:inline;white-space:normal;}
+
+/* Materials font size controls - PR24 */
+.materials-font-control{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid #c9dff1;border-radius:12px;background:#f7fbff;color:#14518a;flex:1;min-width:180px;max-width:310px}
+.materials-font-control button{border:0;background:#e2f1ff;color:#0752b4;border-radius:9px;min-width:34px;min-height:34px;font-weight:800;font-size:16px;cursor:pointer}
+.materials-font-control input[type=range]{flex:1;min-width:50px;accent-color:#087bd7}
+.materials-font-control span{font-size:13px;font-weight:800;min-width:38px;text-align:center}
+@media(max-width:560px){.materials-toolbar{flex-wrap:wrap}.materials-font-control{order:3;flex-basis:100%;max-width:none}.materials-toolbar .search{flex-basis:100%}}
