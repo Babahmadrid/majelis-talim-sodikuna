@@ -34,7 +34,7 @@ Deno.serve(async req=>{
    const token=req.headers.get("x-jamaah-token")||"";
    const {data:s}=await admin.from("jamaah_pin_sessions").select("expires_at").eq("token_hash",await sha(token)).maybeSingle();
    if(!s||new Date(s.expires_at).getTime()<Date.now())return json({error:"Sesi jamaah berakhir"},401);
-   const [j,a,at,n,t,w,d,q,ar]=await Promise.all([
+   const [j,a,at,f,n,t,w,d,q,ar]=await Promise.all([
     admin.from("jamaah").select("id,member_no,name,sector,status").eq("status","aktif").order("sector").order("member_no"),
     admin.from("agenda").select("id,title,event_date,event_time,location,speaker,description,status").order("event_date"),
     admin.from("attendance").select("id,status,agenda_id,jamaah_id,created_at").order("created_at",{ascending:false}),
@@ -45,8 +45,8 @@ Deno.serve(async req=>{
     admin.from("app_settings").select("value").eq("id","quran_library").maybeSingle(),
     admin.from("app_settings").select("value").eq("id","quran_arrahman").maybeSingle()
    ]);
-   for(const r of [j,a,at,n,t,w,d,q,ar])if(r.error)throw r.error;
-   return json({jamaah:j.data||[],agenda:a.data||[],attendance:at.data||[],announcements:n.data||[],devotionalItems:(()=>{try{const raw=typeof d.data?.value==="string"?JSON.parse(d.data.value):d.data?.value;if(!Array.isArray(raw))return [];return raw.map((x:any)=>{const cat=String(x.category||"").toLowerCase();const title=String(x.title||"");let category;if(["pagi","adzkar-shobah","dzikir-pagi","wirdul-latif"].includes(cat)||/dzikir pagi|adzkar shobah|wirdul latif|wirid latif/i.test(title))category="dzikir-harian";else if(["doa","doa-harian"].includes(cat))category="doa-harian";else if(["dzikir","dzikir-harian"].includes(cat)||!cat)category="dzikir-harian";else category=cat;return {...x,category}})}catch{return []}})(),quranSurahs:(()=>{try{const raw=typeof q.data?.value==="string"?JSON.parse(q.data.value):q.data?.value;return Array.isArray(raw)?raw:[]}catch{return []}})(),quranArRahman:(()=>{try{const raw=typeof ar.data?.value==="string"?JSON.parse(ar.data.value):ar.data?.value;return raw&&raw.number===55&&raw.ayahs?.length===78?raw:null}catch{return null}})(),theme:t.data?.value||"ocean",welcomeSlides:(()=>{try{const v=typeof w.data?.value==="string"?JSON.parse(w.data.value):w.data?.value;return Array.isArray(v)?v:[]}catch{return []}})()});
+   for(const r of [j,a,at,f,n,t,w,d,q,ar])if(r.error)throw r.error;
+   return json({jamaah:j.data||[],agenda:a.data||[],attendance:at.data||[],finance:f.data||[],announcements:n.data||[],devotionalItems:(()=>{try{const raw=typeof d.data?.value==="string"?JSON.parse(d.data.value):d.data?.value;if(!Array.isArray(raw))return [];return raw.map((x:any)=>{const cat=String(x.category||"").toLowerCase();const title=String(x.title||"");let category;if(["pagi","adzkar-shobah","dzikir-pagi","wirdul-latif"].includes(cat)||/dzikir pagi|adzkar shobah|wirdul latif|wirid latif/i.test(title))category="dzikir-harian";else if(["doa","doa-harian"].includes(cat))category="doa-harian";else if(["dzikir","dzikir-harian"].includes(cat)||!cat)category="dzikir-harian";else category=cat;return {...x,category}})}catch{return []}})(),quranSurahs:(()=>{try{const raw=typeof q.data?.value==="string"?JSON.parse(q.data.value):q.data?.value;return Array.isArray(raw)?raw:[]}catch{return []}})(),quranArRahman:(()=>{try{const raw=typeof ar.data?.value==="string"?JSON.parse(ar.data.value):ar.data?.value;return raw&&raw.number===55&&raw.ayahs?.length===78?raw:null}catch{return null}})(),theme:t.data?.value||"ocean",welcomeSlides:(()=>{try{const v=typeof w.data?.value==="string"?JSON.parse(w.data.value):w.data?.value;return Array.isArray(v)?v:[]}catch{return []}})()});
   }
   return json({error:"Permintaan tidak dikenal"},400);
  }catch(e){return json({error:e?.message||"Kesalahan server"},500)}
