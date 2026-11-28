@@ -38,6 +38,7 @@ Deno.serve(async req=>{
     admin.from("jamaah").select("id,member_no,name,sector,status").eq("status","aktif").order("sector").order("member_no"),
     admin.from("agenda").select("id,title,event_date,event_time,location,speaker,description,status").order("event_date"),
     admin.from("attendance").select("id,status,agenda_id,jamaah_id,created_at").order("created_at",{ascending:false}),
+    admin.from("finance").select("id,transaction_date,type,amount,description").order("transaction_date",{ascending:false}),
     admin.from("announcements").select("id,title,body,image_url,video_url,created_at").order("created_at",{ascending:false}),
     admin.from("app_settings").select("value").eq("id","dashboard_theme").maybeSingle(),
     admin.from("app_settings").select("value").eq("id","dashboard_welcome_slides").maybeSingle(),
