@@ -527,6 +527,7 @@ function QuranLibraryPage({db,isAdmin,session,setError,setNotice}){
  const [mushafError,setMushafError]=useState('');
  useEffect(()=>{
   let active=true;
+  const cached=localContentCache.read('quran_library');if(Array.isArray(cached)){setSurahs(cached);setLoading(false)}
   (async()=>{
    try{
     let parsed=[];
@@ -542,8 +543,9 @@ function QuranLibraryPage({db,isAdmin,session,setError,setNotice}){
      parsed=payload.quranSurahs||[];
     }
     if(!Array.isArray(parsed))throw new Error('Format data Al-Qur’an tidak valid.');
+    localContentCache.write('quran_library',parsed);
     if(active)setSurahs(parsed);
-   }catch(e){if(active)setError(e.message||'Gagal memuat Al-Qur’an dari database.');}
+   }catch(e){if(active&&!Array.isArray(cached))setError(e.message||'Gagal memuat Al-Qur’an dari database.');}
    finally{if(active)setLoading(false);}
   })();
   return ()=>{active=false};
@@ -577,7 +579,7 @@ function QuranLibraryPage({db,isAdmin,session,setError,setNotice}){
    if(!valid)throw new Error('Validasi data Al-Qur’an gagal. Database tidak diubah.');
    const saved=await db.from('app_settings').upsert({id:'quran_library',value:JSON.stringify(normalized),updated_by:session?.user?.id||null,updated_at:new Date().toISOString()},{onConflict:'id'});
    if(saved.error)throw saved.error;
-   setSurahs(normalized);setSelected(null);setNotice('Al-Qur’an tersimpan: 114 surah, 6.236 ayat.');
+   localContentCache.write('quran_library',normalized);setSurahs(normalized);setSelected(null);setNotice('Al-Qur’an tersimpan: 114 surah, 6.236 ayat.');
   }catch(e){setError(e.message||'Import Al-Qur’an gagal.');}
   finally{setBusy(false);setProgress(0);}
  }
