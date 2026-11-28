@@ -3,6 +3,7 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 function corsHeaders(origin: string | null) {
   const hostname = origin ? new URL(origin).hostname : "";
   const allowed = origin === "https://mt-sodikuna.netlify.app" ||
+    hostname === "majelis-talim-sodikuna-9a68.netlify.app" ||
     hostname === "majelis-talim-sodikuna-yd3e.netlify.app" ||
     hostname.endsWith("--majelis-talim-sodikuna-yd3e.netlify.app") ||
     hostname === "majelis-talim-sodikuna-nxuz.netlify.app" ||
