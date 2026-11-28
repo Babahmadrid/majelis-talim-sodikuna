@@ -10,6 +10,7 @@ import {LayoutDashboard,CalendarDays,Users,ClipboardCheck,Wallet, Megaphone,Imag
 const supabaseUrl=import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey=import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY||import.meta.env.VITE_SUPABASE_ANON_KEY;
 const db=supabaseUrl&&supabaseKey?createClient(supabaseUrl,supabaseKey):null;
+const localContentCache={read(key){try{const raw=localStorage.getItem('sodikuna_content_cache_'+key);return raw?JSON.parse(raw):null}catch{return null}},write(key,value){try{localStorage.setItem('sodikuna_content_cache_'+key,JSON.stringify(value));return true}catch{return false}}};
 const menus=[['Dashboard',LayoutDashboard],['Tasbih Digital',CircleDot],['Data Jamaah',Users],['Materi & Artikel',BookOpen],['Dzikir & Doa',Sunrise],['Absensi',ClipboardCheck],['Keuangan',Wallet],['Pengumuman',Megaphone],['Dokumentasi',Images],['Laporan',ChartNoAxesCombined],['Pengaturan',Settings]];
 const parseWelcomeSlides=v=>{if(Array.isArray(v))return v;if(typeof v==='string'){try{const parsed=JSON.parse(v);return Array.isArray(parsed)?parsed:[]}catch{return []}}return []};
 const money=n=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n||0));
