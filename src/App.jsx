@@ -309,6 +309,7 @@ async function updateJamaah(){if(!editingJamaah)return;const {error}=await db.fr
   const value='sodikuna:member:'+person.id;
   const code=await QRCode.toDataURL(value,{width:720,margin:1,errorCorrectionLevel:'H'});
   const safe=v=>String(v??'-').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  w.document.open();
   w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Kartu Anggota Jamaah</title><style>
   @page{size:74mm 105mm;margin:0}
   *{box-sizing:border-box}html,body{margin:0;width:74mm;height:105mm;font-family:Arial,Helvetica,sans-serif}
